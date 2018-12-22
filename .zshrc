@@ -8,10 +8,6 @@ export ZSH=~/.oh-my-zsh
 DEFAULT_USER=$USER
 prompt_context(){}
 
-# Full color terminal
-export TERM=xterm-256color
-#eval `dircolors ~/.dir_colors/dircolors`
-
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -134,6 +130,18 @@ ZSH_HIGHLIGHT_PATTERNS=('rm -rf *' 'fg=white,bold,bg=red') # To have commands st
 # FZF Configuration
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Check if currently in a tmux session
+if ! { [[ "$TERM" =~ "screen".* ]]; } then
+  if [ -z ${TMUX+x} ]; then
+    # Check if tmux is installed
+    if type tmux >/dev/null 2>/dev/null; then
+      # Launches tmux in a session called 'base'.
+      echo "Starting tmux..."
+      tmux attach -t base || tmux new -s base
+    fi
+  fi
+fi
 
 # Source necessary files
 source ~/.user-configs/.alias

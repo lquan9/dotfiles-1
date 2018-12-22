@@ -32,7 +32,7 @@ alias dinst="sudo dpkg -i"
 alias duninst="sudo dpkg -r"
 alias dpurg="sudo dpkg --purge"
 
-function dlist() {
+dlist() {
     if [ "$1" != "" ]
     then
         echo Searching packages...
@@ -42,7 +42,7 @@ function dlist() {
     fi
 }
 
-function dpurglist() {
+dpurglist() {
     if [ "$1" != "" ]
     then
         echo Purging packages...

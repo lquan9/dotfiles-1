@@ -47,12 +47,14 @@ sudo apt install -y --no-install-recommends git neovim \
     python3-dev python3-pip tmux zsh htop man \
     rclone curl nano gawk httpie iputils-ping wget fuse openvpn \
     cron ack-grep nmap knockd iptables iptables-persistent \
-    make gcc screen terminator
+    make gcc screen terminator meld build-essential cmake
 sudo pip3 install thefuck
 sudo pip3 install tldr
 sudo pip3 install ntfy
 sudo gem install gist
 git clone https://github.com/powerline/fonts.git --depth=1; ./fonts/install.sh; rm -rf fonts;
+git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
+sudo fc-cache -f -v
 #sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -64,12 +66,12 @@ rm -f ~/.zshrc
 rm -f ~/.tmux.conf
 rm -f ~/.fzf.bash
 rm -f ~/.fzf.zsh
+rm -f ~/.config/terminator/config
 ln -s ~/.user-configs/.zshrc ~/.zshrc
 #ln -s $install_directory/.alias ~/.alias
 ln -s ~/.user-configs/.tmux.conf ~/.tmux.conf
 ln -s ~/.user-configs/.fzf.zsh ~/.fzf.zsh
-git config --global user.email "andrewrdaws@gmail.com"
-git config --global user.name "AndrewDaws"
+ln -s ~/.user-configs/config ~/.config/terminator/config
 sudo usermod -s "$(command -v zsh)" "${USER}"
 
 echo 'Done.'
