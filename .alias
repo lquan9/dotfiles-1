@@ -95,6 +95,11 @@ alias python="python3"
 
 alias untar="tar -xzf"
 
+netscan() {
+    echo Starting Nmap scan...
+    sudo nmap -sn $1 | awk '!/Host is up|Starting Nmap|done/{gsub(/[()]/,""); if ($6 == "") {print $5} else {print $6 " " $5}}'
+}
+
 alias frefresh="sudo fc-cache -f -v"
 
 eval $(thefuck --alias)
