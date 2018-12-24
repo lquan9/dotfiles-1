@@ -78,14 +78,14 @@ chmod 644 ~/.user-configs/.zshrc
 chmod 644 ~/.user-configs/.alias
 chmod 644 ~/.user-configs/.tmux.conf
 rm -f ~/.zshrc
-#rm -f ~/.alias
 rm -f ~/.tmux.conf
 rm -f ~/.fzf.bash
 rm -f ~/.fzf.zsh
+rm -f ~/.gitconfig
 ln -s ~/.user-configs/.zshrc ~/.zshrc
-#ln -s $install_directory/.alias ~/.alias
 ln -s ~/.user-configs/.tmux.conf ~/.tmux.conf
 ln -s ~/.user-configs/.fzf.zsh ~/.fzf.zsh
+ln -s ~/.user-configs/.gitconfig ~/.gitconfig
 rm -f ~/.bash_history
 rm -f ~/.bash_logout
 rm -f ~/.bashrc
@@ -152,6 +152,6 @@ echo '=> autoclean packages'
 sudo apt autoclean
 
 echo '=> Autoremoving & purging packages'
-sudo apt autoremove --purge
+sudo apt autoremove --purge -y
 
 echo 'Done.'
