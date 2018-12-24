@@ -92,7 +92,11 @@ sgen() {
             ssh-keygen -t ed25519 -N '' -f ~/.ssh/$1
         fi
     else
+<<<<<<< HEAD:aliases/.alias
         ssh-keygen -t ed25519 -N '' -f ~/.ssh/$2-$1
+=======
+        ssh-keygen -t ed25519 -N '' -f ~/.ssh/$2
+>>>>>>> c92eabe... Added ssh aliases:.alias
 
         scop $1 $2
     fi
@@ -108,7 +112,11 @@ scop() {
     then
         ssh-copy-id
     else
+<<<<<<< HEAD:aliases/.alias
         ssh-copy-id -i ~/.ssh/$2-$1 $1@$2
+=======
+        ssh-copy-id -i ~/.ssh/$2 $1@$2
+>>>>>>> c92eabe... Added ssh aliases:.alias
     fi
 }
 
