@@ -76,6 +76,44 @@ alias pa="ps -af"
 
 
 
+# SSH
+sgen() {
+    echo ''
+    echo '########################################'
+    echo Creating ssh key $2
+    echo '########################################'
+
+    if [ -z ${2+x} ];
+    then
+        if [ -z ${1+x} ];
+        then
+            ssh-keygen
+        else
+            ssh-keygen -t ed25519 -N '' -f ~/.ssh/$1
+        fi
+    else
+        ssh-keygen -t ed25519 -N '' -f ~/.ssh/$2
+
+        scop $1 $2
+    fi
+}
+
+scop() {
+    echo ''
+    echo '########################################'
+    echo Copying ssh key $1@$2
+    echo '########################################'
+
+    if [ -z ${2+x} ];
+    then
+        ssh-copy-id
+    else
+        ssh-copy-id -i ~/.ssh/$2 $1@$2
+    fi
+}
+
+
+
 # Applications
 alias vim="nvim"
 alias v="nvim"
@@ -92,6 +130,10 @@ alias pcat='pygmentize -f terminal256 -O style=native -g'
 alias dl="http --download"
 
 alias python="python3"
+
+ctar() {
+    tar -cvzf $1.tar.gz $1
+}
 
 alias untar="tar -xzf"
 
