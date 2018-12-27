@@ -112,8 +112,13 @@ if [[ $confirmation == 'YES' || $confirmation == 'Y' ]]; then
     echo '=> Installing desktop applications'
     sudo apt install -y --no-install-recommends \
         vlc wireshark darktable snapd
-    wget https://go.microsoft.com/fwlink/?LinkID=760868
-    sudo dpkg -i code_*.deb
+    #wget https://go.microsoft.com/fwlink/?LinkID=760868
+    #sudo dpkg -i code_*.deb
+    #rm -f code_*.deb
+
+    wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb
+    sudo dpkg -i steam.deb
+    rm -f steam.deb
 
     echo '=> Installing desktop configurations'
     rm -f ~/.config/terminator/config
@@ -128,7 +133,6 @@ fi
 #beyond compare
 #wireguard
 #chrome-stable
-#steam
 
 
 
