@@ -22,15 +22,6 @@ install_directory=`pwd`
 cd
 
 # -----------------------------------------------------------------------------
-# => Add PPAs (Personal Package Archives)
-# -----------------------------------------------------------------------------
-
-#echo '=> Add PPAs'
-#sudo add-apt-repository -y ppa:ehoover/compholio          # Netflix
-
-#echo 'Done.'
-
-# -----------------------------------------------------------------------------
 # => System update/upgrade
 # -----------------------------------------------------------------------------
 
@@ -40,6 +31,9 @@ sudo apt update -qq
 echo '=> Perform system upgrade'
 sudo apt dist-upgrade -y
 
+echo '=> Installing repository tool'
+sudo apt install -y --no-install-recommends software-properties-common
+
 echo 'Done.'
 
 
@@ -48,14 +42,18 @@ echo 'Done.'
 # => Configure default system configurations and applications
 # -----------------------------------------------------------------------------
 
+#echo '=> Adding repositories'
+curl -sL https://deb.nodesource.com/setup_11.x | sudo bash -
+#sudo add-apt-repository -y ppa:ehoover/compholio          # Netflix
+
 echo '=> Installing system applications'
 sudo apt install -y --no-install-recommends git neovim \
-    fonts-powerline ruby ruby-dev mosh openssh-server \
+    ruby ruby-dev mosh openssh-server \
     python3-dev python3-pip tmux zsh htop man \
     rclone curl nano gawk httpie iputils-ping wget fuse openvpn \
     cron ack-grep nmap knockd iptables iptables-persistent \
-    make gcc screen terminator meld build-essential cmake \
-    silversearcher-ag
+    make gcc screen meld build-essential cmake \
+    silversearcher-ag nodejs tmuxinator
 sudo pip3 install thefuck
 sudo pip3 install tldr
 sudo pip3 install ntfy
@@ -63,15 +61,12 @@ sudo gem install gist
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
-echo '=> Installing system fonts'
-git clone https://github.com/powerline/fonts.git --depth=1; ./fonts/install.sh; rm -rf fonts;
-git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
-sudo fc-cache -f -v
-
 echo '=> Installing system shell'
 #sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/bhilburn/powerlevel9k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel9k
 
 echo '=> Installing system configurations'
 chmod 644 ~/.user-configs/.zshrc
@@ -111,7 +106,9 @@ if [[ $confirmation == 'YES' || $confirmation == 'Y' ]]; then
 
     echo '=> Installing desktop applications'
     sudo apt install -y --no-install-recommends \
-        vlc wireshark darktable snapd
+        vlc wireshark darktable snapd fonts-powerline \
+        terminator
+
     #wget https://go.microsoft.com/fwlink/?LinkID=760868
     #sudo dpkg -i code_*.deb
     #rm -f code_*.deb
@@ -119,6 +116,11 @@ if [[ $confirmation == 'YES' || $confirmation == 'Y' ]]; then
     wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb
     sudo dpkg -i steam.deb
     rm -f steam.deb
+
+    echo '=> Installing desktop fonts'
+    git clone https://github.com/powerline/fonts.git --depth=1; ./fonts/install.sh; rm -rf fonts;
+    git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
+    sudo fc-cache -f -v
 
     echo '=> Installing desktop configurations'
     rm -f ~/.config/terminator/config

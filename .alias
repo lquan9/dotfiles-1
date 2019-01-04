@@ -92,7 +92,7 @@ sgen() {
             ssh-keygen -t ed25519 -N '' -f ~/.ssh/$1
         fi
     else
-        ssh-keygen -t ed25519 -N '' -f ~/.ssh/$2
+        ssh-keygen -t ed25519 -N '' -f ~/.ssh/$2-$1
 
         scop $1 $2
     fi
@@ -108,7 +108,7 @@ scop() {
     then
         ssh-copy-id
     else
-        ssh-copy-id -i ~/.ssh/$2 $1@$2
+        ssh-copy-id -i ~/.ssh/$2-$1 $1@$2
     fi
 }
 
