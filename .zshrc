@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
+export TERM="screen-256color"
 
 # Hide "user@hostname" info when you're logged in as yourself on your local machine.
 DEFAULT_USER=$USER
