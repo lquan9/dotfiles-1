@@ -1,10 +1,18 @@
 [global_config]
-  enabled_plugins = InactivityWatch, ActivityWatch, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler
+  inactive_color_offset = 1.0
   scroll_tabbar = True
   tab_position = bottom
-  title_font = Monoid Nerd Font Light Semi-Condensed 10
+  title_font = Anonymice Nerd Font Mono 10
   title_hide_sizetext = True
+  title_inactive_bg_color = "#1e1e1e"
+  title_inactive_fg_color = "#a7a7a7"
+  title_receive_bg_color = "#7587a6"
+  title_receive_fg_color = "#a7a7a7"
+  title_transmit_bg_color = "#cf6a4c"
+  title_transmit_fg_color = "#a7a7a7"
   title_use_system_font = False
+  use_custom_url_handler = True
 [keybindings]
 [layouts]
   [[default]]
@@ -18,13 +26,14 @@
 [plugins]
 [profiles]
   [[default]]
+    background_color = "#1e1e1e"
+    copy_on_selection = True
+    cursor_blink = False
     cursor_color = "#aaaaaa"
-    custom_command = tmux attach -t base || tmux new -s base
-    font = Monoid Nerd Font Mono Light Semi-Condensed 10
-    login_shell = True
-    palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
+    font = Anonymice Nerd Font Mono 12
+    foreground_color = "#a7a7a7"
+    palette = "#1e1e1e:#cf6a4c:#8f9d6a:#f9ee98:#7587a6:#9b859d:#afc4db:#a7a7a7:#5f5a60:#cf6a4c:#8f9d6a:#f9ee98:#7587a6:#9b859d:#afc4db:#ffffff"
     scroll_on_output = True
     scrollback_infinite = True
     show_titlebar = False
-    use_custom_command = True
     use_system_font = False
