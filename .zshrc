@@ -26,7 +26,10 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status time)
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
 # Tmux plugin settings
-ZSH_TMUX_AUTOSTART=true
+
+if [ -z ${SSH_CLIENT+x} ]; then
+  ZSH_TMUX_AUTOSTART=true
+fi
 
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
