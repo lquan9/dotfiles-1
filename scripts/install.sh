@@ -79,35 +79,16 @@ git clone https://github.com/bhilburn/powerlevel9k.git ${ZSH_CUSTOM:-~/.oh-my-zs
 echo '=> Installing system configurations'
 chmod 644 ~/.config/user-configs/zsh/.zshrc
 chmod 644 ~/.config/user-configs/aliases/.alias
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 91f72a6... Added Alacritty application config.
 chmod 644 ~/.config/user-configs/alacritty/alacritty.yml
 chmod 644 ~/.config/user-configs/tmux/.tmux.conf
 rm -f ~/.zshrc
-rm -f ~/.tmux.conf
 rm -f ~/.config/alacritty/alacritty.yml
-<<<<<<< HEAD
-=======
-chmod 644 ~/.config/user-configs/tmux/.tmux.conf
-rm -f ~/.zshrc
 rm -f ~/.tmux.conf
->>>>>>> 7415420... Created sub-folders to better organize the application configs.
-=======
->>>>>>> 91f72a6... Added Alacritty application config.
 rm -f ~/.fzf.bash
 rm -f ~/.fzf.zsh
 //rm -f ~/.gitconfig
 ln -s ~/.config/user-configs/zsh/.zshrc ~/.zshrc
-<<<<<<< HEAD
-<<<<<<< HEAD
 ln -s ~/.config/user-configs/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
-=======
->>>>>>> 7415420... Created sub-folders to better organize the application configs.
-=======
-ln -s ~/.config/user-configs/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
->>>>>>> 91f72a6... Added Alacritty application config.
 ln -s ~/.config/user-configs/tmux/.tmux.conf ~/.tmux.conf
 ln -s ~/.config/user-configs/fzf/.fzf.zsh ~/.fzf.zsh
 //ln -s ~/.config/user-configs/git/.gitconfig ~/.gitconfig
