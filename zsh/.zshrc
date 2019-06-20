@@ -75,7 +75,7 @@ export FZF_CTRL_T_OPTS="--select-1 --exit-0"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Source necessary files
-source ~/.config/user-configs/.alias
+source ~/.config/user-configs/aliases/.alias
 for f in ~/.config/project-configs/.*; do source $f; done
 
 # Enable fuzzy auto-completions
