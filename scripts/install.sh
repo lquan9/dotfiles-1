@@ -62,10 +62,11 @@ echo '------------------------------------------------------------------------'
 #echo '=> Adding repositories'
 
 echo '=> Installing system applications'
+# TODO: Automate fd install via apt or static download link.
 sudo apt install -y --no-install-recommends \
     vim zsh htop man curl nano gawk nmap tmux \
-    openssh-server python3-dev python3-pip \
-    cron httpie iputils-ping \
+    ack openssh-server python3-dev python3-pip \
+    cron httpie iputils-ping
 sudo pip3 install thefuck
 sudo pip3 install tldr
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
