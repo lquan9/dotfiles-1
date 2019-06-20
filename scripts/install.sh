@@ -79,13 +79,16 @@ git clone https://github.com/bhilburn/powerlevel9k.git ${ZSH_CUSTOM:-~/.oh-my-zs
 echo '=> Installing system configurations'
 chmod 644 ~/.config/user-configs/zsh/.zshrc
 chmod 644 ~/.config/user-configs/aliases/.alias
+chmod 644 ~/.config/user-configs/alacritty/alacritty.yml
 chmod 644 ~/.config/user-configs/tmux/.tmux.conf
 rm -f ~/.zshrc
 rm -f ~/.tmux.conf
+rm -f ~/.config/alacritty/alacritty.yml
 rm -f ~/.fzf.bash
 rm -f ~/.fzf.zsh
 //rm -f ~/.gitconfig
 ln -s ~/.config/user-configs/zsh/.zshrc ~/.zshrc
+ln -s ~/.config/user-configs/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
 ln -s ~/.config/user-configs/tmux/.tmux.conf ~/.tmux.conf
 ln -s ~/.config/user-configs/fzf/.fzf.zsh ~/.fzf.zsh
 //ln -s ~/.config/user-configs/git/.gitconfig ~/.gitconfig
