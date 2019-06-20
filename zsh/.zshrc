@@ -77,6 +77,7 @@ export FZF_CTRL_T_OPTS="--select-1 --exit-0"
 # Source necessary files
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 source ~/.config/user-configs/aliases/.alias
 for f in ~/.config/project-configs/.*; do source $f; done
 =======
@@ -85,6 +86,9 @@ for f in ~/.project-configs/.*; do source $f; done
 >>>>>>> 7415420... Created sub-folders to better organize the application configs.
 =======
 source ~/.config/user-configs/.alias
+=======
+source ~/.config/user-configs/aliases/.alias
+>>>>>>> fb74ec3... Further path fixes in zsh config.
 for f in ~/.config/project-configs/.*; do source $f; done
 >>>>>>> 00f2619... Fix Zsh config post base-folder move and sub-folder creation commits.
 
