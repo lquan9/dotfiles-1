@@ -75,8 +75,8 @@ export FZF_CTRL_T_OPTS="--select-1 --exit-0"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Source necessary files
-source ~/.user-configs/.alias
-for f in ~/.project-configs/.*; do source $f; done
+source ~/.config/user-configs/.alias
+for f in ~/.config/project-configs/.*; do source $f; done
 
 # Enable fuzzy auto-completions
 zstyle ':completion:*' matcher-list '' \
