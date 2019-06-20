@@ -9,17 +9,25 @@
 #   A post-installation bash script for Unix systems
 #
 # Usage:
-#   $ wget https://raw.githubusercontent.com/AndrewDaws/.user-configs/master/install.sh
+#   $ wget https://raw.githubusercontent.com/AndrewDaws/user-configs/master/install.sh
 #   $ chmod +x install.sh
 #   $ ./install.sh
 #
 
 echo '------------------------------------------------------------------------'
+echo '=> Download user-config repo'
+echo '------------------------------------------------------------------------'
+
+mkdir -p ~/.config
+sudo apt install -y --no-install-recommends git
+cd .config
+git clone git@github.com:AndrewDaws/user-configs.git
+
+echo '------------------------------------------------------------------------'
 echo '=> Unix post-install script'
 echo '------------------------------------------------------------------------'
 
-install_directory=`pwd`
-cd
+cd ~/.config/user-configs
 
 # -----------------------------------------------------------------------------
 # => System update/upgrade
@@ -47,7 +55,7 @@ curl -sL https://deb.nodesource.com/setup_11.x | sudo bash -
 #sudo add-apt-repository -y ppa:ehoover/compholio          # Netflix
 
 echo '=> Installing system applications'
-sudo apt install -y --no-install-recommends git neovim \
+sudo apt install -y --no-install-recommends neovim \
     ruby ruby-dev mosh openssh-server \
     python3-dev python3-pip tmux zsh htop man \
     rclone curl nano gawk httpie iputils-ping wget fuse openvpn \
@@ -69,30 +77,31 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 git clone https://github.com/bhilburn/powerlevel9k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel9k
 
 echo '=> Installing system configurations'
-chmod 644 ~/.user-configs/.zshrc
-chmod 644 ~/.user-configs/.alias
-chmod 644 ~/.user-configs/.tmux.conf
+chmod 644 ~/.config/user-configs/.zshrc
+chmod 644 ~/.config/user-configs/.alias
+chmod 644 ~/.config/user-configs/.tmux.conf
 rm -f ~/.zshrc
 rm -f ~/.tmux.conf
 rm -f ~/.fzf.bash
 rm -f ~/.fzf.zsh
-rm -f ~/.gitconfig
-ln -s ~/.user-configs/.zshrc ~/.zshrc
-ln -s ~/.user-configs/.tmux.conf ~/.tmux.conf
-ln -s ~/.user-configs/.fzf.zsh ~/.fzf.zsh
-ln -s ~/.user-configs/.gitconfig ~/.gitconfig
+//rm -f ~/.gitconfig
+ln -s ~/.config/user-configs/.zshrc ~/.zshrc
+ln -s ~/.config/user-configs/.tmux.conf ~/.tmux.conf
+ln -s ~/.config/user-configs/.fzf.zsh ~/.fzf.zsh
+//ln -s ~/.config/user-configs/.gitconfig ~/.gitconfig
 rm -f ~/.bash_history
 rm -f ~/.bash_logout
 rm -f ~/.bashrc
 rm -f ~/.zshrc.pre-oh-my-zsh
 rm -f ~/.fzf.bash
-mkdir ~/.project-configs
-touch ~/.project-configs/.default
+mkdir -p ~/.config/project-configs
+touch ~/.config/project-configs/.default
 sudo usermod -s "$(command -v zsh)" "${USER}"
 
 echo 'Done.'
 
 
+ln -s ~/.config/user-configs/.gitconfig ~/.gitconfig
 
 # -----------------------------------------------------------------------------
 # => Install desktop applications
@@ -124,7 +133,7 @@ if [[ $confirmation == 'YES' || $confirmation == 'Y' ]]; then
 
     echo '=> Installing desktop configurations'
     rm -f ~/.config/terminator/config
-    ln -s ~/.user-configs/config ~/.config/terminator/config
+    ln -s ~/.config/user-configs/config ~/.config/terminator/config
 
     echo 'Done.'
 fi
