@@ -69,6 +69,8 @@ sudo apt install -y --no-install-recommends \
     cron httpie iputils-ping
 sudo pip3 install thefuck
 sudo pip3 install tldr
+mkdir -p ~/.tmux/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
