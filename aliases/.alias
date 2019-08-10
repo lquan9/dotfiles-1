@@ -11,6 +11,7 @@ alias sozsh="source ~/.oh-my-zsh"
 
 alias ctmux="$EDITOR ~/.tmux.conf"
 alias stmux="source ~/.tmux.conf"
+alias ktmux="pkill -f tmux"
 
 
 

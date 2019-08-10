@@ -21,16 +21,10 @@ POWERLEVEL9K_STATUS_CROSS=true
 POWERLEVEL9K_STATUS_OK=false
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
 
 # Syntax Highlighter Configuration
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-
-# Tmux plugin settings
-
-if [ -z ${SSH_CLIENT+x} ]; then
-  ZSH_TMUX_AUTOSTART=true
-fi
 
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
@@ -59,7 +53,6 @@ plugins=(
   nmap
   per-directory-history
   thefuck
-  tmux
   vscode
   zsh-completions
   zsh-autosuggestions
@@ -87,3 +80,36 @@ zstyle ':completion:*' matcher-list '' \
 # Enable partial auto-completions
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
+
+# Automatically use tmux in local sessions
+if [ -z ${SSH_CLIENT+x} ]; then
+
+  # Check if current shell session is in a tmux process
+  if [ -z "$TMUX" ]; then
+
+    # Create a new session if it does not exist
+    base_session=$USER
+    tmux has-session -t $base_session"-1" || tmux new-session -d -s $base_session"-1"
+
+    # Check if clients are connected to session
+    client_cnt=$(tmux list-clients | wc -l)
+    if [ $client_cnt -ge 1 ]; then
+
+      # Find unused client id
+      count=1
+      while [[ `tmux list-clients | grep $base_session"-"$count` != "" ]]
+      do
+        count=$((count+1))
+      done
+      session_name=$base_session"-"$count
+
+      # Attach to current session as new client
+      tmux new-session -d -t $base_session"-1" -s $session_name
+      tmux -2 attach-session -t $session_name \; set-option destroy-unattached \; new-window; exit
+    else
+
+      # Attach to pre-existing session as previous client
+      tmux -2 attach-session -t $base_session"-1"; exit
+    fi
+  fi
+fi
