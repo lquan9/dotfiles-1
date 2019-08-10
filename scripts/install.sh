@@ -131,8 +131,9 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
 
     #echo '=> Installing desktop applications'
     # TODO: Automate alacritty, chrome-stable, and double commander install via apt or static download link.
-    #sudo apt install -y --no-install-recommends \
-    #    alacritty
+    wget https://github.com/jwilm/alacritty/releases/download/v0.3.3/Alacritty-v0.3.3-ubuntu_18_04_amd64.deb
+    sudo dpkg -i Alacritty-v0.3.3-ubuntu_18_04_amd64.deb
+    rm -f Alacritty-v0.3.3-ubuntu_18_04_amd64.deb
 
     echo '=> Installing desktop fonts'
     git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
