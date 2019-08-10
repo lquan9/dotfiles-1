@@ -14,6 +14,8 @@
 #   $ ./install.sh
 #
 
+initialPath=${PWD}
+
 echo '------------------------------------------------------------------------'
 echo '   Prepare user-config repo'
 echo '------------------------------------------------------------------------'
@@ -67,7 +69,8 @@ echo '=> Installing system applications'
 sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux \
     ack openssh-server python3-dev python3-pip \
-    cron httpie iputils-ping
+    cron httpie iputils-ping autojump
+sudo pip3 install setuptools
 sudo pip3 install thefuck
 sudo pip3 install tldr
 mkdir -p ~/.tmux/plugins/tpm
@@ -138,6 +141,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     echo '=> Installing desktop configurations'
     chmod 644 ~/.config/user-configs/alacritty/alacritty.yml
     rm -f ~/.config/alacritty/alacritty.yml
+    mkdir -p ~/.config/alacritty
     ln -s ~/.config/user-configs/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
 
     echo -e '=> Install development applications? [Y/N] '
@@ -217,9 +221,9 @@ sudo apt autoclean
 echo '=> Autoremoving & purging packages'
 sudo apt autoremove --purge -y
 
-if [[ $PWD != ~/.config/user-configs/scripts ]]; then
+if [[ $initialPath != ~/.config/user-configs/scripts ]]; then
     echo '=> Deleting temporary install script'
-    rm -f $PWD/`basename "$0"`
+    rm -f $initialPath/`basename "$0"`
 fi
 
 echo '=> Changing shell'
