@@ -26,7 +26,8 @@ sudo apt install -y --no-install-recommends git
 
 echo '=> Cloning user-config repo'
 cd ~/.config
-git clone git@github.com:AndrewDaws/user-configs.git
+#git clone git@github.com:AndrewDaws/user-configs.git
+git clone https://github.com/AndrewDaws/user-configs.git
 
 echo 'Done.'
 
