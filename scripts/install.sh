@@ -214,6 +214,11 @@ sudo apt autoclean
 echo '=> Autoremoving & purging packages'
 sudo apt autoremove --purge -y
 
+if [[ $PWD != ~/.config/user-configs/scripts ]]; then
+    echo '=> Deleting temporary install script'
+    rm -f $PWD/`basename "$0"`
+fi
+
 echo '=> Changing shell'
 sudo usermod -s "$(which zsh)" "${USER}"
 env zsh -l
