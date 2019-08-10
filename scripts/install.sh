@@ -9,7 +9,7 @@
 #   A post-installation bash script for Unix systems
 #
 # Usage:
-#   $ wget https://raw.githubusercontent.com/AndrewDaws/user-configs/master/install.sh
+#   $ wget https://raw.githubusercontent.com/AndrewDaws/user-configs/master/scripts/install.sh
 #   $ chmod +x install.sh
 #   $ ./install.sh
 #
