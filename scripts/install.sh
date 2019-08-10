@@ -64,7 +64,7 @@ echo '------------------------------------------------------------------------'
 echo '=> Installing system applications'
 # TODO: Automate fd install via apt or static download link.
 sudo apt install -y --no-install-recommends \
-    vim zsh htop man curl nano gawk nmap tmux \
+    vim zsh htop man curl sed nano gawk nmap tmux \
     ack openssh-server python3-dev python3-pip \
     cron httpie iputils-ping
 sudo pip3 install thefuck
@@ -73,8 +73,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
 echo '=> Installing system shell'
-# TODO: Fix oh-my-zsh install via sub-shell.
-#sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -98,7 +97,6 @@ rm -f ~/.zshrc.pre-oh-my-zsh
 rm -f ~/.fzf.bash
 mkdir -p ~/.config/project-configs
 touch ~/.config/project-configs/.default
-sudo usermod -s "$(command -v zsh)" "${USER}"
 
 echo -e '=> Install build tools? [Y/N] '
 read buildConfirm
@@ -201,19 +199,23 @@ echo '------------------------------------------------------------------------'
 echo '=> Update repository information'
 sudo apt update -qq
 
-echo '=> Perform system upgrade'
+echo '=> Performing system upgrade'
 sudo apt dist-upgrade -y
 
-echo '=> Install dependencies'
+echo '=> Installing dependencies'
 sudo apt install -f
 
-echo '=> clean packages'
+echo '=> Cleaning packages'
 sudo apt clean
 
-echo '=> autoclean packages'
+echo '=> Autocleaning packages'
 sudo apt autoclean
 
 echo '=> Autoremoving & purging packages'
 sudo apt autoremove --purge -y
+
+echo '=> Changing shell'
+sudo usermod -s "$(which zsh)" "${USER}"
+env zsh -l
 
 echo 'Done.'
