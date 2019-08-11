@@ -70,9 +70,9 @@ sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux \
     ack openssh-server python3-dev python3-pip \
     cron httpie iputils-ping autojump
-sudo pip3 install setuptools
-sudo pip3 install thefuck
-sudo pip3 install tldr
+sudo pip3 install setuptools || sudo pip3 install setuptools || sudo pip3 install setuptools
+sudo pip3 install thefuck || sudo pip3 install thefuck || sudo pip3 install thefuck
+sudo pip3 install tldr || sudo pip3 install tldr || sudo pip3 install tldr
 mkdir -p ~/.tmux/plugins/tpm
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -136,6 +136,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     
     cd
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    source $HOME/.cargo/env
     git clone https://github.com/jwilm/alacritty.git
     cd alacritty
     cargo install cargo-deb
