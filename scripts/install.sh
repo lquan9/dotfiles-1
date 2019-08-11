@@ -130,12 +130,19 @@ desktopConfirm=$(echo $desktopConfirm | tr '[:lower:]' '[:upper:]')
 if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
 
     #echo '=> Installing desktop applications'
-    # TODO: Automate alacritty, chrome-stable, and double commander install via apt or static download link.
-    wget https://github.com/jwilm/alacritty/releases/download/v0.3.3/Alacritty-v0.3.3-ubuntu_18_04_amd64.deb
-    sudo dpkg -i Alacritty-v0.3.3-ubuntu_18_04_amd64.deb
-    rm -f Alacritty-v0.3.3-ubuntu_18_04_amd64.deb
+    # TODO: Automate chrome-stable, and double commander install via apt or static download link.
+    sudo apt install -y --no-install-recommends \
+        libegl1-mesa-dev
+    
+    cd
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    git clone https://github.com/jwilm/alacritty.git
+    cd alacritty
+    cargo install cargo-deb
+    cargo deb --install --manifest-path alacritty/Cargo.toml
 
     echo '=> Installing desktop fonts'
+    cd
     git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
 
     echo -e '=> Do you have the key for the locked fonts? [Y/N] '
