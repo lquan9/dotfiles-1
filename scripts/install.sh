@@ -137,7 +137,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
 
     echo '=> Installing desktop fonts'
     git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
-    
+
     echo -e '=> Do you have the key for the locked fonts? [Y/N] '
     read fontConfirm
     fontConfirm=$(echo $fontConfirm | tr '[:lower:]' '[:upper:]')
@@ -171,10 +171,16 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     sudo fc-cache -f -v
 
     echo '=> Installing desktop configurations'
-    chmod 644 ~/.config/user-configs/alacritty/alacritty.yml
     rm -f ~/.config/alacritty/alacritty.yml
     mkdir -p ~/.config/alacritty
-    ln -s ~/.config/user-configs/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
+
+    if [ -d ~/.local/share/fonts/OperatorMono ]; then
+        chmod 644 ~/.config/user-configs/alacritty/alacritty.yml
+        ln -s ~/.config/user-configs/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
+    else
+        chmod 644 ~/.config/user-configs/alacritty/alacritty-alt.yml
+        ln -s ~/.config/user-configs/alacritty/alacritty-alt.yml ~/.config/alacritty/alacritty.yml
+    fi
 
     echo -e '=> Install development applications? [Y/N] '
     read developmentConfirm
