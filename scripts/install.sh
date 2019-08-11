@@ -137,6 +137,37 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
 
     echo '=> Installing desktop fonts'
     git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
+    
+    echo -e '=> Do you have the key for the locked fonts? [Y/N] '
+    read fontConfirm
+    fontConfirm=$(echo $fontConfirm | tr '[:lower:]' '[:upper:]')
+    if [[ $fontConfirm == 'YES' || $fontConfirm == 'Y' ]]; then
+
+        sudo apt install -y --no-install-recommends \
+            git-crypt
+
+        mkdir -p ~/.git-crypt
+
+        echo -e '=> Decrypt locked fonts with ~/.git-crypt/user-configs.key? [Y/N] '
+        read decryptConfirm
+        decryptConfirm=$(echo $decryptConfirm | tr '[:lower:]' '[:upper:]')
+        if [[ $decryptConfirm == 'YES' || $decryptConfirm == 'Y' ]]; then
+
+            if [ -f "~/.git-crypt/user-configs.key" ]; then
+
+                echo "=> Decrypting with key"
+                git-crypt unlock ~/.git-crypt/user-configs.key
+
+                tar -xvf DankMono.tar
+                mv DankMono ~/.local/share/fonts
+
+                tar -xvf OperatorMono.tar
+                mv OperatorMono ~/.local/share/fonts
+            else
+                echo "=> Key does not exist, skipping"
+            fi
+        fi
+    fi
     sudo fc-cache -f -v
 
     echo '=> Installing desktop configurations'
