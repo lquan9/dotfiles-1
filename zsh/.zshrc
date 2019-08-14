@@ -55,9 +55,6 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
 # Syntax Highlighter Configuration
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
-
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # You can set one of the optional three formats:
