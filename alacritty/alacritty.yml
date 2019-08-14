@@ -476,6 +476,8 @@ key_bindings:
   #- { key: Q,      mods: Command, action: Quit             }
   #- { key: W,      mods: Command, action: Quit             }
 
+  # @todo Improve Alacritty Keybinds
+  # @body Modify the default keybinds to either just used keybinds, or at least improve the copy & paste functions.
   - { key: Paste,                   action: Paste                            }
   - { key: Copy,                    action: Copy                             }
   - { key: L,        mods: Control, action: ClearLogNotice                   }

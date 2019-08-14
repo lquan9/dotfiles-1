@@ -54,6 +54,8 @@ dpurglist() {
     fi
 }
 
+# @todo Fd Installation
+# @body Automate the Fd installation.
 # Pip
 alias pip="pip3"
 alias pinst="sudo -H pip3 install"
