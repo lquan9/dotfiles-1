@@ -31,13 +31,10 @@ mkdir -p ~/.config
 echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
-# @todo Fix SSH vs HTTPS git cloning
-# @body Fix the issue of github requiring a login when making changes to the repo after being cloned with HTTPS rather than SSH.
 # @todo Fix Git Clone for Existing Repo
 # @body Avoid cloning the repo again when it already exists, instead pull the latest.
 echo '=> Cloning user-config repo'
 cd ~/.config
-#git clone git@github.com:AndrewDaws/user-configs.git
 git clone https://github.com/AndrewDaws/user-configs.git
 
 echo 'Done.'
