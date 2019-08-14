@@ -23,9 +23,15 @@ echo '------------------------------------------------------------------------'
 echo '=> Making .config directory'
 mkdir -p ~/.config
 
+# @todo Single Sudo Prompt
+# @body Automate sudo password prompt so it is only asked for once.
 echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
+# @todo Fix SSH vs HTTPS git cloning
+# @body Fix the issue of github requiring a login when making changes to the repo after being cloned with HTTPS rather than SSH.
+# @todo Fix Git Clone for Existing Repo
+# @body Avoid cloning the repo again when it already exists, instead pull the latest.
 echo '=> Cloning user-config repo'
 cd ~/.config
 #git clone git@github.com:AndrewDaws/user-configs.git
@@ -65,7 +71,8 @@ echo '------------------------------------------------------------------------'
 #echo '=> Adding repositories'
 
 echo '=> Installing system applications'
-# TODO: Automate fd install via apt or static download link.
+# @todo Fd Installation
+# @body Automate the Fd installation.
 sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux \
     ack openssh-server cron httpie iputils-ping autojump \
@@ -122,14 +129,18 @@ echo 'Done.'
 echo '------------------------------------------------------------------------'
 echo '   Configuring desktop applications'
 echo '------------------------------------------------------------------------'
-
+# @todo Improve Printed Text and Prompts
+# @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
 echo -e '=> Install desktop applications? [Y/N] '
 read desktopConfirm
 desktopConfirm=$(echo $desktopConfirm | tr '[:lower:]' '[:upper:]')
 if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
 
-    #echo '=> Installing desktop applications'
-    # TODO: Automate chrome-stable, and double commander install via apt or static download link.
+    # @todo Chrome Installation
+    # @body Automate the Chrome-Stable installation.
+    # @todo File Manager Installation
+    # @body Determine and automate a file manager (like Double Commander) installation.
+    echo '=> Installing desktop applications'
     sudo apt install -y --no-install-recommends \
         libegl1-mesa-dev
     
@@ -141,10 +152,14 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     cargo install cargo-deb
     cargo deb --install --manifest-path alacritty/Cargo.toml
 
+    # @todo Trim Nerd-Fonts Installation
+    # @body Cut down the Nerd-Fonts installation to just specific fonts so it isn't installing several GB worth.
     echo '=> Installing desktop fonts'
     cd
     git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
 
+    # @todo Skip Nerd-Fonts Installation
+    # @body Poentially skip the Nerd-Fonts installation entirely if the user does have access to the encrypted fonts.
     echo -e '=> Do you have the key for the locked fonts? [Y/N] '
     read fontConfirm
     fontConfirm=$(echo $fontConfirm | tr '[:lower:]' '[:upper:]')
@@ -195,11 +210,11 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     if [[ $developmentConfirm == 'YES' || $developmentConfirm == 'Y' ]]; then
 
         echo '=> Installing development applications'
-        # TODO: Automate beyond compare install via apt or static download link.
         sudo apt install -y --no-install-recommends \
             wireshark meld
         
-        # TODO: Fix Visual Studio Code install with correct static download link.
+        # @todo VS Code Installation
+        # @body Automate the VS Code installation.
         #wget https://go.microsoft.com/fwlink/?LinkID=760868
         #sudo dpkg -i code_*.deb
         #rm -f code_*.deb

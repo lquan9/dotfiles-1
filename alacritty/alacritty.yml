@@ -346,6 +346,8 @@ live_config_reload: true
 # Default:
 #   - (Linux/macOS) /bin/bash --login
 #   - (Windows) powershell
+# @todo Force ZSH in Alacritty
+# @body Require Alacritty to find and use ZSH on startup.
 #shell:
 #  program: /bin/bash
 #  args:

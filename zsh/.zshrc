@@ -1,3 +1,5 @@
+# @todo Improve Tmux Session Algorithm
+# @body Optimize the algorithm so the session starts as fast as possible, and improve reliablity for edge cases like resuming session with multiple clients still connected.
 # Automatically use tmux in local sessions
 if [ -z ${SSH_CLIENT+x} ]; then
   # Check if current shell session is in a tmux process
@@ -41,6 +43,8 @@ DEFAULT_USER=$USER
 POWERLEVEL9K_MODE='nerdfont-complete'
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
+# @todo Fish-like Path Truncation
+# @body Fix the case where multiple folders have the same first _x_ number of letters in their names. Currently truncates to just the first letter even if multiple directories have the same first letter. Re-evaluate if agnoster could be used again.
 ## Powerlevel9k Settings
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
 POWERLEVEL9K_SHORTEN_DELIMITER=""
@@ -63,6 +67,8 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
 
+# @todo Revise Oh-My-Zsh Plugins
+# @body Speed up shell operation and startup by removing unnecessary plugins.
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -93,6 +99,8 @@ export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat 
 export FZF_CTRL_T_OPTS="--select-1 --exit-0"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# @todo Fix Project-Configs Algorithm
+# @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
 # Source necessary files
 source ~/.config/user-configs/aliases/.alias
 for f in ~/.config/project-configs/.*; do source $f; done
