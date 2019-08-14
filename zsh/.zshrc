@@ -93,6 +93,8 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# @todo Create FZF Config
+# @body Create FZF specific config file to load.
 # FZF Configuration
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
