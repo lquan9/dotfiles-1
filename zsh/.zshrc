@@ -41,7 +41,7 @@ DEFAULT_USER=$USER
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 POWERLEVEL9K_MODE='nerdfont-complete'
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME=powerlevel10k/powerlevel10k
 
 # @todo Fish-like Path Truncation
 # @body Fix the case where multiple folders have the same first _x_ number of letters in their names. Currently truncates to just the first letter even if multiple directories have the same first letter. Re-evaluate if agnoster could be used again.
