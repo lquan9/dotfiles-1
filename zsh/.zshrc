@@ -1,3 +1,7 @@
+if [ -z "$USER_CONFIGS" ]; then
+  export USER_CONFIGS="$(cd $(dirname $(readlink -f ${HOME}/.zshrc))/.. && pwd)"
+fi
+
 # @todo Improve Tmux Session Algorithm
 # @body Optimize the algorithm so the session starts as fast as possible, and improve reliablity for edge cases like resuming session with multiple clients still connected.
 # Automatically use tmux in local sessions
@@ -30,7 +34,7 @@ if [ -z ${SSH_CLIENT+x} ]; then
 fi
 
 # Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+export ZSH=${HOME}/.oh-my-zsh
 export TERM="screen-256color"
 
 # Hide "user@hostname" info when you're logged in as yourself on your local machine.
@@ -79,19 +83,11 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# @todo Create FZF Config
-# @body Create FZF specific config file to load.
-# FZF Configuration
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-export FZF_CTRL_T_OPTS="--select-1 --exit-0"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # @todo Fix Project-Configs Algorithm
 # @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
 # Source necessary files
-source ~/.config/user-configs/aliases/.alias
-for f in ~/.config/project-configs/.*; do source $f; done
+[[ -f ${USER_CONFIGS}/aliases/.alias ]] && source ${USER_CONFIGS}/aliases/.alias
+for f in ${HOME}/.config/project-configs/.*; do source $f; done
 
 # Enable fuzzy auto-completions
 zstyle ':completion:*' matcher-list '' \
@@ -103,5 +99,8 @@ zstyle ':completion:*' matcher-list '' \
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
-# To customize prompt, run `p10k configure` or edit ~/.config/user-configs/zsh/.p10k.zsh.
-[[ -f ~/.config/user-configs/zsh/.p10k.zsh ]] && source ~/.config/user-configs/zsh/.p10k.zsh
+# Powerlevel10k Configuration
+[[ -f ${USER_CONFIGS}/zsh/.p10k.zsh ]] && source ${USER_CONFIGS}/zsh/.p10k.zsh
+
+# FZF Configuration
+[[ -f ${USER_CONFIGS}/zsh/.fzf.zsh ]] && source ${USER_CONFIGS}/zsh/.fzf.zsh
