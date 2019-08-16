@@ -40,21 +40,7 @@ DEFAULT_USER=$USER
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-POWERLEVEL9K_MODE='nerdfont-complete'
 ZSH_THEME=powerlevel10k/powerlevel10k
-
-# @todo Fish-like Path Truncation
-# @body Fix the case where multiple folders have the same first _x_ number of letters in their names. Currently truncates to just the first letter even if multiple directories have the same first letter. Re-evaluate if agnoster could be used again.
-## Powerlevel9k Settings
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-POWERLEVEL9K_SHORTEN_DELIMITER=""
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
-
-POWERLEVEL9K_STATUS_CROSS=true
-POWERLEVEL9K_STATUS_OK=false
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir_writable dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)
 
 # Syntax Highlighter Configuration
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
@@ -116,3 +102,6 @@ zstyle ':completion:*' matcher-list '' \
 # Enable partial auto-completions
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
+
+# To customize prompt, run `p10k configure` or edit ~/.config/user-configs/zsh/.p10k.zsh.
+[[ -f ~/.config/user-configs/zsh/.p10k.zsh ]] && source ~/.config/user-configs/zsh/.p10k.zsh
