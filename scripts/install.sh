@@ -32,11 +32,14 @@ mkdir -p ${HOME}/.config
 echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
-# @todo Fix Git Clone for Existing Repo
-# @body Avoid cloning the repo again when it already exists, instead pull the latest.
-echo '=> Cloning user-config repo'
-cd ${HOME}/.config
-git clone https://github.com/AndrewDaws/user-configs.git
+if [[ -d ${INSTALL_PATH} ]]; then
+    echo '=> Updating user-config repo'
+    (cd ${INSTALL_PATH}; git pull)
+else
+    echo '=> Cloning user-config repo'
+    cd ${HOME}/.config
+    git clone https://github.com/AndrewDaws/user-configs.git
+fi
 
 echo 'Done.'
 
