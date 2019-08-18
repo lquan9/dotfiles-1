@@ -24,9 +24,6 @@ echo '------------------------------------------------------------------------'
 echo '   Prepare user-config repo'
 echo '------------------------------------------------------------------------'
 
-echo '=> Making .config directory'
-mkdir -p ${HOME}/.config
-
 # @todo Single Sudo Prompt
 # @body Automate sudo password prompt so it is only asked for once.
 echo '=> Installing git'
@@ -36,6 +33,9 @@ if [[ -d ${INSTALL_PATH} ]]; then
     echo '=> Updating user-config repo'
     (cd ${INSTALL_PATH}; git pull)
 else
+    echo '=> Making .config directory'
+    mkdir -p ${HOME}/.config
+
     echo '=> Cloning user-config repo'
     cd ${HOME}/.config
     git clone https://github.com/AndrewDaws/user-configs.git
@@ -90,8 +90,8 @@ ${HOME}/.fzf/install
 
 echo '=> Installing system shell'
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions
+git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k
 
@@ -186,11 +186,8 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
                 echo "=> Decrypting with key"
                 git-crypt unlock ${HOME}/.git-crypt/user-configs.key
 
-                tar -xvf DankMono.tar
-                mv DankMono ${HOME}/.local/share/fonts
-
-                tar -xvf OperatorMono.tar
-                mv OperatorMono ${HOME}/.local/share/fonts
+                tar -xvf ${INSTALL_PATH}/fonts/DankMono.tar -C ${HOME}/.local/share/fonts
+                tar -xvf ${INSTALL_PATH}/fonts/OperatorMono.tar -C ${HOME}/.local/share/fonts
             else
                 echo "=> Key does not exist, skipping"
             fi
