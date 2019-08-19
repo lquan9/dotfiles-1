@@ -86,7 +86,7 @@ sudo pip3 install thefuck --upgrade
 mkdir -p ${HOME}/.tmux/plugins/tpm
 git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
-${HOME}/.fzf/install
+${HOME}/.fzf/install --all
 
 echo '=> Installing system shell'
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
@@ -151,7 +151,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
         libegl1-mesa-dev
     
     cd ${HOME}
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source ${HOME}/.cargo/env
     git clone https://github.com/jwilm/alacritty.git
     cd alacritty
