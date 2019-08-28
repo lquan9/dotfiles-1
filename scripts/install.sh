@@ -78,7 +78,7 @@ echo '=> Installing system applications'
 # @todo Fd Installation
 # @body Automate the Fd installation.
 sudo apt install -y --no-install-recommends \
-    vim zsh htop man curl sed nano gawk nmap tmux \
+    vim zsh htop man curl sed nano gawk nmap tmux xclip \
     ack openssh-server cron httpie iputils-ping autojump \
     python3-dev python3-pip python3-setuptools thefuck
 sudo pip3 install setuptools --upgrade
@@ -149,7 +149,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     echo '=> Installing desktop applications'
     sudo apt install -y --no-install-recommends \
         libegl1-mesa-dev
-    
+
     cd ${HOME}
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source ${HOME}/.cargo/env
@@ -215,7 +215,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
         echo '=> Installing development applications'
         sudo apt install -y --no-install-recommends \
             wireshark meld
-        
+
         # @todo VS Code Installation
         # @body Automate the VS Code installation.
         #wget https://go.microsoft.com/fwlink/?LinkID=760868
