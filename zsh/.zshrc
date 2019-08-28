@@ -1,3 +1,7 @@
+# Set default terminal
+export TERM="screen-256color"
+
+# Save user-configs directory to environment variable
 if [ -z "$USER_CONFIGS" ]; then
   export USER_CONFIGS="$(cd $(dirname $(readlink -f ${HOME}/.zshrc))/.. && pwd)"
 fi
@@ -35,7 +39,6 @@ fi
 
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
-export TERM="screen-256color"
 
 # Hide "user@hostname" info when you're logged in as yourself on your local machine.
 DEFAULT_USER=$USER
