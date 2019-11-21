@@ -232,6 +232,9 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
         echo 'What is your Git email?'
         read gitEmail
         echo "    email = $gitEmail" >> ${HOME}/.gitconfig
+
+        rm -f ${HOME}/.gitignore
+        ln -s ${INSTALL_PATH}/git/.gitignore ${HOME}/.gitignore
     fi
 
     echo -e '=> Install gaming applications? [Y/N] '

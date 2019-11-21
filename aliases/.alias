@@ -144,6 +144,15 @@ ssh_config() {
     fi
 }
 
+ssh_perm() {
+    chmod 600 `find ${HOME}/.ssh -type f`
+    chmod 700 ${HOME}/.ssh
+    chmod 644 ${HOME}/.ssh/authorized_keys
+    chmod 644 ${HOME}/.ssh/known_hosts
+    chmod 644 ${HOME}/.ssh/config
+    chmod 644 ${HOME}/.ssh/*.pub
+}
+
 
 
 # @todo Per-Application Aliases
