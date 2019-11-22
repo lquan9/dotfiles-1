@@ -175,6 +175,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
             git-crypt
 
         mkdir -p ${HOME}/.git-crypt
+        chmod 700 ${HOME}/.git-crypt
 
         echo -e '=> Decrypt locked fonts with ${HOME}/.git-crypt/user-configs.key? [Y/N] '
         read decryptConfirm
