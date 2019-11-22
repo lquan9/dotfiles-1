@@ -94,6 +94,8 @@ git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-${H
 git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k
+mkdir -p ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/git-auto-status
+wget -O ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/git-auto-status/git-auto-status.plugin.zsh https://gist.githubusercontent.com/oshybystyi/475ee7768efc03727f21/raw/4bfd57ef277f5166f3070f11800548b95a501a19/git-auto-status.plugin.zsh
 
 echo '=> Installing system application configurations'
 rm -f ${HOME}/.bash_history

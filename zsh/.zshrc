@@ -80,10 +80,12 @@ plugins=(
   command-not-found
   extract
   fzf
+  git-auto-fetch
+  git-auto-status
   history-substring-search
-  mosh
   nmap
   per-directory-history
+  safe-paste
   thefuck
   vscode
   zsh-completions
@@ -109,8 +111,24 @@ zstyle ':completion:*' matcher-list '' \
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
 # Powerlevel10k Configuration
 [[ -f ${USER_CONFIGS}/zsh/.p10k.zsh ]] && source ${USER_CONFIGS}/zsh/.p10k.zsh
 
 # FZF Configuration
 [[ -f ${USER_CONFIGS}/zsh/.fzf.zsh ]] && source ${USER_CONFIGS}/zsh/.fzf.zsh
+
+# History Substring Search Configuration
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# Zsh Autosuggest Configuration
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
