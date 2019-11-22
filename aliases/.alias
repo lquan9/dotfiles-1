@@ -3,11 +3,14 @@ alias czsh="$EDITOR ${HOME}/.zshrc"
 alias szsh="source ${HOME}/.zshrc"
 alias src="source ${HOME}/.zshrc"
 
-alias cali="$EDITOR ${HOME}/.unix-configs/.alias"
-alias sali="source ${HOME}/.unix-configs/.alias"
+alias cali="$EDITOR ${USER_CONFIGS}/aliases/.alias"
+alias sali="source ${USER_CONFIGS}/aliases/.alias"
 
 alias cozsh="$EDITOR ${HOME}/.oh-my-zsh"
 alias sozsh="source ${HOME}/.oh-my-zsh"
+
+alias cp10k="$EDITOR ${USER_CONFIGS}/zsh/.p10k.zsh"
+alias sp10k="source ${USER_CONFIGS}/zsh/.p10k.zsh"
 
 alias ctmux="$EDITOR ${HOME}/.tmux.conf"
 alias stmux="source ${HOME}/.tmux.conf"
