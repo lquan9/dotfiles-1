@@ -177,6 +177,8 @@ alias dl="http --download"
 
 alias python="python3"
 
+alias fd="fdfind"
+
 ctar() {
     tar -cvzf $1.tar.gz $1
 }

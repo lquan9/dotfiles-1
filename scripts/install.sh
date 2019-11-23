@@ -75,7 +75,7 @@ echo '------------------------------------------------------------------------'
 #echo '=> Adding repositories'
 
 echo '=> Installing system applications'
-# @todo Fd Installation
+# @todo Fd-find Installation
 # @body Automate the Fd installation.
 sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux xclip \
@@ -87,6 +87,7 @@ mkdir -p ${HOME}/.tmux/plugins/tpm
 git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
 ${HOME}/.fzf/install --all
+git clone https://github.com/andrewferrier/fzf-z.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z
 
 echo '=> Installing system shell'
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended

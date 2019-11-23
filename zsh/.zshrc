@@ -47,9 +47,6 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
 
-# Hide "user@hostname" info when you're logged in as yourself on your local machine.
-DEFAULT_USER=$USER
-
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -75,11 +72,11 @@ HIST_STAMPS="yyyy-mm-dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  autojump
   colored-man-pages
   command-not-found
   extract
   fzf
+  fzf-z
   git-auto-fetch
   git-auto-status
   history-substring-search
@@ -88,6 +85,7 @@ plugins=(
   safe-paste
   thefuck
   vscode
+  z
   zsh-completions
   zsh-autosuggestions
   zsh-syntax-highlighting
@@ -126,9 +124,14 @@ setopt SHARE_HISTORY
 # FZF Configuration
 [[ -f ${USER_CONFIGS}/zsh/.fzf.zsh ]] && source ${USER_CONFIGS}/zsh/.fzf.zsh
 
+export PATH=$PATH:/home/andrew/.oh-my-zsh/plugins/z
+
 # History Substring Search Configuration
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # Zsh Autosuggest Configuration
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+
+# Zsh Syntax Highlighter Configuration
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
