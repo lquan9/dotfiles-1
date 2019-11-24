@@ -151,6 +151,12 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     sudo apt install -y --no-install-recommends \
         libegl1-mesa-dev
 
+    # @todo Chrome Installation
+    # @body Automate the Chrome-Stable installation.
+
+    # @todo File Manager Installation
+    # @body Determine and automate a file manager (like Double Commander) installation.
+
     cd ${HOME}
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source ${HOME}/.cargo/env
@@ -159,10 +165,14 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     cargo install cargo-deb
     cargo deb --install --manifest-path alacritty/Cargo.toml
 
+    # @todo Trim Nerd-Fonts Installation
+    # @body Cut down the Nerd-Fonts installation to just specific fonts so it isn't installing several GB worth.
     echo '=> Installing desktop fonts'
     cd ${HOME}
     git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
 
+    # @todo Skip Nerd-Fonts Installation
+    # @body Poentially skip the Nerd-Fonts installation entirely if the user does have access to the encrypted fonts.
     echo -e '=> Do you have the key for the locked fonts? [Y/N] '
     read fontConfirm
     fontConfirm=$(echo $fontConfirm | tr '[:lower:]' '[:upper:]')
@@ -213,6 +223,9 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
         echo '=> Installing development applications'
         sudo apt install -y --no-install-recommends \
             wireshark meld
+
+        # @todo VS Code Installation
+        # @body Automate the VS Code installation.
 
         rm -f ${HOME}/.gitconfig
         cp ${INSTALL_PATH}/git/.gitconfig ${HOME}/.gitconfig
