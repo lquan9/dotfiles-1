@@ -6,8 +6,6 @@ if [ -z "$USER_CONFIGS" ]; then
   export USER_CONFIGS="$(cd $(dirname $(readlink -f ${HOME}/.zshrc))/.. && pwd)"
 fi
 
-# @todo Improve Tmux Session Algorithm
-# @body Optimize the algorithm so the session starts as fast as possible, and improve reliablity for edge cases like resuming session with multiple clients still connected.
 # Automatically use tmux in local sessions
 if [ -z ${SSH_CLIENT+x} ]; then
   # Check if current shell session is in a tmux process
@@ -64,8 +62,6 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
 
-# @todo Revise Oh-My-Zsh Plugins
-# @body Speed up shell operation and startup by removing unnecessary plugins.
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -93,8 +89,6 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# @todo Fix Project-Configs Algorithm
-# @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
 # Source necessary files
 [[ -f ${USER_CONFIGS}/aliases/.alias ]] && source ${USER_CONFIGS}/aliases/.alias
 for f in ${HOME}/.config/project-configs/.*; do source $f; done

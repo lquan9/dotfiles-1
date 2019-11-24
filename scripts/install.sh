@@ -14,9 +14,6 @@
 #   $ ./install.sh
 #
 
-# @todo Create Update Script
-# @body Create and update script or add an update flag to the installation script.
-
 INITIAL_PATH=${pwd}
 INSTALL_PATH="${HOME}/.config/user-configs"
 
@@ -24,8 +21,6 @@ echo '------------------------------------------------------------------------'
 echo '   Prepare user-config repo'
 echo '------------------------------------------------------------------------'
 
-# @todo Single Sudo Prompt
-# @body Automate sudo password prompt so it is only asked for once.
 echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
@@ -75,8 +70,6 @@ echo '------------------------------------------------------------------------'
 #echo '=> Adding repositories'
 
 echo '=> Installing system applications'
-# @todo Fd-find Installation
-# @body Automate the Fd installation.
 sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux xclip \
     ack openssh-server cron httpie iputils-ping autojump \
@@ -138,17 +131,12 @@ echo 'Done.'
 echo '------------------------------------------------------------------------'
 echo '   Configuring desktop applications'
 echo '------------------------------------------------------------------------'
-# @todo Improve Printed Text and Prompts
-# @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
+
 echo -e '=> Install desktop applications? [Y/N] '
 read desktopConfirm
 desktopConfirm=$(echo $desktopConfirm | tr '[:lower:]' '[:upper:]')
 if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
 
-    # @todo Chrome Installation
-    # @body Automate the Chrome-Stable installation.
-    # @todo File Manager Installation
-    # @body Determine and automate a file manager (like Double Commander) installation.
     echo '=> Installing desktop applications'
     sudo apt install -y --no-install-recommends \
         libegl1-mesa-dev
@@ -161,14 +149,10 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     cargo install cargo-deb
     cargo deb --install --manifest-path alacritty/Cargo.toml
 
-    # @todo Trim Nerd-Fonts Installation
-    # @body Cut down the Nerd-Fonts installation to just specific fonts so it isn't installing several GB worth.
     echo '=> Installing desktop fonts'
     cd ${HOME}
     git clone https://github.com/ryanoasis/nerd-fonts.git --depth 1; ./nerd-fonts/install.sh; rm -rf nerd-fonts;
 
-    # @todo Skip Nerd-Fonts Installation
-    # @body Poentially skip the Nerd-Fonts installation entirely if the user does have access to the encrypted fonts.
     echo -e '=> Do you have the key for the locked fonts? [Y/N] '
     read fontConfirm
     fontConfirm=$(echo $fontConfirm | tr '[:lower:]' '[:upper:]')
@@ -219,12 +203,6 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
         echo '=> Installing development applications'
         sudo apt install -y --no-install-recommends \
             wireshark meld
-
-        # @todo VS Code Installation
-        # @body Automate the VS Code installation.
-        #wget https://go.microsoft.com/fwlink/?LinkID=760868
-        #sudo dpkg -i code_*.deb
-        #rm -f code_*.deb
 
         rm -f ${HOME}/.gitconfig
         cp ${INSTALL_PATH}/git/.gitconfig ${HOME}/.gitconfig

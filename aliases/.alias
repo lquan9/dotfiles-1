@@ -17,8 +17,6 @@ alias stmux="source ${HOME}/.tmux.conf"
 alias ktmux="pkill -f tmux"
 
 
-# @todo Package Manager Aliases
-# @body Create and use distro-agnostic package management aliases so knowledge of the underlying package manager is not required for distro-specific package managers.
 # Apt
 alias updt="sudo apt update && sudo apt upgrade"
 alias inst="sudo apt install --no-install-recommends"
@@ -158,8 +156,6 @@ ssh_perm() {
 
 
 
-# @todo Per-Application Aliases
-# @body Potentially create per-application alias files to make them more modular.
 # Applications
 alias vim="nvim"
 alias v="nvim"
