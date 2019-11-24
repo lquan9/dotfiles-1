@@ -14,6 +14,9 @@
 #   $ ./install.sh
 #
 
+# @todo Create Update Script
+# @body Create and update script or add an update flag to the installation script.
+
 INITIAL_PATH=${pwd}
 INSTALL_PATH="${HOME}/.config/user-configs"
 
