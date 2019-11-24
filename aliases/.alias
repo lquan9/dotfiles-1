@@ -158,6 +158,8 @@ ssh_perm() {
 
 
 
+# @todo Per-Application Aliases
+# @body Potentially create per-application alias files to make them more modular.
 # Applications
 alias vim="nvim"
 alias v="nvim"
