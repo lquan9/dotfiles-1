@@ -24,6 +24,8 @@ echo '------------------------------------------------------------------------'
 echo '   Prepare user-config repo'
 echo '------------------------------------------------------------------------'
 
+# @todo Single Sudo Prompt
+# @body Automate sudo password prompt so it is only asked for once.
 echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
@@ -73,6 +75,8 @@ echo '------------------------------------------------------------------------'
 #echo '=> Adding repositories'
 
 echo '=> Installing system applications'
+# @todo Fd-find Installation
+# @body Automate the Fd installation.
 sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux xclip \
     ack openssh-server cron httpie iputils-ping autojump \
