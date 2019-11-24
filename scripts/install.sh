@@ -17,6 +17,9 @@
 # @todo Create Update Script
 # @body Create and update script or add an update flag to the installation script.
 
+# @todo Improve Printed Text and Prompts
+# @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
+
 INITIAL_PATH=${pwd}
 INSTALL_PATH="${HOME}/.config/user-configs"
 
