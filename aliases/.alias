@@ -1,16 +1,23 @@
+# Save user-configs alias directory to environment variable if not already set
+if [ -z "$USER_CONFIGS_ALIASES_PATH" ]; then
+  export USER_CONFIGS_ALIASES_PATH="$(dirname $(readlink -f $0))"
+fi
+
 # Logins and Configs
+alias src="exec ${SHELL}"
+alias cdc="cd ${USER_CONFIGS_BASE_PATH}"
+
 alias czsh="$EDITOR ${HOME}/.zshrc"
 alias szsh="source ${HOME}/.zshrc"
-alias src="source ${HOME}/.zshrc"
 
-alias cali="$EDITOR ${USER_CONFIGS}/aliases/.alias"
-alias sali="source ${USER_CONFIGS}/aliases/.alias"
+alias cali="$EDITOR ${USER_CONFIGS_ALIASES_PATH}/alias"
+alias sali="source ${USER_CONFIGS_ALIASES_PATH}/.alias"
 
 alias cozsh="$EDITOR ${HOME}/.oh-my-zsh"
 alias sozsh="source ${HOME}/.oh-my-zsh"
 
-alias cp10k="$EDITOR ${USER_CONFIGS}/zsh/.p10k.zsh"
-alias sp10k="source ${USER_CONFIGS}/zsh/.p10k.zsh"
+alias cp10k="$EDITOR ${USER_CONFIGS_BASE_PATH}/zsh/.p10k.zsh"
+alias sp10k="source ${USER_CONFIGS_BASE_PATH}/zsh/.p10k.zsh"
 
 alias ctmux="$EDITOR ${HOME}/.tmux.conf"
 alias stmux="source ${HOME}/.tmux.conf"
@@ -191,3 +198,5 @@ netscan() {
 }
 
 alias frefresh="sudo fc-cache -f -v"
+
+[[ -f ${USER_CONFIGS_ALIASES_PATH}/.k ]] && source ${USER_CONFIGS_ALIASES_PATH}/.k

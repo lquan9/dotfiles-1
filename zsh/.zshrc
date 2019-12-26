@@ -1,9 +1,18 @@
 # Set default terminal
 export TERM="screen-256color"
 
-# Save user-configs directory to environment variable
-if [ -z "$USER_CONFIGS" ]; then
-  export USER_CONFIGS="$(cd $(dirname $(readlink -f ${HOME}/.zshrc))/.. && pwd)"
+# Save user-configs directory to environment variable  if not already set
+if [ -z "$USER_CONFIGS_BASE_PATH" ]; then
+  export USER_CONFIGS_BASE_PATH="$(cd $(dirname $(readlink -f ${HOME}/.zshrc))/.. && pwd)"
+
+  # Save user-configs sub-directories to environment variables if directory exists
+  [[ -d "${USER_CONFIGS_BASE_PATH}/alacritty" ]] && export USER_CONFIGS_ALACRITTY_PATH="${USER_CONFIGS_BASE_PATH}/alacritty"
+  [[ -d "${USER_CONFIGS_BASE_PATH}/aliases" ]] && export USER_CONFIGS_ALIASES_PATH="${USER_CONFIGS_BASE_PATH}/aliases"
+  [[ -d "${USER_CONFIGS_BASE_PATH}/fonts" ]] && export USER_CONFIGS_FONTS_PATH="${USER_CONFIGS_BASE_PATH}/fonts"
+  [[ -d "${USER_CONFIGS_BASE_PATH}/git" ]] && export USER_CONFIGS_GIT_PATH="${USER_CONFIGS_BASE_PATH}/git"
+  [[ -d "${USER_CONFIGS_BASE_PATH}/scripts" ]] && export USER_CONFIGS_SCRIPTS_PATH="${USER_CONFIGS_BASE_PATH}/scripts"
+  [[ -d "${USER_CONFIGS_BASE_PATH}/tmux" ]] && export USER_CONFIGS_TMUX_PATH="${USER_CONFIGS_BASE_PATH}/tmux"
+  [[ -d "${USER_CONFIGS_BASE_PATH}/zsh" ]] && export USER_CONFIGS_ZSH_PATH="${USER_CONFIGS_BASE_PATH}/zsh"
 fi
 
 # @todo Improve Tmux Session Algorithm
@@ -80,6 +89,7 @@ plugins=(
   git-auto-fetch
   git-auto-status
   history-substring-search
+  k
   nmap
   per-directory-history
   safe-paste
@@ -96,7 +106,7 @@ source $ZSH/oh-my-zsh.sh
 # @todo Fix Project-Configs Algorithm
 # @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
 # Source necessary files
-[[ -f ${USER_CONFIGS}/aliases/.alias ]] && source ${USER_CONFIGS}/aliases/.alias
+[[ -f ${USER_CONFIGS_ALIASES_PATH}/.alias ]] && source ${USER_CONFIGS_ALIASES_PATH}/.alias
 for f in ${HOME}/.config/project-configs/.*; do source $f; done
 
 # Enable fuzzy auto-completions
@@ -119,10 +129,10 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # Powerlevel10k Configuration
-[[ -f ${USER_CONFIGS}/zsh/.p10k.zsh ]] && source ${USER_CONFIGS}/zsh/.p10k.zsh
+[[ -f ${USER_CONFIGS_ZSH_PATH}/.p10k.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.p10k.zsh
 
 # FZF Configuration
-[[ -f ${USER_CONFIGS}/zsh/.fzf.zsh ]] && source ${USER_CONFIGS}/zsh/.fzf.zsh
+[[ -f ${USER_CONFIGS_ZSH_PATH}/.fzf.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.fzf.zsh
 
 export PATH=$PATH:/home/andrew/.oh-my-zsh/plugins/z
 
