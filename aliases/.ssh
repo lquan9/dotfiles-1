@@ -1,0 +1,74 @@
+# ssh aliases
+ssh_gen() {
+
+    if [ -z ${2+x} ];
+    then
+        if [ -z ${1+x} ];
+        then
+            ssh-keygen
+        else
+            ssh-keygen -t ed25519 -N '' -f ${HOME}/.ssh/$1
+        fi
+    else
+        echo ''
+        echo '########################################'
+        echo Creating ssh key $2
+        echo '########################################'
+        ssh-keygen -t ed25519 -N '' -f ${HOME}/.ssh/$2-$1
+
+        ssh_copy $1 $2
+
+        echo -e '=> Generate an SSH config? [Y/N] '
+        read configConfirm
+        configConfirm=$(echo $configConfirm | tr '[:lower:]' '[:upper:]')
+        if [[ $configConfirm == 'YES' || $configConfirm == 'Y' ]]; then
+            ssh_config $1 $2
+        fi
+    fi
+}
+
+ssh_copy() {
+    if [ -z ${2+x} ];
+    then
+        ssh-copy-id
+    else
+        echo ''
+        echo '########################################'
+        echo Copying ssh key $1@$2
+        echo '########################################'
+        ssh-copy-id -f -i ${HOME}/.ssh/$2-$1 $1@$2
+    fi
+}
+
+ssh_config() {
+    if [ -z ${2+x} ];
+    then
+        echo 'Incorrect input parameters!'
+    else
+        echo -e '=> What is the alias you would like to configure? '
+        read configAlias
+        if [[ $configAlias ]]; then
+            echo ''
+            echo '########################################'
+            echo Creating ssh config $1@$2
+            echo '########################################'
+
+            touch ${HOME}/.ssh/config
+            echo '' >> ${HOME}/.ssh/config
+            echo Host $configAlias >> ${HOME}/.ssh/config
+            echo '    'HostName $2 >> ${HOME}/.ssh/config
+            echo '    'User $1 >> ${HOME}/.ssh/config
+            echo '    'IdentitiesOnly yes >> ${HOME}/.ssh/config
+            echo '    'IdentityFile ${HOME}/.ssh/$2-$1 >> ${HOME}/.ssh/config
+        fi
+    fi
+}
+
+ssh_perm() {
+    chmod 600 `find ${HOME}/.ssh -type f`
+    chmod 700 ${HOME}/.ssh
+    chmod 644 ${HOME}/.ssh/authorized_keys
+    chmod 644 ${HOME}/.ssh/known_hosts
+    chmod 644 ${HOME}/.ssh/config
+    chmod 644 ${HOME}/.ssh/*.pub
+}

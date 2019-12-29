@@ -1,3 +1,4 @@
+# k aliases
 alias k="k --human --si"
 alias ka="k --human --si -A"
 alias kd="k --human --si -d"

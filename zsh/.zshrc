@@ -84,6 +84,7 @@ plugins=(
   colored-man-pages
   command-not-found
   extract
+  forgit
   fzf
   fzf-z
   git-auto-fetch

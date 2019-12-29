@@ -1,0 +1,2 @@
+# httpie aliases
+alias dl="http --download"

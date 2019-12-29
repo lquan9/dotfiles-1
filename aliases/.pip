@@ -1,0 +1,8 @@
+# pip aliases
+
+# @todo Pip vs Pip3 Detection
+# @body Detect if normal pip or pip3 is installed, and create generic alias(es) for one or both.
+alias pip="pip3"
+alias pinst="sudo -H pip3 install"
+alias puninst="sudo -H pip3 uninstall"
+alias pupdt="sudo -H pip3 freeze — local | grep -v ‘^\-e’ | cut -d = -f 1 | xargs -n1 sudo -H pip3 install -U"

@@ -1,81 +1,50 @@
+####################
+# Variables
+####################
 # Save user-configs alias directory to environment variable if not already set
 if [ -z "$USER_CONFIGS_ALIASES_PATH" ]; then
   export USER_CONFIGS_ALIASES_PATH="$(dirname $(readlink -f $0))"
 fi
+####################
+####################
 
+
+
+####################
 # Logins and Configs
+####################
 alias src="exec ${SHELL}"
 alias cdc="cd ${USER_CONFIGS_BASE_PATH}"
 
+# zshrc
 alias czsh="$EDITOR ${HOME}/.zshrc"
 alias szsh="source ${HOME}/.zshrc"
 
+# alias
 alias cali="$EDITOR ${USER_CONFIGS_ALIASES_PATH}/alias"
 alias sali="source ${USER_CONFIGS_ALIASES_PATH}/.alias"
 
+# oh-my-zsh
 alias cozsh="$EDITOR ${HOME}/.oh-my-zsh"
 alias sozsh="source ${HOME}/.oh-my-zsh"
 
+# powerlevel10k
 alias cp10k="$EDITOR ${USER_CONFIGS_BASE_PATH}/zsh/.p10k.zsh"
 alias sp10k="source ${USER_CONFIGS_BASE_PATH}/zsh/.p10k.zsh"
 
+# tmux
 alias ctmux="$EDITOR ${HOME}/.tmux.conf"
 alias stmux="source ${HOME}/.tmux.conf"
 alias ktmux="pkill -f tmux"
-
-
-# @todo Package Manager Aliases
-# @body Create and use distro-agnostic package management aliases so knowledge of the underlying package manager is not required for distro-specific package managers.
-# Apt
-alias updt="sudo apt update && sudo apt upgrade"
-alias inst="sudo apt install --no-install-recommends"
-alias uninst="sudo apt remove"
-alias arem="sudo apt autoremove"
-alias afix="sudo apt --fix-broken install"
-alias aupdt="sudo apt list --upgradeable"
-alias adep="sudo apt install -f --no-install-recommends"
-alias alist="sudo apt list --installed"
-alias aname="apt-cache pkgnames"
-alias asear="apt-cache search"
-
-
-# Dpkg
-alias dinst="sudo dpkg -i"
-alias duninst="sudo dpkg -r"
-alias dpurg="sudo dpkg --purge"
-
-dlist() {
-    if [ "$1" != "" ]
-    then
-        echo Searching packages...
-        dpkg -l | awk -v pkg_var="^"$1 '$2 ~ pkg_var {print $2}'
-    else
-        sudo dpkg -l
-    fi
-}
-
-dpurglist() {
-    if [ "$1" != "" ]
-    then
-        echo Purging packages...
-        dpkg -l | awk -v pkg_var="^"$1 '$2 ~ pkg_var {print $2}' | xargs sudo dpkg --purge
-    else
-        No packages provided
-    fi
-}
-
-# Pip
-alias pip="pip3"
-alias pinst="sudo -H pip3 install"
-alias puninst="sudo -H pip3 uninstall"
-alias pupdt="sudo -H pip3 freeze — local | grep -v ‘^\-e’ | cut -d = -f 1 | xargs -n1 sudo -H pip3 install -U"
-
-# Gem
-alias ginst="sudo gem install"
+####################
+####################
 
 
 
-# General
+####################
+# Common
+####################
+# navigation
 alias e="exit"
 alias cd..="cd .."
 alias cd....="cd ../.."
@@ -86,117 +55,58 @@ alias lte="ls -lAohpt --color=always | awk 'NR != 1 && NR < 12'"
 
 alias pa="ps -af"
 
-
-
-# SSH
-ssh_gen() {
-
-    if [ -z ${2+x} ];
-    then
-        if [ -z ${1+x} ];
-        then
-            ssh-keygen
-        else
-            ssh-keygen -t ed25519 -N '' -f ${HOME}/.ssh/$1
-        fi
-    else
-        echo ''
-        echo '########################################'
-        echo Creating ssh key $2
-        echo '########################################'
-        ssh-keygen -t ed25519 -N '' -f ${HOME}/.ssh/$2-$1
-
-        ssh_copy $1 $2
-
-        echo -e '=> Generate an SSH config? [Y/N] '
-        read configConfirm
-        configConfirm=$(echo $configConfirm | tr '[:lower:]' '[:upper:]')
-        if [[ $configConfirm == 'YES' || $configConfirm == 'Y' ]]; then
-            ssh_config $1 $2
-        fi
-    fi
-}
-
-ssh_copy() {
-    if [ -z ${2+x} ];
-    then
-        ssh-copy-id
-    else
-        echo ''
-        echo '########################################'
-        echo Copying ssh key $1@$2
-        echo '########################################'
-        ssh-copy-id -f -i ${HOME}/.ssh/$2-$1 $1@$2
-    fi
-}
-
-ssh_config() {
-    if [ -z ${2+x} ];
-    then
-        echo 'Incorrect input parameters!'
-    else
-        echo -e '=> What is the alias you would like to configure? '
-        read configAlias
-        if [[ $configAlias ]]; then
-            echo ''
-            echo '########################################'
-            echo Creating ssh config $1@$2
-            echo '########################################'
-
-            touch ${HOME}/.ssh/config
-            echo '' >> ${HOME}/.ssh/config
-            echo Host $configAlias >> ${HOME}/.ssh/config
-            echo '    'HostName $2 >> ${HOME}/.ssh/config
-            echo '    'User $1 >> ${HOME}/.ssh/config
-            echo '    'IdentitiesOnly yes >> ${HOME}/.ssh/config
-            echo '    'IdentityFile ${HOME}/.ssh/$2-$1 >> ${HOME}/.ssh/config
-        fi
-    fi
-}
-
-ssh_perm() {
-    chmod 600 `find ${HOME}/.ssh -type f`
-    chmod 700 ${HOME}/.ssh
-    chmod 644 ${HOME}/.ssh/authorized_keys
-    chmod 644 ${HOME}/.ssh/known_hosts
-    chmod 644 ${HOME}/.ssh/config
-    chmod 644 ${HOME}/.ssh/*.pub
-}
+alias font_refresh="sudo fc-cache -f -v"
+####################
+####################
 
 
 
-# @todo Per-Application Aliases
-# @body Potentially create per-application alias files to make them more modular.
+# @todo Distro Package Manager Aliases
+# @body Create package manager aliases for other distro (fedora, alpine, etc) package managers.
+####################
+# Package Managers
+####################
+# apt
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh apt && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.apt ]] && source ${USER_CONFIGS_ALIASES_PATH}/.apt
+
+# dpkg
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh dpkg && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.dpkg ]] && source ${USER_CONFIGS_ALIASES_PATH}/.dpkg
+
+# pip
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh pip3 && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.pip ]] && source ${USER_CONFIGS_ALIASES_PATH}/.pip
+
+# brew
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh brew && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.brew ]] && source ${USER_CONFIGS_ALIASES_PATH}/.brew
+
+# gem
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh gem && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.gem ]] && source ${USER_CONFIGS_ALIASES_PATH}/.gem
+####################
+####################
+
+
+
+####################
 # Applications
-alias vim="nvim"
-alias v="nvim"
+####################
+# ssh
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh ssh && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.ssh ]] && source ${USER_CONFIGS_ALIASES_PATH}/.ssh
 
-alias vs="code"
+# k
+[[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k/k.plugin.zsh ]] && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.k ]] && source ${USER_CONFIGS_ALIASES_PATH}/.k
 
-alias bc="bcompare"
+# vim
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh vim && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.vim ]] && source ${USER_CONFIGS_ALIASES_PATH}/.vim
 
-alias gc="google-chrome"
-alias chrome="google-chrome"
+# vscode
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh code && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.vscode ]] && source ${USER_CONFIGS_ALIASES_PATH}/.vscode
 
-alias pcat='pygmentize -f terminal256 -O style=native -g'
+# chrome
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.chrome ]] && source ${USER_CONFIGS_ALIASES_PATH}/.chrome
 
-alias dl="http --download"
+# nmap
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh nmap && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.nmap ]] && source ${USER_CONFIGS_ALIASES_PATH}/.nmap
 
-alias python="python3"
-
-alias fd="fdfind"
-
-ctar() {
-    tar -cvzf $1.tar.gz $1
-}
-
-alias untar="tar -xzf"
-
-netscan() {
-    echo Starting Nmap scan...
-    sudo nmap -sn $1 | awk '!/Host is up|Starting Nmap|done/{gsub(/[()]/,""); if ($6 == "") {print $5} else {print $6 " " $5}}'
-}
-
-alias frefresh="sudo fc-cache -f -v"
-
-[[ -f ${USER_CONFIGS_ALIASES_PATH}/.k ]] && source ${USER_CONFIGS_ALIASES_PATH}/.k
+# httpie
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh http && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.httpie ]] && source ${USER_CONFIGS_ALIASES_PATH}/.httpie
+####################
+####################

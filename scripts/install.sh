@@ -83,7 +83,7 @@ echo '=> Installing system applications'
 sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux xclip \
     ack openssh-server cron httpie iputils-ping autojump \
-    python3-dev python3-pip python3-setuptools thefuck
+    python3-dev python3-pip python3-setuptools thefuck file
 sudo pip3 install setuptools --upgrade
 sudo pip3 install thefuck --upgrade
 mkdir -p ${HOME}/.tmux/plugins/tpm
@@ -93,13 +93,14 @@ ${HOME}/.fzf/install --all
 git clone https://github.com/andrewferrier/fzf-z.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z
 
 echo '=> Installing system shell'
-# Install Oh-My-Zsh
+# Install Oh-My-Zsh Framework
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 
 # Install Oh-My-Zsh Theme
 git clone https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k
 
 # Install Oh-My-Zsh Plugins
+git clone https://github.com/wfxr/forgit.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit
 git clone https://github.com/supercrabtree/k.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k
 git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions
@@ -127,16 +128,6 @@ chmod 644 ${INSTALL_PATH}/aliases/.alias
 
 mkdir -p ${HOME}/.config/project-configs
 touch ${HOME}/.config/project-configs/.default
-
-echo -e '=> Install build tools? [Y/N] '
-read buildConfirm
-buildConfirm=$(echo $buildConfirm | tr '[:lower:]' '[:upper:]')
-if [[ $buildConfirm == 'YES' || $buildConfirm == 'Y' ]]; then
-
-    echo '=> Installing desktop applications'
-    sudo apt install -y --no-install-recommends \
-        make gcc build-essential cmake snapd
-fi
 
 echo 'Done.'
 
@@ -228,7 +219,14 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
 
         echo '=> Installing development applications'
         sudo apt install -y --no-install-recommends \
-            wireshark meld
+            wireshark meld make gcc build-essential \
+            cmake snapd
+
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>~/.zprofile
+        eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+        brew install gcc
+        brew install git-delta
 
         # @todo VS Code Installation
         # @body Automate the VS Code installation.

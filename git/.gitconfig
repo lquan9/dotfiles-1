@@ -1,3 +1,6 @@
+[core]
+    pager = delta --dark --theme="zenburn"
+
 [diff]
     tool = meld
 [difftool]

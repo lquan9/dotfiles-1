@@ -1,0 +1,2 @@
+# gem aliases
+alias ginst="sudo gem install"
