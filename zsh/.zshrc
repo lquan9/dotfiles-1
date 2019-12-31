@@ -104,9 +104,7 @@ plugins=(
   z
   zsh-completions
   zsh-autosuggestions
-# @todo Fix Zsh-Syntax-Highlighting Cursor Bug
-# @body Fix the zsh-syntax-highlighting bug that causes the cursor to disappear when it is over typed text.
-#  zsh-syntax-highlighting
+  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -160,4 +158,4 @@ bindkey '^[[B' history-substring-search-down
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
 
 # Zsh Syntax Highlighter Configuration
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
