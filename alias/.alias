@@ -1,9 +1,9 @@
 ####################
 # Variables
 ####################
-# Save user-configs alias directory to environment variable if not already set
-if [ -z "$USER_CONFIGS_ALIAS_PATH" ]; then
-  export USER_CONFIGS_ALIAS_PATH="$(dirname $(readlink -f $0))"
+# Save dotfiles alias directory to environment variable if not already set
+if [ -z "$DOTFILES_ALIAS_PATH" ]; then
+  export DOTFILES_ALIAS_PATH="$(dirname $(readlink -f $0))"
 fi
 ####################
 ####################
@@ -14,23 +14,23 @@ fi
 # Logins and Configs
 ####################
 alias src="exec ${SHELL}"
-alias cdc="cd ${USER_CONFIGS_BASE_PATH}"
+alias cdd="cd ${DOTFILES_BASE_PATH}"
 
 # zshrc
 alias czsh="$EDITOR ${HOME}/.zshrc"
 alias szsh="source ${HOME}/.zshrc"
 
 # alias
-alias cali="$EDITOR ${USER_CONFIGS_ALIAS_PATH}/alias"
-alias sali="source ${USER_CONFIGS_ALIAS_PATH}/.alias"
+alias cali="$EDITOR ${DOTFILES_ALIAS_PATH}/alias"
+alias sali="source ${DOTFILES_ALIAS_PATH}/.alias"
 
 # oh-my-zsh
 alias cozsh="$EDITOR ${HOME}/.oh-my-zsh"
 alias sozsh="source ${HOME}/.oh-my-zsh"
 
 # powerlevel10k
-alias cp10k="$EDITOR ${USER_CONFIGS_ZSH_PATH}/.p10k.zsh"
-alias sp10k="source ${USER_CONFIGS_ZSH_PATH}/.p10k.zsh"
+alias cp10k="$EDITOR ${DOTFILES_ZSH_PATH}/.p10k.zsh"
+alias sp10k="source ${DOTFILES_ZSH_PATH}/.p10k.zsh"
 
 # tmux
 alias ctmux="$EDITOR ${HOME}/.tmux.conf"
@@ -67,19 +67,19 @@ alias font_refresh="sudo fc-cache -f -v"
 # Package Managers
 ####################
 # apt
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh apt && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.apt.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.apt.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh apt && [[ -f ${DOTFILES_ALIAS_PATH}/.apt.alias ]] && source ${DOTFILES_ALIAS_PATH}/.apt.alias
 
 # dpkg
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh dpkg && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.dpkg.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.dpkg.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh dpkg && [[ -f ${DOTFILES_ALIAS_PATH}/.dpkg.alias ]] && source ${DOTFILES_ALIAS_PATH}/.dpkg.alias
 
 # pip
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh pip3 && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.pip.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.pip.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh pip3 && [[ -f ${DOTFILES_ALIAS_PATH}/.pip.alias ]] && source ${DOTFILES_ALIAS_PATH}/.pip.alias
 
 # brew
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh brew && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.brew.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.brew.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh brew && [[ -f ${DOTFILES_ALIAS_PATH}/.brew.alias ]] && source ${DOTFILES_ALIAS_PATH}/.brew.alias
 
 # gem
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh gem && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.gem.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.gem.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh gem && [[ -f ${DOTFILES_ALIAS_PATH}/.gem.alias ]] && source ${DOTFILES_ALIAS_PATH}/.gem.alias
 ####################
 ####################
 
@@ -89,27 +89,27 @@ ${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh gem && [[ -f ${USER_CONFIGS_AL
 # Applications
 ####################
 # chrome
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.chrome.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.chrome.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${DOTFILES_ALIAS_PATH}/.chrome.alias ]] && source ${DOTFILES_ALIAS_PATH}/.chrome.alias
 
 # httpie
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh http && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.httpie.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.httpie.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.httpie.alias ]] && source ${DOTFILES_ALIAS_PATH}/.httpie.alias
 
 # hub
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh hub && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.hub.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.hub.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh hub && [[ -f ${DOTFILES_ALIAS_PATH}/.hub.alias ]] && source ${DOTFILES_ALIAS_PATH}/.hub.alias
 
 # k
-[[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k/k.plugin.zsh ]] && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.k.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.k.alias
+[[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k/k.plugin.zsh ]] && [[ -f ${DOTFILES_ALIAS_PATH}/.k.alias ]] && source ${DOTFILES_ALIAS_PATH}/.k.alias
 
 # nmap
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh nmap && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.nmap.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.nmap.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh nmap && [[ -f ${DOTFILES_ALIAS_PATH}/.nmap.alias ]] && source ${DOTFILES_ALIAS_PATH}/.nmap.alias
 
 # ssh
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh ssh && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.ssh.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.ssh.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh ssh && [[ -f ${DOTFILES_ALIAS_PATH}/.ssh.alias ]] && source ${DOTFILES_ALIAS_PATH}/.ssh.alias
 
 # vim
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh vim && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.vim.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.vim.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh vim && [[ -f ${DOTFILES_ALIAS_PATH}/.vim.alias ]] && source ${DOTFILES_ALIAS_PATH}/.vim.alias
 
 # vscode
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh code && [[ -f ${USER_CONFIGS_ALIAS_PATH}/.vscode.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.vscode.alias
+${DOTFILES_BASE_PATH}/scripts/is_installed.sh code && [[ -f ${DOTFILES_ALIAS_PATH}/.vscode.alias ]] && source ${DOTFILES_ALIAS_PATH}/.vscode.alias
 ####################
 ####################

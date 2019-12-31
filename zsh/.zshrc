@@ -5,19 +5,19 @@ else
   export TERM="xterm-256color"
 fi
 
-# Save user-configs directory to environment variable  if not already set
-if [ -z "$USER_CONFIGS_BASE_PATH" ]; then
-  export USER_CONFIGS_BASE_PATH="$(cd $(dirname $(readlink -f ${HOME}/.zshrc))/.. && pwd)"
+# Save dotfiles directory to environment variable  if not already set
+if [ -z "$DOTFILES_BASE_PATH" ]; then
+  export DOTFILES_BASE_PATH="$(cd $(dirname $(readlink -f ${HOME}/.zshrc))/.. && pwd)"
 
-  # Save user-configs sub-directories to environment variables if directory exists
-  [[ -d "${USER_CONFIGS_BASE_PATH}/alacritty" ]] && export USER_CONFIGS_ALACRITTY_PATH="${USER_CONFIGS_BASE_PATH}/alacritty"
-  [[ -d "${USER_CONFIGS_BASE_PATH}/alias" ]] && export USER_CONFIGS_ALIAS_PATH="${USER_CONFIGS_BASE_PATH}/alias"
-  [[ -d "${USER_CONFIGS_BASE_PATH}/fonts" ]] && export USER_CONFIGS_FONTS_PATH="${USER_CONFIGS_BASE_PATH}/fonts"
-  [[ -d "${USER_CONFIGS_BASE_PATH}/git" ]] && export USER_CONFIGS_GIT_PATH="${USER_CONFIGS_BASE_PATH}/git"
-  [[ -d "${USER_CONFIGS_BASE_PATH}/scripts" ]] && export USER_CONFIGS_SCRIPTS_PATH="${USER_CONFIGS_BASE_PATH}/scripts"
-  [[ -d "${USER_CONFIGS_BASE_PATH}/term" ]] && export USER_CONFIGS_TERM_PATH="${USER_CONFIGS_BASE_PATH}/term"
-  [[ -d "${USER_CONFIGS_BASE_PATH}/tmux" ]] && export USER_CONFIGS_TMUX_PATH="${USER_CONFIGS_BASE_PATH}/tmux"
-  [[ -d "${USER_CONFIGS_BASE_PATH}/zsh" ]] && export USER_CONFIGS_ZSH_PATH="${USER_CONFIGS_BASE_PATH}/zsh"
+  # Save dotfiles sub-directories to environment variables if directory exists
+  [[ -d "${DOTFILES_BASE_PATH}/alacritty" ]] && export DOTFILES_ALACRITTY_PATH="${DOTFILES_BASE_PATH}/alacritty"
+  [[ -d "${DOTFILES_BASE_PATH}/alias" ]] && export DOTFILES_ALIAS_PATH="${DOTFILES_BASE_PATH}/alias"
+  [[ -d "${DOTFILES_BASE_PATH}/fonts" ]] && export DOTFILES_FONTS_PATH="${DOTFILES_BASE_PATH}/fonts"
+  [[ -d "${DOTFILES_BASE_PATH}/git" ]] && export DOTFILES_GIT_PATH="${DOTFILES_BASE_PATH}/git"
+  [[ -d "${DOTFILES_BASE_PATH}/scripts" ]] && export DOTFILES_SCRIPTS_PATH="${DOTFILES_BASE_PATH}/scripts"
+  [[ -d "${DOTFILES_BASE_PATH}/term" ]] && export DOTFILES_TERM_PATH="${DOTFILES_BASE_PATH}/term"
+  [[ -d "${DOTFILES_BASE_PATH}/tmux" ]] && export DOTFILES_TMUX_PATH="${DOTFILES_BASE_PATH}/tmux"
+  [[ -d "${DOTFILES_BASE_PATH}/zsh" ]] && export DOTFILES_ZSH_PATH="${DOTFILES_BASE_PATH}/zsh"
 fi
 
 # @todo Improve Tmux Session Algorithm
@@ -109,7 +109,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-[[ -f ${USER_CONFIGS_ALIAS_PATH}/.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.alias
+[[ -f ${DOTFILES_ALIAS_PATH}/.alias ]] && source ${DOTFILES_ALIAS_PATH}/.alias
 
 # @todo Fix Project-Configs Algorithm
 # @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
@@ -136,19 +136,19 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # Powerlevel10k Configuration
-[[ -f ${USER_CONFIGS_ZSH_PATH}/.p10k.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.p10k.zsh
+[[ -f ${DOTFILES_ZSH_PATH}/.p10k.zsh ]] && source ${DOTFILES_ZSH_PATH}/.p10k.zsh
 
 # Brew Configuration
-${USER_CONFIGS_SCRIPTS_PATH}/is_installed.sh brew && [[ -f ${USER_CONFIGS_ZSH_PATH}/.brew.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.brew.zsh
+${DOTFILES_SCRIPTS_PATH}/is_installed.sh brew && [[ -f ${DOTFILES_ZSH_PATH}/.brew.zsh ]] && source ${DOTFILES_ZSH_PATH}/.brew.zsh
 
 # Bat Configuration
-${USER_CONFIGS_SCRIPTS_PATH}/is_installed.sh bat && [[ -f ${USER_CONFIGS_ZSH_PATH}/.bat.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.bat.zsh
+${DOTFILES_SCRIPTS_PATH}/is_installed.sh bat && [[ -f ${DOTFILES_ZSH_PATH}/.bat.zsh ]] && source ${DOTFILES_ZSH_PATH}/.bat.zsh
 
 # FZF Configuration
-${USER_CONFIGS_SCRIPTS_PATH}/is_installed.sh fzf && [[ -f ${USER_CONFIGS_ZSH_PATH}/.fzf.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.fzf.zsh
+${DOTFILES_SCRIPTS_PATH}/is_installed.sh fzf && [[ -f ${DOTFILES_ZSH_PATH}/.fzf.zsh ]] && source ${DOTFILES_ZSH_PATH}/.fzf.zsh
 
 # Forgit Configuration
-#[[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit/forgit.plugin.zsh ]] && [[ -f ${USER_CONFIGS_ZSH_PATH}/.forgit.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.forgit.zsh
+#[[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit/forgit.plugin.zsh ]] && [[ -f ${DOTFILES_ZSH_PATH}/.forgit.zsh ]] && source ${DOTFILES_ZSH_PATH}/.forgit.zsh
 
 # History Substring Search Configuration
 bindkey '^[[A' history-substring-search-up

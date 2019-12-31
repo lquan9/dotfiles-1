@@ -9,7 +9,7 @@
 #   A post-installation bash script for Unix systems
 #
 # Usage:
-#   $ wget https://raw.githubusercontent.com/AndrewDaws/user-configs/master/scripts/install.sh
+#   $ wget https://raw.githubusercontent.com/AndrewDaws/dotfiles/master/scripts/install.sh
 #   $ chmod +x install.sh
 #   $ ./install.sh
 #
@@ -21,10 +21,10 @@
 # @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
 
 INITIAL_PATH=${pwd}
-INSTALL_PATH="${HOME}/.config/user-configs"
+INSTALL_PATH="${HOME}/.dotfiles"
 
 echo '------------------------------------------------------------------------'
-echo '   Prepare user-config repo'
+echo '   Prepare dotfiles repo'
 echo '------------------------------------------------------------------------'
 
 # @todo Single Sudo Prompt
@@ -33,15 +33,12 @@ echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
 if [[ -d ${INSTALL_PATH} ]]; then
-    echo '=> Updating user-config repo'
+    echo '=> Updating dotfiles repo'
     (cd ${INSTALL_PATH}; git pull)
 else
-    echo '=> Making .config directory'
-    mkdir -p ${HOME}/.config
-
-    echo '=> Cloning user-config repo'
-    cd ${HOME}/.config
-    git clone https://github.com/AndrewDaws/user-configs.git
+    echo '=> Cloning dotfiles repo'
+    cd ${HOME}
+    git clone https://github.com/AndrewDaws/dotfiles.git ${INSTALL_PATH}
 fi
 
 echo 'Done.'
@@ -186,15 +183,15 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
         mkdir -p ${HOME}/.git-crypt
         chmod 700 ${HOME}/.git-crypt
 
-        echo -e '=> Decrypt locked fonts with ${HOME}/.git-crypt/user-configs.key? [Y/N] '
+        echo -e '=> Decrypt locked fonts with ${HOME}/.git-crypt/dotfiles.key? [Y/N] '
         read decryptConfirm
         decryptConfirm=$(echo $decryptConfirm | tr '[:lower:]' '[:upper:]')
         if [[ $decryptConfirm == 'YES' || $decryptConfirm == 'Y' ]]; then
 
-            if [ -f "${HOME}/.git-crypt/user-configs.key" ]; then
+            if [ -f "${HOME}/.git-crypt/dotfiles.key" ]; then
 
                 echo "=> Decrypting with key"
-                git-crypt unlock ${HOME}/.git-crypt/user-configs.key
+                git-crypt unlock ${HOME}/.git-crypt/dotfiles.key
 
                 tar -xvf ${INSTALL_PATH}/fonts/DankMono.tar -C ${HOME}/.local/share/fonts
                 tar -xvf ${INSTALL_PATH}/fonts/OperatorMono.tar -C ${HOME}/.local/share/fonts
