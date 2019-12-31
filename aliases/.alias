@@ -88,25 +88,28 @@ ${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh gem && [[ -f ${USER_CONFIGS_AL
 ####################
 # Applications
 ####################
-# ssh
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh ssh && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.ssh ]] && source ${USER_CONFIGS_ALIASES_PATH}/.ssh
+# chrome
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.chrome ]] && source ${USER_CONFIGS_ALIASES_PATH}/.chrome
+
+# httpie
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh http && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.httpie ]] && source ${USER_CONFIGS_ALIASES_PATH}/.httpie
+
+# hub
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh hub && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.hub ]] && source ${USER_CONFIGS_ALIASES_PATH}/.hub
 
 # k
 [[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k/k.plugin.zsh ]] && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.k ]] && source ${USER_CONFIGS_ALIASES_PATH}/.k
+
+# nmap
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh nmap && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.nmap ]] && source ${USER_CONFIGS_ALIASES_PATH}/.nmap
+
+# ssh
+${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh ssh && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.ssh ]] && source ${USER_CONFIGS_ALIASES_PATH}/.ssh
 
 # vim
 ${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh vim && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.vim ]] && source ${USER_CONFIGS_ALIASES_PATH}/.vim
 
 # vscode
 ${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh code && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.vscode ]] && source ${USER_CONFIGS_ALIASES_PATH}/.vscode
-
-# chrome
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.chrome ]] && source ${USER_CONFIGS_ALIASES_PATH}/.chrome
-
-# nmap
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh nmap && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.nmap ]] && source ${USER_CONFIGS_ALIASES_PATH}/.nmap
-
-# httpie
-${USER_CONFIGS_BASE_PATH}/scripts/is_installed.sh http && [[ -f ${USER_CONFIGS_ALIASES_PATH}/.httpie ]] && source ${USER_CONFIGS_ALIASES_PATH}/.httpie
 ####################
 ####################

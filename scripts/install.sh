@@ -109,22 +109,27 @@ mkdir -p ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/git-auto-status
 wget -O ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/git-auto-status/git-auto-status.plugin.zsh https://gist.githubusercontent.com/oshybystyi/475ee7768efc03727f21/raw/4bfd57ef277f5166f3070f11800548b95a501a19/git-auto-status.plugin.zsh
 
 echo '=> Installing system application configurations'
+find ${INSTALL_PATH}/aliases -type f -exec chmod 664 {} \;
+find ${INSTALL_PATH}/scripts -type f -exec chmod 755 {} \;
+find ${INSTALL_PATH}/tmux -type f -exec chmod 644 {} \;
+find ${INSTALL_PATH}/vim -type f -exec chmod 644 {} \;
+find ${INSTALL_PATH}/zsh -type f -exec chmod 644 {} \;
+
 rm -f ${HOME}/.bash_history
 rm -f ${HOME}/.bash_logout
 rm -f ${HOME}/.bashrc
 rm -f ${HOME}/.zshrc
 rm -f ${HOME}/.zshrc.pre-oh-my-zsh
-chmod 644 ${INSTALL_PATH}/zsh/.zshrc
 ln -s ${INSTALL_PATH}/zsh/.zshrc ${HOME}/.zshrc
 
 rm -f ${HOME}/.tmux.conf
-chmod 644 ${INSTALL_PATH}/tmux/.tmux.conf
 ln -s ${INSTALL_PATH}/tmux/.tmux.conf ${HOME}/.tmux.conf
+
+rm -f ${HOME}/.vimrc
+ln -s ${INSTALL_PATH}/vim/.vimrc ${HOME}/.vimrc
 
 rm -f ${HOME}/.fzf.bash
 rm -f ${HOME}/.fzf.zsh
-
-chmod 644 ${INSTALL_PATH}/aliases/.alias
 
 mkdir -p ${HOME}/.config/project-configs
 touch ${HOME}/.config/project-configs/.default
@@ -146,7 +151,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
 
     echo '=> Installing desktop applications'
     sudo apt install -y --no-install-recommends \
-        libegl1-mesa-dev
+        libegl1-mesa-dev snapd
 
     # @todo Chrome Installation
     # @body Automate the Chrome-Stable installation.
@@ -203,14 +208,16 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     echo '=> Installing desktop configurations'
     rm -f ${HOME}/.config/alacritty/alacritty.yml
     mkdir -p ${HOME}/.config/alacritty
+    find ${INSTALL_PATH}/alacritty -type f -exec chmod 644 {} \;
 
     if [ -d ${HOME}/.local/share/fonts/OperatorMono ]; then
-        chmod 644 ${INSTALL_PATH}/alacritty/alacritty.yml
         ln -s ${INSTALL_PATH}/alacritty/alacritty.yml ${HOME}/.config/alacritty/alacritty.yml
     else
-        chmod 644 ${INSTALL_PATH}/alacritty/alacritty-alt.yml
         ln -s ${INSTALL_PATH}/alacritty/alacritty-alt.yml ${HOME}/.config/alacritty/alacritty.yml
     fi
+
+    find ${INSTALL_PATH}/term -type f -exec chmod 644 {} \;
+    tic ${INSTALL_PATH}/term/xterm-256color-italic.terminfo
 
     echo -e '=> Install development applications? [Y/N] '
     read developmentConfirm
@@ -220,19 +227,27 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
         echo '=> Installing development applications'
         sudo apt install -y --no-install-recommends \
             wireshark meld make gcc build-essential \
-            cmake snapd
+            cmake
 
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
         echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>~/.zprofile
         eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
         brew install gcc
         brew install git-delta
+        brew install hub
 
         # @todo VS Code Installation
         # @body Automate the VS Code installation.
 
+        # @todo Bat Installation
+        # @body Automate the Bat installation.
+        # @body Source: https://github.com/sharkdp/bat
+
         rm -f ${HOME}/.gitconfig
+        find ${INSTALL_PATH}/git -type f -exec chmod 664 {} \;
         cp ${INSTALL_PATH}/git/.gitconfig ${HOME}/.gitconfig
+        echo "" >> ${HOME}/.gitconfig
+        echo "    excludesfile = ${INSTALL_PATH}/git/.gitignore_global" >> ${HOME}/.gitconfig
         echo "" >> ${HOME}/.gitconfig
         echo "[user]" >> ${HOME}/.gitconfig
         echo 'What is your Git name?'
@@ -241,9 +256,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
         echo 'What is your Git email?'
         read gitEmail
         echo "    email = $gitEmail" >> ${HOME}/.gitconfig
-
-        rm -f ${HOME}/.gitignore
-        ln -s ${INSTALL_PATH}/git/.gitignore ${HOME}/.gitignore
+        chmod 664 ${HOME}/.gitconfig
     fi
 
     echo -e '=> Install gaming applications? [Y/N] '

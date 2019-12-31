@@ -1,4 +1,6 @@
 # ssh aliases
+alias ssh='TERM=xterm-256color ssh'
+
 ssh_gen() {
 
     if [ -z ${2+x} ];

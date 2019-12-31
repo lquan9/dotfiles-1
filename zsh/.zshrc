@@ -1,5 +1,5 @@
 # Set default terminal
-export TERM="screen-256color"
+export TERM="xterm-256color-italic"
 
 # Save user-configs directory to environment variable  if not already set
 if [ -z "$USER_CONFIGS_BASE_PATH" ]; then
@@ -11,6 +11,7 @@ if [ -z "$USER_CONFIGS_BASE_PATH" ]; then
   [[ -d "${USER_CONFIGS_BASE_PATH}/fonts" ]] && export USER_CONFIGS_FONTS_PATH="${USER_CONFIGS_BASE_PATH}/fonts"
   [[ -d "${USER_CONFIGS_BASE_PATH}/git" ]] && export USER_CONFIGS_GIT_PATH="${USER_CONFIGS_BASE_PATH}/git"
   [[ -d "${USER_CONFIGS_BASE_PATH}/scripts" ]] && export USER_CONFIGS_SCRIPTS_PATH="${USER_CONFIGS_BASE_PATH}/scripts"
+  [[ -d "${USER_CONFIGS_BASE_PATH}/term" ]] && export USER_CONFIGS_TERM_PATH="${USER_CONFIGS_BASE_PATH}/term"
   [[ -d "${USER_CONFIGS_BASE_PATH}/tmux" ]] && export USER_CONFIGS_TMUX_PATH="${USER_CONFIGS_BASE_PATH}/tmux"
   [[ -d "${USER_CONFIGS_BASE_PATH}/zsh" ]] && export USER_CONFIGS_ZSH_PATH="${USER_CONFIGS_BASE_PATH}/zsh"
 fi
@@ -99,15 +100,18 @@ plugins=(
   z
   zsh-completions
   zsh-autosuggestions
-  zsh-syntax-highlighting
+# @todo Fix Zsh-Syntax-Highlighting Cursor Bug
+# @body Fix the zsh-syntax-highlighting bug that causes the cursor to disappear when it is over typed text.
+#  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
 
+[[ -f ${USER_CONFIGS_ALIASES_PATH}/.alias ]] && source ${USER_CONFIGS_ALIASES_PATH}/.alias
+
 # @todo Fix Project-Configs Algorithm
 # @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
 # Source necessary files
-[[ -f ${USER_CONFIGS_ALIASES_PATH}/.alias ]] && source ${USER_CONFIGS_ALIASES_PATH}/.alias
 for f in ${HOME}/.config/project-configs/.*; do source $f; done
 
 # Enable fuzzy auto-completions
@@ -132,10 +136,17 @@ setopt SHARE_HISTORY
 # Powerlevel10k Configuration
 [[ -f ${USER_CONFIGS_ZSH_PATH}/.p10k.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.p10k.zsh
 
-# FZF Configuration
-[[ -f ${USER_CONFIGS_ZSH_PATH}/.fzf.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.fzf.zsh
+# Brew Configuration
+${USER_CONFIGS_SCRIPTS_PATH}/is_installed.sh brew && [[ -f ${USER_CONFIGS_ZSH_PATH}/.brew.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.brew.zsh
 
-export PATH=$PATH:/home/andrew/.oh-my-zsh/plugins/z
+# Bat Configuration
+${USER_CONFIGS_SCRIPTS_PATH}/is_installed.sh bat && [[ -f ${USER_CONFIGS_ZSH_PATH}/.bat.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.bat.zsh
+
+# FZF Configuration
+${USER_CONFIGS_SCRIPTS_PATH}/is_installed.sh fzf && [[ -f ${USER_CONFIGS_ZSH_PATH}/.fzf.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.fzf.zsh
+
+# Forgit Configuration
+#[[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit/forgit.plugin.zsh ]] && [[ -f ${USER_CONFIGS_ZSH_PATH}/.forgit.zsh ]] && source ${USER_CONFIGS_ZSH_PATH}/.forgit.zsh
 
 # History Substring Search Configuration
 bindkey '^[[A' history-substring-search-up

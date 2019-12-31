@@ -1,6 +1,3 @@
-[core]
-    pager = delta --dark --theme="zenburn"
-
 [diff]
     tool = meld
 [difftool]
@@ -15,4 +12,11 @@
 
 [url "git@github.com:"]
     pushInsteadOf = git://github.com/
+    pushInsteadOf = http://github.com/
     pushInsteadOf = https://github.com/
+
+[hub]
+	protocol = https
+
+[core]
+    pager = delta --dark --theme="zenburn"
