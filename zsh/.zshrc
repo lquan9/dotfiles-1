@@ -11,7 +11,7 @@ if [ -z "$USER_CONFIGS_BASE_PATH" ]; then
 
   # Save user-configs sub-directories to environment variables if directory exists
   [[ -d "${USER_CONFIGS_BASE_PATH}/alacritty" ]] && export USER_CONFIGS_ALACRITTY_PATH="${USER_CONFIGS_BASE_PATH}/alacritty"
-  [[ -d "${USER_CONFIGS_BASE_PATH}/aliases" ]] && export USER_CONFIGS_ALIASES_PATH="${USER_CONFIGS_BASE_PATH}/aliases"
+  [[ -d "${USER_CONFIGS_BASE_PATH}/alias" ]] && export USER_CONFIGS_ALIAS_PATH="${USER_CONFIGS_BASE_PATH}/alias"
   [[ -d "${USER_CONFIGS_BASE_PATH}/fonts" ]] && export USER_CONFIGS_FONTS_PATH="${USER_CONFIGS_BASE_PATH}/fonts"
   [[ -d "${USER_CONFIGS_BASE_PATH}/git" ]] && export USER_CONFIGS_GIT_PATH="${USER_CONFIGS_BASE_PATH}/git"
   [[ -d "${USER_CONFIGS_BASE_PATH}/scripts" ]] && export USER_CONFIGS_SCRIPTS_PATH="${USER_CONFIGS_BASE_PATH}/scripts"
@@ -111,7 +111,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-[[ -f ${USER_CONFIGS_ALIASES_PATH}/.alias ]] && source ${USER_CONFIGS_ALIASES_PATH}/.alias
+[[ -f ${USER_CONFIGS_ALIAS_PATH}/.alias ]] && source ${USER_CONFIGS_ALIAS_PATH}/.alias
 
 # @todo Fix Project-Configs Algorithm
 # @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.

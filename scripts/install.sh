@@ -109,7 +109,7 @@ mkdir -p ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/git-auto-status
 wget -O ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/git-auto-status/git-auto-status.plugin.zsh https://gist.githubusercontent.com/oshybystyi/475ee7768efc03727f21/raw/4bfd57ef277f5166f3070f11800548b95a501a19/git-auto-status.plugin.zsh
 
 echo '=> Installing system application configurations'
-find ${INSTALL_PATH}/aliases -type f -exec chmod 664 {} \;
+find ${INSTALL_PATH}/alias -type f -exec chmod 664 {} \;
 find ${INSTALL_PATH}/scripts -type f -exec chmod 755 {} \;
 find ${INSTALL_PATH}/tmux -type f -exec chmod 644 {} \;
 find ${INSTALL_PATH}/vim -type f -exec chmod 644 {} \;
