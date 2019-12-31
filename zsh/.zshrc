@@ -1,5 +1,10 @@
 # Set default terminal
 export TERM="xterm-256color-italic"
+if [[ -f ${HOME}/.terminfo/x/xterm-256color-italic ]]; then
+  export TERM="xterm-256color-italic"
+else
+  export TERM="xterm-256color"
+fi
 
 # Save user-configs directory to environment variable  if not already set
 if [ -z "$USER_CONFIGS_BASE_PATH" ]; then
