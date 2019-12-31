@@ -1,5 +1,4 @@
 # Set default terminal
-export TERM="xterm-256color-italic"
 if [[ -f ${HOME}/.terminfo/x/xterm-256color-italic ]]; then
   export TERM="xterm-256color-italic"
 else
