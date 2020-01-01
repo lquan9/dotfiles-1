@@ -7,7 +7,6 @@ alias pkg_fix="sudo apt --fix-broken install"
 alias pkg_upgrade="sudo apt list --upgradeable"
 alias pkg_dependency="sudo apt install -f --no-install-recommends"
 alias pkg_name="apt-cache pkgnames | sort -bdf"
-#alias pkg_search="apt-cache search"
 
 pkg_list() {
     if [ "$1" != "" ]

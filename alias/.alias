@@ -50,8 +50,9 @@ alias cd..="cd .."
 alias cd....="cd ../.."
 alias cd/="cd /"
 
-alias la="ls -lAohp --color=always"
-alias lte="ls -lAohpt --color=always | awk 'NR != 1 && NR < 12'"
+alias l="ls -lhp --color=always"
+alias la="ls -lAhp --color=always"
+alias lta="ls -lAhpt --color=always | awk 'NR != 1 && NR < 12'"
 
 alias pa="ps -af"
 

@@ -80,11 +80,15 @@ echo '=> Installing system applications'
 sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux xclip \
     ack openssh-server cron httpie iputils-ping autojump \
-    python3-dev python3-pip python3-setuptools thefuck file
+    python3-dev python3-pip python3-setuptools thefuck \
+    file
+
 sudo pip3 install setuptools --upgrade
 sudo pip3 install thefuck --upgrade
+
 mkdir -p ${HOME}/.tmux/plugins/tpm
 git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
+
 git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
 ${HOME}/.fzf/install --all
 
