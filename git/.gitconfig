@@ -1,3 +1,6 @@
+[color]
+  ui = auto
+
 [diff]
     tool = meld
 [difftool]
@@ -5,18 +8,27 @@
 [difftool "meld"]
     cmd = meld "$LOCAL" "$REMOTE"
 
+[hub]
+	protocol = https
+
+[log]
+  date = iso
+
 [merge]
     tool = meld
 [mergetool "meld"]
     cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
+
+[push]
+  default = simple
 
 [url "git@github.com:"]
     pushInsteadOf = git://github.com/
     pushInsteadOf = http://github.com/
     pushInsteadOf = https://github.com/
 
-[hub]
-	protocol = https
+[web]
+  browser = google-chrome
 
 [core]
     whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
