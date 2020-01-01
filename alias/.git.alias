@@ -1,9 +1,8 @@
-# hub aliases
-alias git="hub"
+# git aliases
 
 # Source: https://gist.githubusercontent.com/oshybystyi/475ee7768efc03727f21/raw/4bfd57ef277f5166f3070f11800548b95a501a19/git-auto-status.plugin.zsh
 # default list of git commands `git status` is running after
-hubPreAutoStatusCommands=(
+gitPreAutoStatusCommands=(
     'add'
     'rm'
     'reset'
@@ -20,10 +19,10 @@ function elementInArray() {
   return 1
 }
 
-function hub() {
-    command hub $@
+function git() {
+    command git $@
 
-    if (elementInArray $1 $hubPreAutoStatusCommands); then
-        command hub status
+    if (elementInArray $1 $gitPreAutoStatusCommands); then
+        command git status
     fi
 }

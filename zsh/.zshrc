@@ -86,7 +86,6 @@ plugins=(
   fzf
   fzf-z
   git-auto-fetch
-  git-auto-status
   history-substring-search
   k
   nmap
