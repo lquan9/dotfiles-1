@@ -14,7 +14,7 @@ fi
 # Logins and Configs
 ####################
 alias src="exec ${SHELL}"
-alias cdd="cd ${DOTFILES_BASE_PATH}"
+alias cdd="cd ${DOTFILES_PATH}"
 
 # zshrc
 alias czsh="$EDITOR ${HOME}/.zshrc"
@@ -67,19 +67,19 @@ alias font_refresh="sudo fc-cache -f -v"
 # Package Managers
 ####################
 # apt
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh apt && [[ -f ${DOTFILES_ALIAS_PATH}/.apt.alias ]] && source ${DOTFILES_ALIAS_PATH}/.apt.alias
+${DOTFILES_PATH}/scripts/is_installed.sh apt && [[ -f ${DOTFILES_ALIAS_PATH}/.apt.alias ]] && source ${DOTFILES_ALIAS_PATH}/.apt.alias
 
 # dpkg
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh dpkg && [[ -f ${DOTFILES_ALIAS_PATH}/.dpkg.alias ]] && source ${DOTFILES_ALIAS_PATH}/.dpkg.alias
+${DOTFILES_PATH}/scripts/is_installed.sh dpkg && [[ -f ${DOTFILES_ALIAS_PATH}/.dpkg.alias ]] && source ${DOTFILES_ALIAS_PATH}/.dpkg.alias
 
 # pip
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh pip3 && [[ -f ${DOTFILES_ALIAS_PATH}/.pip.alias ]] && source ${DOTFILES_ALIAS_PATH}/.pip.alias
+${DOTFILES_PATH}/scripts/is_installed.sh pip3 && [[ -f ${DOTFILES_ALIAS_PATH}/.pip.alias ]] && source ${DOTFILES_ALIAS_PATH}/.pip.alias
 
 # brew
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh brew && [[ -f ${DOTFILES_ALIAS_PATH}/.brew.alias ]] && source ${DOTFILES_ALIAS_PATH}/.brew.alias
+${DOTFILES_PATH}/scripts/is_installed.sh brew && [[ -f ${DOTFILES_ALIAS_PATH}/.brew.alias ]] && source ${DOTFILES_ALIAS_PATH}/.brew.alias
 
 # gem
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh gem && [[ -f ${DOTFILES_ALIAS_PATH}/.gem.alias ]] && source ${DOTFILES_ALIAS_PATH}/.gem.alias
+${DOTFILES_PATH}/scripts/is_installed.sh gem && [[ -f ${DOTFILES_ALIAS_PATH}/.gem.alias ]] && source ${DOTFILES_ALIAS_PATH}/.gem.alias
 ####################
 ####################
 
@@ -89,27 +89,27 @@ ${DOTFILES_BASE_PATH}/scripts/is_installed.sh gem && [[ -f ${DOTFILES_ALIAS_PATH
 # Applications
 ####################
 # chrome
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${DOTFILES_ALIAS_PATH}/.chrome.alias ]] && source ${DOTFILES_ALIAS_PATH}/.chrome.alias
+${DOTFILES_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${DOTFILES_ALIAS_PATH}/.chrome.alias ]] && source ${DOTFILES_ALIAS_PATH}/.chrome.alias
 
 # httpie
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.httpie.alias ]] && source ${DOTFILES_ALIAS_PATH}/.httpie.alias
+${DOTFILES_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.httpie.alias ]] && source ${DOTFILES_ALIAS_PATH}/.httpie.alias
 
 # hub
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh hub && [[ -f ${DOTFILES_ALIAS_PATH}/.hub.alias ]] && source ${DOTFILES_ALIAS_PATH}/.hub.alias
+${DOTFILES_PATH}/scripts/is_installed.sh hub && [[ -f ${DOTFILES_ALIAS_PATH}/.hub.alias ]] && source ${DOTFILES_ALIAS_PATH}/.hub.alias
 
 # k
 [[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k/k.plugin.zsh ]] && [[ -f ${DOTFILES_ALIAS_PATH}/.k.alias ]] && source ${DOTFILES_ALIAS_PATH}/.k.alias
 
 # nmap
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh nmap && [[ -f ${DOTFILES_ALIAS_PATH}/.nmap.alias ]] && source ${DOTFILES_ALIAS_PATH}/.nmap.alias
+${DOTFILES_PATH}/scripts/is_installed.sh nmap && [[ -f ${DOTFILES_ALIAS_PATH}/.nmap.alias ]] && source ${DOTFILES_ALIAS_PATH}/.nmap.alias
 
 # ssh
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh ssh && [[ -f ${DOTFILES_ALIAS_PATH}/.ssh.alias ]] && source ${DOTFILES_ALIAS_PATH}/.ssh.alias
+${DOTFILES_PATH}/scripts/is_installed.sh ssh && [[ -f ${DOTFILES_ALIAS_PATH}/.ssh.alias ]] && source ${DOTFILES_ALIAS_PATH}/.ssh.alias
 
 # vim
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh vim && [[ -f ${DOTFILES_ALIAS_PATH}/.vim.alias ]] && source ${DOTFILES_ALIAS_PATH}/.vim.alias
+${DOTFILES_PATH}/scripts/is_installed.sh vim && [[ -f ${DOTFILES_ALIAS_PATH}/.vim.alias ]] && source ${DOTFILES_ALIAS_PATH}/.vim.alias
 
 # vscode
-${DOTFILES_BASE_PATH}/scripts/is_installed.sh code && [[ -f ${DOTFILES_ALIAS_PATH}/.vscode.alias ]] && source ${DOTFILES_ALIAS_PATH}/.vscode.alias
+${DOTFILES_PATH}/scripts/is_installed.sh code && [[ -f ${DOTFILES_ALIAS_PATH}/.vscode.alias ]] && source ${DOTFILES_ALIAS_PATH}/.vscode.alias
 ####################
 ####################

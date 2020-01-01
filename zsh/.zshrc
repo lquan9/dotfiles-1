@@ -5,19 +5,12 @@ else
   export TERM="xterm-256color"
 fi
 
-# Save dotfiles directory to environment variable  if not already set
-if [ -z "$DOTFILES_BASE_PATH" ]; then
-  export DOTFILES_BASE_PATH="$(cd $(dirname $(readlink -f ${HOME}/.zshrc))/.. && pwd)"
-
-  # Save dotfiles sub-directories to environment variables if directory exists
-  [[ -d "${DOTFILES_BASE_PATH}/alacritty" ]] && export DOTFILES_ALACRITTY_PATH="${DOTFILES_BASE_PATH}/alacritty"
-  [[ -d "${DOTFILES_BASE_PATH}/alias" ]] && export DOTFILES_ALIAS_PATH="${DOTFILES_BASE_PATH}/alias"
-  [[ -d "${DOTFILES_BASE_PATH}/fonts" ]] && export DOTFILES_FONTS_PATH="${DOTFILES_BASE_PATH}/fonts"
-  [[ -d "${DOTFILES_BASE_PATH}/git" ]] && export DOTFILES_GIT_PATH="${DOTFILES_BASE_PATH}/git"
-  [[ -d "${DOTFILES_BASE_PATH}/scripts" ]] && export DOTFILES_SCRIPTS_PATH="${DOTFILES_BASE_PATH}/scripts"
-  [[ -d "${DOTFILES_BASE_PATH}/term" ]] && export DOTFILES_TERM_PATH="${DOTFILES_BASE_PATH}/term"
-  [[ -d "${DOTFILES_BASE_PATH}/tmux" ]] && export DOTFILES_TMUX_PATH="${DOTFILES_BASE_PATH}/tmux"
-  [[ -d "${DOTFILES_BASE_PATH}/zsh" ]] && export DOTFILES_ZSH_PATH="${DOTFILES_BASE_PATH}/zsh"
+# Save dotfiles directories to environment variable if not already set
+if [[ -z "${DOTFILES_PATH}" ]]; then
+  paths_file="${HOME}/.dotfiles/zsh/.paths.zsh"
+  if [[ -f "${paths_file}" ]]; then
+    source ${paths_file}
+  fi
 fi
 
 # @todo Improve Tmux Session Algorithm
