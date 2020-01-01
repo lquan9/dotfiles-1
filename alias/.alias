@@ -45,14 +45,14 @@ alias ktmux="pkill -f tmux"
 # Common
 ####################
 # navigation
-alias e="exit"
 alias cd..="cd .."
 alias cd....="cd ../.."
 alias cd/="cd /"
 
 alias l="ls -lhp --color=always"
-alias la="ls -lAhp --color=always"
-alias lta="ls -lAhpt --color=always | awk 'NR != 1 && NR < 12'"
+alias la="ls -lhpA --color=always"
+alias lt="ls -lhpt --color=always | awk 'NR != 1 && NR < 12'"
+alias lta="ls -lhptA --color=always | awk 'NR != 1 && NR < 12'"
 
 alias pa="ps -af"
 
@@ -91,6 +91,9 @@ ${DOTFILES_PATH}/scripts/is_installed.sh gem && [[ -f ${DOTFILES_ALIAS_PATH}/.ge
 ####################
 # chrome
 ${DOTFILES_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${DOTFILES_ALIAS_PATH}/.chrome.alias ]] && source ${DOTFILES_ALIAS_PATH}/.chrome.alias
+
+# exa
+${DOTFILES_PATH}/scripts/is_installed.sh exa && [[ -f ${DOTFILES_ALIAS_PATH}/.exa.alias ]] && source ${DOTFILES_ALIAS_PATH}/.exa.alias
 
 # git
 ${DOTFILES_PATH}/scripts/is_installed.sh git && [[ -f ${DOTFILES_ALIAS_PATH}/.git.alias ]] && source ${DOTFILES_ALIAS_PATH}/.git.alias

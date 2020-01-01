@@ -100,6 +100,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 git clone https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k
 
 # Install Oh-My-Zsh Plugins
+git clone https://github.com/Tarrasch/zsh-bd.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd
 git clone https://github.com/wfxr/forgit.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit
 git clone https://github.com/andrewferrier/fzf-z.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z
 git clone https://github.com/supercrabtree/k.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k
@@ -234,6 +235,7 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
         brew install gcc
         brew install git-delta
         brew install hub
+        brew install exa
 
         # @todo VS Code Installation
         # @body Automate the VS Code installation.

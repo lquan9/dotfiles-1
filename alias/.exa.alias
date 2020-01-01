@@ -1,0 +1,5 @@
+# exa aliases
+alias e="exa --color=always --git --time-style=long-iso --git-ignore -l"
+alias ea="exa --color=always --git --time-style=long-iso -la"
+alias et="exa --color=always --git --time-style=long-iso --git-ignore --sort=newest -lr | awk 'NR < 11'"
+alias eta="exa --color=always --git --time-style=long-iso --sort=newest -lar | awk 'NR < 11'"
