@@ -54,36 +54,19 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# Prompt theme
 ZSH_THEME=powerlevel10k/powerlevel10k
 
-# Syntax Highlighter Configuration
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
+# Command history timestamp format
 HIST_STAMPS="yyyy-mm-dd"
 
-# @todo Revise Oh-My-Zsh Plugins
-# @body Speed up shell operation and startup by removing unnecessary plugins. Potentially creating my own aliases.
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(
   autoupdate
   bd
   colored-man-pages
   command-not-found
   extract
+  fast-syntax-highlighting
   forgit
   fzf
   fzf-z
@@ -98,17 +81,8 @@ plugins=(
   z
   zsh-completions
   zsh-autosuggestions
-  zsh-syntax-highlighting
 )
-
 source $ZSH/oh-my-zsh.sh
-
-[[ -f ${DOTFILES_ALIAS_PATH}/.alias ]] && source ${DOTFILES_ALIAS_PATH}/.alias
-
-# @todo Fix Project-Configs Algorithm
-# @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
-# Source necessary files
-for f in ${HOME}/.config/project-configs/.*; do source $f; done
 
 # Enable fuzzy auto-completions
 zstyle ':completion:*' matcher-list '' \
@@ -120,6 +94,7 @@ zstyle ':completion:*' matcher-list '' \
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
+# Keep command history trimmed
 setopt APPEND_HISTORY
 setopt EXTENDED_HISTORY
 setopt HIST_EXPIRE_DUPS_FIRST
@@ -130,7 +105,7 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # Powerlevel10k Configuration
-[[ -f ${DOTFILES_ZSH_PATH}/.p10k.zsh ]] && source ${DOTFILES_ZSH_PATH}/.p10k.zsh
+[[ -d ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k ]] && [[ -f ${DOTFILES_ZSH_PATH}/.p10k.zsh ]] && source ${DOTFILES_ZSH_PATH}/.p10k.zsh
 
 # Brew Configuration
 ${DOTFILES_SCRIPTS_PATH}/is_installed.sh brew && [[ -f ${DOTFILES_ZSH_PATH}/.brew.zsh ]] && source ${DOTFILES_ZSH_PATH}/.brew.zsh
@@ -145,11 +120,18 @@ ${DOTFILES_SCRIPTS_PATH}/is_installed.sh fzf && [[ -f ${DOTFILES_ZSH_PATH}/.fzf.
 #[[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit/forgit.plugin.zsh ]] && [[ -f ${DOTFILES_ZSH_PATH}/.forgit.zsh ]] && source ${DOTFILES_ZSH_PATH}/.forgit.zsh
 
 # History Substring Search Configuration
+# enable arrow keys up and down to go through matching command history
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # Zsh Autosuggest Configuration
+# extend suggestions beyond just previous command history
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
 
-# Zsh Syntax Highlighter Configuration
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+# User and Application Aliases
+[[ -f ${DOTFILES_ALIAS_PATH}/.alias ]] && source ${DOTFILES_ALIAS_PATH}/.alias
+
+# @todo Fix Project-Configs Algorithm
+# @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
+# Project Aliases
+for f in ${HOME}/.config/project-configs/.*; do source $f; done

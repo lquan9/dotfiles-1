@@ -96,13 +96,13 @@ ${DOTFILES_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${DOTFILES_ALIAS
 ${DOTFILES_PATH}/scripts/is_installed.sh exa && [[ -f ${DOTFILES_ALIAS_PATH}/.exa.alias ]] && source ${DOTFILES_ALIAS_PATH}/.exa.alias
 
 # git
-${DOTFILES_PATH}/scripts/is_installed.sh git && [[ -f ${DOTFILES_ALIAS_PATH}/.git.alias ]] && source ${DOTFILES_ALIAS_PATH}/.git.alias
+#${DOTFILES_PATH}/scripts/is_installed.sh git && [[ -f ${DOTFILES_ALIAS_PATH}/.git.alias ]] && source ${DOTFILES_ALIAS_PATH}/.git.alias
 
 # httpie
 ${DOTFILES_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.httpie.alias ]] && source ${DOTFILES_ALIAS_PATH}/.httpie.alias
 
 # hub
-${DOTFILES_PATH}/scripts/is_installed.sh hub && [[ -f ${DOTFILES_ALIAS_PATH}/.hub.alias ]] && source ${DOTFILES_ALIAS_PATH}/.hub.alias
+#${DOTFILES_PATH}/scripts/is_installed.sh hub && [[ -f ${DOTFILES_ALIAS_PATH}/.hub.alias ]] && source ${DOTFILES_ALIAS_PATH}/.hub.alias
 
 # k
 [[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k/k.plugin.zsh ]] && [[ -f ${DOTFILES_ALIAS_PATH}/.k.alias ]] && source ${DOTFILES_ALIAS_PATH}/.k.alias

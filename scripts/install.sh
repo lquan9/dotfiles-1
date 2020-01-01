@@ -101,12 +101,12 @@ git clone https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-${HOME}/.oh
 
 # Install Oh-My-Zsh Plugins
 git clone https://github.com/Tarrasch/zsh-bd.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd
+git clone https://github.com/zdharma/fast-syntax-highlighting.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 git clone https://github.com/wfxr/forgit.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit
 git clone https://github.com/andrewferrier/fzf-z.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z
 git clone https://github.com/supercrabtree/k.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k
 git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 echo '=> Installing system application configurations'
 find ${INSTALL_PATH}/alias -type f -exec chmod 664 {} \;
