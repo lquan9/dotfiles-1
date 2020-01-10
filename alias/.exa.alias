@@ -1,5 +1,51 @@
 # exa aliases
 alias e="exa --color=always --git --time-style=long-iso --git-ignore -l"
-alias ea="exa --color=always --git --time-style=long-iso -la"
+alias ea="e -a"
 alias et="exa --color=always --git --time-style=long-iso --git-ignore --sort=newest -lr | awk 'NR < 11'"
 alias eta="exa --color=always --git --time-style=long-iso --sort=newest -lar | awk 'NR < 11'"
+
+ef() {
+    if [ "$1" != "" ]
+    then
+        exa --color=always --git --time-style=long-iso --git-ignore -l -- *(.) | grep -i $1
+    else
+        exa --color=always --git --time-style=long-iso --git-ignore -l -- *(.)
+    fi
+}
+
+efa() {
+    if [ "$1" != "" ]
+    then
+        exa --color=always --git --time-style=long-iso --git-ignore -la -- *(D-.) | grep -i $1
+    else
+        exa --color=always --git --time-style=long-iso --git-ignore -la -- *(D-.)
+    fi
+}
+
+ed() {
+    if [ "$1" != "" ]
+    then
+        exa --color=always --git --time-style=long-iso --git-ignore -ld -- *(/) | grep -i $1
+    else
+        exa --color=always --git --time-style=long-iso --git-ignore -ld -- *(/)
+    fi
+}
+
+eda() {
+    if [ "$1" != "" ]
+    then
+        exa --color=always --git --time-style=long-iso --git-ignore -lad -- *(D-/) | grep -i $1
+    else
+        exa --color=always --git --time-style=long-iso --git-ignore -lad -- *(D-/)
+    fi
+}
+
+# override ls aliases
+alias l="e"
+alias la="ea"
+alias lt="et"
+alias lta="eta"
+alias lf="ef"
+alias lfa="efa"
+alias ld="ed"
+alias lda="eda"

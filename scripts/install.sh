@@ -20,8 +20,8 @@
 # @todo Improve Printed Text and Prompts
 # @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
 
-INITIAL_PATH=${pwd}
-INSTALL_PATH="${HOME}/.dotfiles"
+INITIAL_PATH="${PWD}"
+DOTFILES_PATH="${HOME}/.dotfiles"
 
 echo '------------------------------------------------------------------------'
 echo '   Prepare dotfiles repo'
@@ -32,13 +32,13 @@ echo '------------------------------------------------------------------------'
 echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
-if [[ -d ${INSTALL_PATH} ]]; then
+if [[ -d ${DOTFILES_PATH} ]]; then
     echo '=> Updating dotfiles repo'
-    (cd ${INSTALL_PATH}; git pull)
+    (cd ${DOTFILES_PATH}; git pull)
 else
     echo '=> Cloning dotfiles repo'
     cd ${HOME}
-    git clone https://github.com/AndrewDaws/dotfiles.git ${INSTALL_PATH}
+    git clone https://github.com/AndrewDaws/dotfiles.git ${DOTFILES_PATH}
 fi
 
 echo 'Done.'
@@ -51,7 +51,12 @@ echo '------------------------------------------------------------------------'
 echo '   Initial configuration'
 echo '------------------------------------------------------------------------'
 
-cd ${INSTALL_PATH}
+# Save dotfiles directories to environment variable if not already set
+paths_file="${HOME}/.dotfiles/zsh/.paths.zsh"
+if [[ -f "${paths_file}" ]]; then
+    source ${paths_file}
+fi
+cd ${DOTFILES_PATH}
 
 echo '=> Update repository information'
 sudo apt update -qq
@@ -75,20 +80,23 @@ echo '------------------------------------------------------------------------'
 #echo '=> Adding repositories'
 
 echo '=> Installing system applications'
-# @todo Fd-find Installation
-# @body Automate the Fd installation.
 sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux xclip \
-    ack openssh-server cron httpie iputils-ping autojump \
-    python3-dev python3-pip python3-setuptools thefuck \
-    file
+    ack openssh-server cron httpie iputils-ping file \
+    python3-dev python3-pip python3-setuptools thefuck
 
+# Install Pip Applications
 sudo pip3 install setuptools --upgrade
 sudo pip3 install thefuck --upgrade
 
+# Install Fd
+${DOTFILES_SCRIPTS_PATH}/install_fd.sh
+
+# Install Tmux Plugin Manager
 mkdir -p ${HOME}/.tmux/plugins/tpm
 git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 
+# Install Fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
 ${HOME}/.fzf/install --all
 
@@ -104,29 +112,28 @@ git clone https://github.com/Tarrasch/zsh-bd.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zs
 git clone https://github.com/zdharma/fast-syntax-highlighting.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 git clone https://github.com/wfxr/forgit.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit
 git clone https://github.com/andrewferrier/fzf-z.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z
-git clone https://github.com/supercrabtree/k.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k
 git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions
 
 echo '=> Installing system application configurations'
-find ${INSTALL_PATH}/alias -type f -exec chmod 664 {} \;
-find ${INSTALL_PATH}/scripts -type f -exec chmod 755 {} \;
-find ${INSTALL_PATH}/tmux -type f -exec chmod 644 {} \;
-find ${INSTALL_PATH}/vim -type f -exec chmod 644 {} \;
-find ${INSTALL_PATH}/zsh -type f -exec chmod 644 {} \;
+find ${DOTFILES_ALIAS_PATH} -type f -exec chmod 664 {} \;
+find ${DOTFILES_SCRIPTS_PATH} -type f -exec chmod 755 {} \;
+find ${DOTFILES_TMUX_PATH} -type f -exec chmod 644 {} \;
+find ${DOTFILES_VIM_PATH} -type f -exec chmod 644 {} \;
+find ${DOTFILES_ZSH_PATH} -type f -exec chmod 644 {} \;
 
 rm -f ${HOME}/.bash_history
 rm -f ${HOME}/.bash_logout
 rm -f ${HOME}/.bashrc
 rm -f ${HOME}/.zshrc
 rm -f ${HOME}/.zshrc.pre-oh-my-zsh
-ln -s ${INSTALL_PATH}/zsh/.zshrc ${HOME}/.zshrc
+ln -s ${DOTFILES_ZSH_PATH}/.zshrc ${HOME}/.zshrc
 
 rm -f ${HOME}/.tmux.conf
-ln -s ${INSTALL_PATH}/tmux/.tmux.conf ${HOME}/.tmux.conf
+ln -s ${DOTFILES_TMUX_PATH}/.tmux.conf ${HOME}/.tmux.conf
 
 rm -f ${HOME}/.vimrc
-ln -s ${INSTALL_PATH}/vim/.vimrc ${HOME}/.vimrc
+ln -s ${DOTFILES_VIM_PATH}/.vimrc ${HOME}/.vimrc
 
 rm -f ${HOME}/.fzf.bash
 rm -f ${HOME}/.fzf.zsh
@@ -138,34 +145,37 @@ echo 'Done.'
 
 
 
+if [ -z ${SSH_CLIENT+x} ]; then
 
-
-echo '------------------------------------------------------------------------'
-echo '   Configuring desktop applications'
-echo '------------------------------------------------------------------------'
-
-echo -e '=> Install desktop applications? [Y/N] '
-read desktopConfirm
-desktopConfirm=$(echo $desktopConfirm | tr '[:lower:]' '[:upper:]')
-if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
+    echo '------------------------------------------------------------------------'
+    echo '   Configuring desktop applications'
+    echo '------------------------------------------------------------------------'
 
     echo '=> Installing desktop applications'
     sudo apt install -y --no-install-recommends \
-        libegl1-mesa-dev snapd
+        libegl1-mesa-dev snapd cargo make cmake \
+        gcc build-essential meld
+    
+    # Install Alacritty
+    ${DOTFILES_SCRIPTS_PATH}/install_alacritty.sh
 
-    # @todo Chrome Installation
-    # @body Automate the Chrome-Stable installation.
+    # Install Chrome
+    ${DOTFILES_SCRIPTS_PATH}/install_chrome.sh
+
+    # Install Delta
+    ${DOTFILES_SCRIPTS_PATH}/install_delta.sh
+
+    # Install Cargo applications
+    cargo install exa
 
     # @todo File Manager Installation
     # @body Determine and automate a file manager (like Double Commander) installation.
 
-    cd ${HOME}
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    source ${HOME}/.cargo/env
-    git clone https://github.com/jwilm/alacritty.git
-    cd alacritty
-    cargo install cargo-deb
-    cargo deb --install --manifest-path alacritty/Cargo.toml
+    # @todo Hub Installation
+    # @body Determine a non-brew method to install Hub.
+
+    # @todo VS Code Installation
+    # @body Automate the VS Code installation.
 
     # @todo Trim Nerd-Fonts Installation
     # @body Cut down the Nerd-Fonts installation to just specific fonts so it isn't installing several GB worth.
@@ -196,8 +206,8 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
                 echo "=> Decrypting with key"
                 git-crypt unlock ${HOME}/.git-crypt/dotfiles.key
 
-                tar -xvf ${INSTALL_PATH}/fonts/DankMono.tar -C ${HOME}/.local/share/fonts
-                tar -xvf ${INSTALL_PATH}/fonts/OperatorMono.tar -C ${HOME}/.local/share/fonts
+                tar -xvf ${DOTFILES_FONTS_PATH}/DankMono.tar -C ${HOME}/.local/share/fonts
+                tar -xvf ${DOTFILES_FONTS_PATH}/OperatorMono.tar -C ${HOME}/.local/share/fonts
             else
                 echo "=> Key does not exist, skipping"
             fi
@@ -208,78 +218,31 @@ if [[ $desktopConfirm == 'YES' || $desktopConfirm == 'Y' ]]; then
     echo '=> Installing desktop configurations'
     rm -f ${HOME}/.config/alacritty/alacritty.yml
     mkdir -p ${HOME}/.config/alacritty
-    find ${INSTALL_PATH}/alacritty -type f -exec chmod 644 {} \;
+    find ${DOTFILES_ALACRITTY_PATH} -type f -exec chmod 644 {} \;
 
     if [ -d ${HOME}/.local/share/fonts/OperatorMono ]; then
-        ln -s ${INSTALL_PATH}/alacritty/alacritty.yml ${HOME}/.config/alacritty/alacritty.yml
+        ln -s ${DOTFILES_ALACRITTY_PATH}/alacritty.yml ${HOME}/.config/alacritty/alacritty.yml
     else
-        ln -s ${INSTALL_PATH}/alacritty/alacritty-alt.yml ${HOME}/.config/alacritty/alacritty.yml
+        ln -s ${DOTFILES_ALACRITTY_PATH}/alacritty-alt.yml ${HOME}/.config/alacritty/alacritty.yml
     fi
 
-    find ${INSTALL_PATH}/term -type f -exec chmod 644 {} \;
-    tic ${INSTALL_PATH}/term/xterm-256color-italic.terminfo
+    find ${DOTFILES_TERM_PATH} -type f -exec chmod 644 {} \;
+    tic ${DOTFILES_TERM_PATH}/xterm-256color-italic.terminfo
 
-    echo -e '=> Install development applications? [Y/N] '
-    read developmentConfirm
-    developmentConfirm=$(echo $developmentConfirm | tr '[:lower:]' '[:upper:]')
-    if [[ $developmentConfirm == 'YES' || $developmentConfirm == 'Y' ]]; then
-
-        echo '=> Installing development applications'
-        sudo apt install -y --no-install-recommends \
-            wireshark meld make gcc build-essential \
-            cmake
-
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-        echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>~/.zprofile
-        eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-        brew install gcc
-        brew install git-delta
-        brew install hub
-        brew install exa
-
-        # @todo VS Code Installation
-        # @body Automate the VS Code installation.
-
-        # @todo Bat Installation
-        # @body Automate the Bat installation.
-        # @body Source: https://github.com/sharkdp/bat
-
-        rm -f ${HOME}/.gitconfig
-        find ${INSTALL_PATH}/git -type f -exec chmod 664 {} \;
-        cp ${INSTALL_PATH}/git/.gitconfig ${HOME}/.gitconfig
-        echo "" >> ${HOME}/.gitconfig
-        echo "    excludesfile = ${INSTALL_PATH}/git/.gitignore_global" >> ${HOME}/.gitconfig
-        echo "" >> ${HOME}/.gitconfig
-        echo "[user]" >> ${HOME}/.gitconfig
-        echo 'What is your Git name?'
-        read gitName
-        echo "    name = $gitName" >> ${HOME}/.gitconfig
-        echo 'What is your Git email?'
-        read gitEmail
-        echo "    email = $gitEmail" >> ${HOME}/.gitconfig
-        chmod 664 ${HOME}/.gitconfig
-    fi
-
-    echo -e '=> Install gaming applications? [Y/N] '
-    read gamingConfirm
-    gamingConfirm=$(echo $gamingConfirm | tr '[:lower:]' '[:upper:]')
-    if [[ $gamingConfirm == 'YES' || $gamingConfirm == 'Y' ]]; then
-
-        echo '=> Installing gaming applications'
-        wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb
-        sudo dpkg -i steam.deb
-        rm -f steam.deb
-    fi
-
-    echo -e '=> Install photography applications? [Y/N] '
-    read photographyConfirm
-    photographyConfirm=$(echo $photographyConfirm | tr '[:lower:]' '[:upper:]')
-    if [[ $photographyConfirm == 'YES' || $photographyConfirm == 'Y' ]]; then
-
-        echo '=> Installing photography applications'
-        sudo apt install -y --no-install-recommends \
-            darktable
-    fi
+    rm -f ${HOME}/.gitconfig
+    find ${DOTFILES_GIT_PATH} -type f -exec chmod 664 {} \;
+    cp ${DOTFILES_GIT_PATH}/.gitconfig ${HOME}/.gitconfig
+    echo "" >> ${HOME}/.gitconfig
+    echo "    excludesfile = ${DOTFILES_GIT_PATH}/.gitignore_global" >> ${HOME}/.gitconfig
+    echo "" >> ${HOME}/.gitconfig
+    echo "[user]" >> ${HOME}/.gitconfig
+    echo 'What is your Git name?'
+    read gitName
+    echo "    name = $gitName" >> ${HOME}/.gitconfig
+    echo 'What is your Git email?'
+    read gitEmail
+    echo "    email = $gitEmail" >> ${HOME}/.gitconfig
+    chmod 664 ${HOME}/.gitconfig
 fi
 
 echo 'Done.'
@@ -310,7 +273,7 @@ sudo apt autoclean
 echo '=> Autoremoving & purging packages'
 sudo apt autoremove --purge -y
 
-if [[ $INITIAL_PATH != ${INSTALL_PATH}/scripts ]]; then
+if [[ $INITIAL_PATH != ${DOTFILES_SCRIPTS_PATH} ]]; then
     echo '=> Deleting temporary install script'
     rm -f $INITIAL_PATH/`basename "$0"`
 fi

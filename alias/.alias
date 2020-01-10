@@ -54,6 +54,44 @@ alias la="ls -lhpA --color=always"
 alias lt="ls -lhpt --color=always | awk 'NR != 1 && NR < 12'"
 alias lta="ls -lhptA --color=always | awk 'NR != 1 && NR < 12'"
 
+lf() {
+    if [ "$1" != "" ]
+    then
+        #ls -lhp --color=always $1 | grep -v '^d'
+        ls -lhp --color=always -- *(.) | grep -i $1
+    else
+        ls -lhp --color=always -- *(.)
+    fi
+}
+
+lfa() {
+    if [ "$1" != "" ]
+    then
+        #ls -lhpA --color=always $1 | grep -v '^d'
+        ls -lhpA --color=always -- *(D-.) | grep -i $1
+    else
+        ls -lhpA --color=always -- *(D-.)
+    fi
+}
+
+ld() {
+    if [ "$1" != "" ]
+    then
+        ls -lhpd --color=always -- *(/) | grep -i $1
+    else
+        ls -lhpd --color=always -- *(/)
+    fi
+}
+
+lda() {
+    if [ "$1" != "" ]
+    then
+        ls -lhpdA --color=always -- *(D-/) | grep -i $1
+    else
+        ls -lhpdA --color=always -- *(D-/)
+    fi
+}
+
 alias pa="ps -af"
 
 alias font_refresh="sudo fc-cache -f -v"
@@ -75,9 +113,6 @@ ${DOTFILES_PATH}/scripts/is_installed.sh dpkg && [[ -f ${DOTFILES_ALIAS_PATH}/.d
 
 # pip
 ${DOTFILES_PATH}/scripts/is_installed.sh pip3 && [[ -f ${DOTFILES_ALIAS_PATH}/.pip.alias ]] && source ${DOTFILES_ALIAS_PATH}/.pip.alias
-
-# brew
-${DOTFILES_PATH}/scripts/is_installed.sh brew && [[ -f ${DOTFILES_ALIAS_PATH}/.brew.alias ]] && source ${DOTFILES_ALIAS_PATH}/.brew.alias
 
 # gem
 ${DOTFILES_PATH}/scripts/is_installed.sh gem && [[ -f ${DOTFILES_ALIAS_PATH}/.gem.alias ]] && source ${DOTFILES_ALIAS_PATH}/.gem.alias
@@ -103,9 +138,6 @@ ${DOTFILES_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.h
 
 # hub
 #${DOTFILES_PATH}/scripts/is_installed.sh hub && [[ -f ${DOTFILES_ALIAS_PATH}/.hub.alias ]] && source ${DOTFILES_ALIAS_PATH}/.hub.alias
-
-# k
-[[ -f ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/k/k.plugin.zsh ]] && [[ -f ${DOTFILES_ALIAS_PATH}/.k.alias ]] && source ${DOTFILES_ALIAS_PATH}/.k.alias
 
 # nmap
 ${DOTFILES_PATH}/scripts/is_installed.sh nmap && [[ -f ${DOTFILES_ALIAS_PATH}/.nmap.alias ]] && source ${DOTFILES_ALIAS_PATH}/.nmap.alias

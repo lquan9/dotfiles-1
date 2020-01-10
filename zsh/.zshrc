@@ -72,7 +72,6 @@ plugins=(
   fzf-z
   git-auto-fetch
   history-substring-search
-  k
   nmap
   per-directory-history
   safe-paste
@@ -106,9 +105,6 @@ setopt SHARE_HISTORY
 
 # Powerlevel10k Configuration
 [[ -d ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k ]] && [[ -f ${DOTFILES_ZSH_PATH}/.p10k.zsh ]] && source ${DOTFILES_ZSH_PATH}/.p10k.zsh
-
-# Brew Configuration
-${DOTFILES_SCRIPTS_PATH}/is_installed.sh brew && [[ -f ${DOTFILES_ZSH_PATH}/.brew.zsh ]] && source ${DOTFILES_ZSH_PATH}/.brew.zsh
 
 # Bat Configuration
 ${DOTFILES_SCRIPTS_PATH}/is_installed.sh bat && [[ -f ${DOTFILES_ZSH_PATH}/.bat.zsh ]] && source ${DOTFILES_ZSH_PATH}/.bat.zsh
