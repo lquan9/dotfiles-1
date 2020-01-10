@@ -9,23 +9,21 @@ alias pkg_dependency="sudo apt install -f --no-install-recommends"
 alias pkg_name="apt-cache pkgnames | sort -bdf"
 
 pkg_list() {
-    if [ "$1" != "" ]
-    then
-        sudo apt list --installed | grep -i $1
+    if [[ -n "${1}" ]]; then
+        sudo apt list --installed | grep -i ${1}
     else
         sudo apt list --installed
     fi
 }
 
 pkg_list_all() {
-    if [ "$1" != "" ]
-    then
-        sudo apt list --installed -a | grep -i $1
+    if [[ -n "${1}" ]]; then
+        sudo apt list --installed -a | grep -i ${1}
     else
         sudo apt list --installed -a
     fi
 }
 
 pkg_search() {
-    apt-cache search $1 | grep -i $1
+    apt-cache search ${1} | grep -i ${1}
 }

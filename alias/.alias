@@ -2,8 +2,8 @@
 # Variables
 ####################
 # Save dotfiles alias directory to environment variable if not already set
-if [ -z "$DOTFILES_ALIAS_PATH" ]; then
-  export DOTFILES_ALIAS_PATH="$(dirname $(readlink -f $0))"
+if [[ -z "$DOTFILES_ALIAS_PATH" ]]; then
+  export DOTFILES_ALIAS_PATH="$(dirname $(readlink -f ${0}))"
 fi
 ####################
 ####################
@@ -55,38 +55,32 @@ alias lt="ls -lhpt --color=always | awk 'NR != 1 && NR < 12'"
 alias lta="ls -lhptA --color=always | awk 'NR != 1 && NR < 12'"
 
 lf() {
-    if [ "$1" != "" ]
-    then
-        #ls -lhp --color=always $1 | grep -v '^d'
-        ls -lhp --color=always -- *(.) | grep -i $1
+    if [[ -n "${1}" ]]; then
+        ls -lhp --color=always -- *(.) | grep -i ${1}
     else
         ls -lhp --color=always -- *(.)
     fi
 }
 
 lfa() {
-    if [ "$1" != "" ]
-    then
-        #ls -lhpA --color=always $1 | grep -v '^d'
-        ls -lhpA --color=always -- *(D-.) | grep -i $1
+    if [[ -n "${1}" ]]; then
+        ls -lhpA --color=always -- *(D-.) | grep -i ${1}
     else
         ls -lhpA --color=always -- *(D-.)
     fi
 }
 
 ld() {
-    if [ "$1" != "" ]
-    then
-        ls -lhpd --color=always -- *(/) | grep -i $1
+    if [[ -n "${1}" ]]; then
+        ls -lhpd --color=always -- *(/) | grep -i ${1}
     else
         ls -lhpd --color=always -- *(/)
     fi
 }
 
 lda() {
-    if [ "$1" != "" ]
-    then
-        ls -lhpdA --color=always -- *(D-/) | grep -i $1
+    if [[ -n "${1}" ]]; then
+        ls -lhpdA --color=always -- *(D-/) | grep -i ${1}
     else
         ls -lhpdA --color=always -- *(D-/)
     fi
@@ -106,16 +100,16 @@ alias font_refresh="sudo fc-cache -f -v"
 # Package Managers
 ####################
 # apt
-${DOTFILES_PATH}/scripts/is_installed.sh apt && [[ -f ${DOTFILES_ALIAS_PATH}/.apt.alias ]] && source ${DOTFILES_ALIAS_PATH}/.apt.alias
+${DOTFILES_PATH}/scripts/is_installed.sh apt && [[ -f ${DOTFILES_ALIAS_PATH}/.apt.alias ]] && source "${DOTFILES_ALIAS_PATH}/.apt.alias"
 
 # dpkg
-${DOTFILES_PATH}/scripts/is_installed.sh dpkg && [[ -f ${DOTFILES_ALIAS_PATH}/.dpkg.alias ]] && source ${DOTFILES_ALIAS_PATH}/.dpkg.alias
+${DOTFILES_PATH}/scripts/is_installed.sh dpkg && [[ -f ${DOTFILES_ALIAS_PATH}/.dpkg.alias ]] && source "${DOTFILES_ALIAS_PATH}/.dpkg.alias"
 
 # pip
-${DOTFILES_PATH}/scripts/is_installed.sh pip3 && [[ -f ${DOTFILES_ALIAS_PATH}/.pip.alias ]] && source ${DOTFILES_ALIAS_PATH}/.pip.alias
+${DOTFILES_PATH}/scripts/is_installed.sh pip3 && [[ -f ${DOTFILES_ALIAS_PATH}/.pip.alias ]] && source "${DOTFILES_ALIAS_PATH}/.pip.alias"
 
 # gem
-${DOTFILES_PATH}/scripts/is_installed.sh gem && [[ -f ${DOTFILES_ALIAS_PATH}/.gem.alias ]] && source ${DOTFILES_ALIAS_PATH}/.gem.alias
+${DOTFILES_PATH}/scripts/is_installed.sh gem && [[ -f ${DOTFILES_ALIAS_PATH}/.gem.alias ]] && source "${DOTFILES_ALIAS_PATH}/.gem.alias"
 ####################
 ####################
 
@@ -125,30 +119,30 @@ ${DOTFILES_PATH}/scripts/is_installed.sh gem && [[ -f ${DOTFILES_ALIAS_PATH}/.ge
 # Applications
 ####################
 # chrome
-${DOTFILES_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${DOTFILES_ALIAS_PATH}/.chrome.alias ]] && source ${DOTFILES_ALIAS_PATH}/.chrome.alias
+${DOTFILES_PATH}/scripts/is_installed.sh google-chrome && [[ -f ${DOTFILES_ALIAS_PATH}/.chrome.alias ]] && source "${DOTFILES_ALIAS_PATH}/.chrome.alias"
 
 # exa
-${DOTFILES_PATH}/scripts/is_installed.sh exa && [[ -f ${DOTFILES_ALIAS_PATH}/.exa.alias ]] && source ${DOTFILES_ALIAS_PATH}/.exa.alias
+${DOTFILES_PATH}/scripts/is_installed.sh exa && [[ -f ${DOTFILES_ALIAS_PATH}/.exa.alias ]] && source "${DOTFILES_ALIAS_PATH}/.exa.alias"
 
 # git
-#${DOTFILES_PATH}/scripts/is_installed.sh git && [[ -f ${DOTFILES_ALIAS_PATH}/.git.alias ]] && source ${DOTFILES_ALIAS_PATH}/.git.alias
+#${DOTFILES_PATH}/scripts/is_installed.sh git && [[ -f ${DOTFILES_ALIAS_PATH}/.git.alias ]] && source "${DOTFILES_ALIAS_PATH}/.git.alias"
 
 # httpie
-${DOTFILES_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.httpie.alias ]] && source ${DOTFILES_ALIAS_PATH}/.httpie.alias
+${DOTFILES_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.httpie.alias ]] && source "${DOTFILES_ALIAS_PATH}/.httpie.alias"
 
 # hub
-#${DOTFILES_PATH}/scripts/is_installed.sh hub && [[ -f ${DOTFILES_ALIAS_PATH}/.hub.alias ]] && source ${DOTFILES_ALIAS_PATH}/.hub.alias
+#${DOTFILES_PATH}/scripts/is_installed.sh hub && [[ -f ${DOTFILES_ALIAS_PATH}/.hub.alias ]] && source "${DOTFILES_ALIAS_PATH}/.hub.alias"
 
 # nmap
-${DOTFILES_PATH}/scripts/is_installed.sh nmap && [[ -f ${DOTFILES_ALIAS_PATH}/.nmap.alias ]] && source ${DOTFILES_ALIAS_PATH}/.nmap.alias
+${DOTFILES_PATH}/scripts/is_installed.sh nmap && [[ -f ${DOTFILES_ALIAS_PATH}/.nmap.alias ]] && source "${DOTFILES_ALIAS_PATH}/.nmap.alias"
 
 # ssh
-${DOTFILES_PATH}/scripts/is_installed.sh ssh && [[ -f ${DOTFILES_ALIAS_PATH}/.ssh.alias ]] && source ${DOTFILES_ALIAS_PATH}/.ssh.alias
+${DOTFILES_PATH}/scripts/is_installed.sh ssh && [[ -f ${DOTFILES_ALIAS_PATH}/.ssh.alias ]] && source "${DOTFILES_ALIAS_PATH}/.ssh.alias"
 
 # vim
-${DOTFILES_PATH}/scripts/is_installed.sh vim && [[ -f ${DOTFILES_ALIAS_PATH}/.vim.alias ]] && source ${DOTFILES_ALIAS_PATH}/.vim.alias
+${DOTFILES_PATH}/scripts/is_installed.sh vim && [[ -f ${DOTFILES_ALIAS_PATH}/.vim.alias ]] && source "${DOTFILES_ALIAS_PATH}/.vim.alias"
 
 # vscode
-${DOTFILES_PATH}/scripts/is_installed.sh code && [[ -f ${DOTFILES_ALIAS_PATH}/.vscode.alias ]] && source ${DOTFILES_ALIAS_PATH}/.vscode.alias
+${DOTFILES_PATH}/scripts/is_installed.sh code && [[ -f ${DOTFILES_ALIAS_PATH}/.vscode.alias ]] && source "${DOTFILES_ALIAS_PATH}/.vscode.alias"
 ####################
 ####################

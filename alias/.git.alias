@@ -15,14 +15,14 @@ gitPreAutoStatusCommands=(
 # taken from http://stackoverflow.com/a/8574392/4647743
 function elementInArray() {
   local e
-  for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
+  for e in "${@:2}"; do [[ "${e}" == "${1}" ]] && return 0; done
   return 1
 }
 
 function git() {
     command git $@
 
-    if (elementInArray $1 $gitPreAutoStatusCommands); then
+    if (elementInArray ${1} ${gitPreAutoStatusCommands}); then
         command git status
     fi
 }

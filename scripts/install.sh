@@ -20,7 +20,9 @@
 # @todo Improve Printed Text and Prompts
 # @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
 
-INITIAL_PATH="${PWD}"
+local script_name="$(basename "${0}")"
+local script_path="$(dirname "${0}")"
+
 DOTFILES_PATH="${HOME}/.dotfiles"
 
 echo '------------------------------------------------------------------------'
@@ -32,9 +34,10 @@ echo '------------------------------------------------------------------------'
 echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
-if [[ -d ${DOTFILES_PATH} ]]; then
+if [[ -d "${DOTFILES_PATH}" ]]; then
     echo '=> Updating dotfiles repo'
-    (cd ${DOTFILES_PATH}; git pull)
+    cd ${DOTFILES_PATH}
+    git pull
 else
     echo '=> Cloning dotfiles repo'
     cd ${HOME}
@@ -145,7 +148,7 @@ echo 'Done.'
 
 
 
-if [ -z ${SSH_CLIENT+x} ]; then
+if [[ -z "${SSH_CLIENT}" ]]; then
 
     echo '------------------------------------------------------------------------'
     echo '   Configuring desktop applications'
@@ -187,7 +190,7 @@ if [ -z ${SSH_CLIENT+x} ]; then
     # @body Poentially skip the Nerd-Fonts installation entirely if the user does have access to the encrypted fonts.
     echo -e '=> Do you have the key for the locked fonts? [Y/N] '
     read fontConfirm
-    fontConfirm=$(echo $fontConfirm | tr '[:lower:]' '[:upper:]')
+    local fontConfirm="$(echo $fontConfirm | tr '[:lower:]' '[:upper:]')"
     if [[ $fontConfirm == 'YES' || $fontConfirm == 'Y' ]]; then
 
         sudo apt install -y --no-install-recommends \
@@ -198,10 +201,10 @@ if [ -z ${SSH_CLIENT+x} ]; then
 
         echo -e '=> Decrypt locked fonts with ${HOME}/.git-crypt/dotfiles.key? [Y/N] '
         read decryptConfirm
-        decryptConfirm=$(echo $decryptConfirm | tr '[:lower:]' '[:upper:]')
+        local decryptConfirm="$(echo $decryptConfirm | tr '[:lower:]' '[:upper:]')"
         if [[ $decryptConfirm == 'YES' || $decryptConfirm == 'Y' ]]; then
 
-            if [ -f "${HOME}/.git-crypt/dotfiles.key" ]; then
+            if [[ -f "${HOME}/.git-crypt/dotfiles.key" ]]; then
 
                 echo "=> Decrypting with key"
                 git-crypt unlock ${HOME}/.git-crypt/dotfiles.key
@@ -220,7 +223,7 @@ if [ -z ${SSH_CLIENT+x} ]; then
     mkdir -p ${HOME}/.config/alacritty
     find ${DOTFILES_ALACRITTY_PATH} -type f -exec chmod 644 {} \;
 
-    if [ -d ${HOME}/.local/share/fonts/OperatorMono ]; then
+    if [[ -d ${HOME}/.local/share/fonts/OperatorMono ]]; then
         ln -s ${DOTFILES_ALACRITTY_PATH}/alacritty.yml ${HOME}/.config/alacritty/alacritty.yml
     else
         ln -s ${DOTFILES_ALACRITTY_PATH}/alacritty-alt.yml ${HOME}/.config/alacritty/alacritty.yml
@@ -273,9 +276,9 @@ sudo apt autoclean
 echo '=> Autoremoving & purging packages'
 sudo apt autoremove --purge -y
 
-if [[ $INITIAL_PATH != ${DOTFILES_SCRIPTS_PATH} ]]; then
+if [[ "${script_path}" != "${DOTFILES_SCRIPTS_PATH}" ]]; then
     echo '=> Deleting temporary install script'
-    rm -f $INITIAL_PATH/`basename "$0"`
+    rm -f ${script_path}/${script_name}
 fi
 
 echo '=> Changing shell'

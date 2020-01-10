@@ -1,24 +1,22 @@
 # dpkg aliases
-alias dinst="sudo dpkg -i"
-alias duninst="sudo dpkg -r"
-alias dpurg="sudo dpkg --purge"
+alias dpkg_install="sudo dpkg -i"
+alias dpkg_uninstall="sudo dpkg -r"
+alias dpkg_purge="sudo dpkg --purge"
 
-dlist() {
-    if [ "$1" != "" ]
-    then
+dpkg_list() {
+    if [[ -n "${1}" ]]; then
         echo Searching packages...
-        dpkg -l | awk -v pkg_var="^"$1 '$2 ~ pkg_var {print $2}'
+        dpkg -l | awk -v pkg_var="^"${1} '${2} ~ pkg_var {print ${2}}'
     else
         sudo dpkg -l
     fi
 }
 
-dpurglist() {
-    if [ "$1" != "" ]
-    then
+dpkg_list_purge() {
+    if [[ -n "${1}" ]]; then
         echo Purging packages...
-        dpkg -l | awk -v pkg_var="^"$1 '$2 ~ pkg_var {print $2}' | xargs sudo dpkg --purge
+        dpkg -l | awk -v pkg_var="^"${1} '${2} ~ pkg_var {print ${2}}' | xargs sudo dpkg --purge
     else
-        No packages provided
+        echo No packages provided
     fi
 }
