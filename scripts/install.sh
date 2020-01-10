@@ -14,9 +14,6 @@
 #   $ ./install.sh
 #
 
-# @todo Create Update Script
-# @body Create and update script or add an update flag to the installation script.
-
 # @todo Improve Printed Text and Prompts
 # @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
 
@@ -173,9 +170,6 @@ if [[ -z "${SSH_CLIENT}" ]]; then
 
     # @todo File Manager Installation
     # @body Determine and automate a file manager (like Double Commander) installation.
-
-    # @todo Hub Installation
-    # @body Determine a non-brew method to install Hub.
 
     # @todo VS Code Installation
     # @body Automate the VS Code installation.
