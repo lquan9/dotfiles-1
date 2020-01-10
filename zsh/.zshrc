@@ -132,3 +132,6 @@ ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
 for f in ${HOME}/.config/project-configs/.*; do 
   source "${f}"
 done
+
+# @todo Create Local Override Directory
+# @body Add a gitignore'd folder to contain local logins, aliases, and configurations that override those included in this dotfiles repo.
