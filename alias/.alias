@@ -18,24 +18,34 @@ alias cdd="cd ${DOTFILES_PATH}"
 
 # zshrc
 alias czsh="$EDITOR ${HOME}/.zshrc"
-alias szsh="source ${HOME}/.zshrc"
+alias szsh="source "${HOME}/.zshrc""
 
 # alias
 alias cali="$EDITOR ${DOTFILES_ALIAS_PATH}/alias"
-alias sali="source ${DOTFILES_ALIAS_PATH}/.alias"
+alias sali="source "${DOTFILES_ALIAS_PATH}/.alias""
 
 # oh-my-zsh
 alias cozsh="$EDITOR ${HOME}/.oh-my-zsh"
-alias sozsh="source ${HOME}/.oh-my-zsh"
+alias sozsh="source "${HOME}/.oh-my-zsh""
 
 # powerlevel10k
 alias cp10k="$EDITOR ${DOTFILES_ZSH_PATH}/.p10k.zsh"
-alias sp10k="source ${DOTFILES_ZSH_PATH}/.p10k.zsh"
+alias sp10k="source "${DOTFILES_ZSH_PATH}/.p10k.zsh""
 
 # tmux
 alias ctmux="$EDITOR ${HOME}/.tmux.conf"
-alias stmux="source ${HOME}/.tmux.conf"
+alias stmux="source "${HOME}/.tmux.conf""
 alias ktmux="pkill -f tmux"
+####################
+####################
+
+
+
+####################
+# Dotfiles
+####################
+alias dotfiles_link="${DOTFILES_SCRIPTS_PATH}/create_links.sh"
+alias dotfiles_permissions="find ${DOTFILES_SCRIPTS_PATH} -type f -exec chmod 755 {} \;"
 ####################
 ####################
 
@@ -255,11 +265,18 @@ ${DOTFILES_PATH}/scripts/is_installed.sh exa && [[ -f ${DOTFILES_ALIAS_PATH}/.ex
 # git
 #${DOTFILES_PATH}/scripts/is_installed.sh git && [[ -f ${DOTFILES_ALIAS_PATH}/.git.alias ]] && source "${DOTFILES_ALIAS_PATH}/.git.alias"
 
+# hexyl
+${DOTFILES_PATH}/scripts/is_installed.sh hexyl && [[ -f ${DOTFILES_ALIAS_PATH}/.hexyl.alias ]] && source "${DOTFILES_ALIAS_PATH}/.hexyl.alias"
+
 # httpie
 ${DOTFILES_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.httpie.alias ]] && source "${DOTFILES_ALIAS_PATH}/.httpie.alias"
 
 # hub
 #${DOTFILES_PATH}/scripts/is_installed.sh hub && [[ -f ${DOTFILES_ALIAS_PATH}/.hub.alias ]] && source "${DOTFILES_ALIAS_PATH}/.hub.alias"
+
+# hyperfine
+${DOTFILES_PATH}/scripts/is_installed.sh hyperfine && [[ -f ${DOTFILES_ALIAS_PATH}/.hyperfine.alias ]] && source "${DOTFILES_ALIAS_PATH}/.hyperfine.alias"
+
 
 # nmap
 ${DOTFILES_PATH}/scripts/is_installed.sh nmap && [[ -f ${DOTFILES_ALIAS_PATH}/.nmap.alias ]] && source "${DOTFILES_ALIAS_PATH}/.nmap.alias"
