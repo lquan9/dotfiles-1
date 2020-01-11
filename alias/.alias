@@ -49,41 +49,169 @@ alias cd..="cd .."
 alias cd....="cd ../.."
 alias cd/="cd /"
 
-alias l="ls -lhp --color=always"
-alias la="ls -lhpA --color=always"
-alias lt="ls -lhpt --color=always | awk 'NR != 1 && NR < 12'"
-alias lta="ls -lhptA --color=always | awk 'NR != 1 && NR < 12'"
+# set default flags
+alias ls="ls --color=always -h --si"
+
+unalias -m 'l'
+l() {
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -G -l -- "${1}" | sed '/total /d'
+    elif [[ -d "${1}" ]]; then
+      ls -G -l -- "${1}"/ | sed '/total /d'
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -G -ld -- "$(dirname "${1}")"/*"$(basename "${1}")"* | sed '/total /d'
+    else
+      ls -G -ld -- *"${1}"* | sed '/total /d'
+    fi
+  else
+    ls -G -l -- . | sed '/total /d'
+  fi
+}
+
+unalias -m 'la'
+la() {
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -G -lA -- "${1}" | sed '/total /d'
+    elif [[ -d "${1}" ]]; then
+      ls -G -lA -- "${1}"/ | sed '/total /d'
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -G -lAd -- "$(dirname "${1}")"/*"$(basename "${1}")"* | sed '/total /d'
+    else
+      ls -G -lAd -- *"${1}"* | sed '/total /d'
+    fi
+  else
+    ls -G -lA -- . | sed '/total /d'
+  fi
+}
+
+lg() {
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -l -- "${1}" | sed '/total /d'
+    elif [[ -d "${1}" ]]; then
+      ls -l -- "${1}"/ | sed '/total /d'
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -ld -- "$(dirname "${1}")"/*"$(basename "${1}")"* | sed '/total /d'
+    else
+      ls -ld -- *"${1}"* | sed '/total /d'
+    fi
+  else
+    ls -l -- . | sed '/total /d'
+  fi
+}
+
+lga() {
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -lA -- "${1}" | sed '/total /d'
+    elif [[ -d "${1}" ]]; then
+      ls -lA -- "${1}"/ | sed '/total /d'
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -lAd -- "$(dirname "${1}")"/*"$(basename "${1}")"* | sed '/total /d'
+    else
+      ls -lAd -- *"${1}"* | sed '/total /d'
+    fi
+  else
+    ls -lA -- . | sed '/total /d'
+  fi
+}
+
+lt() {
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -G -lt -- "${1}" | sed '/total /d' | head -10
+    elif [[ -d "${1}" ]]; then
+      ls -G -lt -- "${1}"/ | sed '/total /d' | head -10
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -G -ltd -- "$(dirname "${1}")"/*"$(basename "${1}")"* | sed '/total /d' | head -10
+    else
+      ls -G -ltd -- *"${1}"* | sed '/total /d' | head -10
+    fi
+  else
+    ls -G -lt -- . | sed '/total /d' | head -10
+  fi
+}
+
+lta() {
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -G -ltA -- "${1}" | sed '/total /d' | head -10
+    elif [[ -d "${1}" ]]; then
+      ls -G -ltA -- "${1}"/ | sed '/total /d' | head -10
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -G -ltAd -- "$(dirname "${1}")"/*"$(basename "${1}")"* | sed '/total /d' | head -10
+    else
+      ls -G -ltAd -- *"${1}"* | sed '/total /d' | head -10
+    fi
+  else
+    ls -G -ltA -- . | sed '/total /d' | head -10
+  fi
+}
 
 lf() {
-    if [[ -n "${1}" ]]; then
-        ls -lhp --color=always -- *(.) | grep -i ${1}
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -G -ld -- "${1}"*(-.)
+    elif [[ -d "${1}" ]]; then
+      ls -G -ld -- "${1}"/*(-.)
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -G -ld -- "$(dirname "${1}")"/*"$(basename "${1}")"*(-.)
     else
-        ls -lhp --color=always -- *(.)
+      ls -G -ld -- *"${1}"*(-.)
     fi
+  else
+    ls -G -l -- *(-.)
+  fi
 }
 
 lfa() {
-    if [[ -n "${1}" ]]; then
-        ls -lhpA --color=always -- *(D-.) | grep -i ${1}
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -G -ldA -- "${1}"*(D-.)
+    elif [[ -d "${1}" ]]; then
+      ls -G -ldA -- "${1}"/*(D-.)
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -G -ldA -- "$(dirname "${1}")"/*"$(basename "${1}")"*(D-.)
     else
-        ls -lhpA --color=always -- *(D-.)
+      ls -G -ldA -- *"${1}"*(D-.)
     fi
+  else
+    ls -G -lA -- *(D-.)
+  fi
 }
 
 ld() {
-    if [[ -n "${1}" ]]; then
-        ls -lhpd --color=always -- *(/) | grep -i ${1}
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -G -ld -- "${1}"*(-/)
+    elif [[ -d "${1}" ]]; then
+      ls -G -ld -- "${1}"/*(-/)
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -G -ld -- "$(dirname "${1}")"/*"$(basename "${1}")"*(-/)
     else
-        ls -lhpd --color=always -- *(/)
+      ls -G -ld -- *"${1}"*(-/)
     fi
+  else
+    ls -G -ld -- *(-/)
+  fi
 }
 
 lda() {
-    if [[ -n "${1}" ]]; then
-        ls -lhpdA --color=always -- *(D-/) | grep -i ${1}
+  if [[ -n "${1}" ]]; then
+    if [[ "${1: -1}" == "/" ]]; then
+      ls -G -ldA -- "${1}"*(D-/)
+    elif [[ -d "${1}" ]]; then
+      ls -G -ldA -- "${1}"/*(D-/)
+    elif [[ "${1}" =~ "/" ]]; then
+      ls -G -ldA -- "$(dirname "${1}")"/*"$(basename "${1}")"*(D-/)
     else
-        ls -lhpdA --color=always -- *(D-/)
+      ls -G -ldA -- *"${1}"*(D-/)
     fi
+  else
+    ls -G -ldA -- *(D-/)
+  fi
 }
 
 alias pa="ps -af"
