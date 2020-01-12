@@ -265,9 +265,6 @@ ${DOTFILES_PATH}/scripts/is_installed.sh exa && [[ -f ${DOTFILES_ALIAS_PATH}/.ex
 # git
 #${DOTFILES_PATH}/scripts/is_installed.sh git && [[ -f ${DOTFILES_ALIAS_PATH}/.git.alias ]] && source "${DOTFILES_ALIAS_PATH}/.git.alias"
 
-# hexyl
-${DOTFILES_PATH}/scripts/is_installed.sh hexyl && [[ -f ${DOTFILES_ALIAS_PATH}/.hexyl.alias ]] && source "${DOTFILES_ALIAS_PATH}/.hexyl.alias"
-
 # httpie
 ${DOTFILES_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.httpie.alias ]] && source "${DOTFILES_ALIAS_PATH}/.httpie.alias"
 
@@ -276,7 +273,6 @@ ${DOTFILES_PATH}/scripts/is_installed.sh http && [[ -f ${DOTFILES_ALIAS_PATH}/.h
 
 # hyperfine
 ${DOTFILES_PATH}/scripts/is_installed.sh hyperfine && [[ -f ${DOTFILES_ALIAS_PATH}/.hyperfine.alias ]] && source "${DOTFILES_ALIAS_PATH}/.hyperfine.alias"
-
 
 # nmap
 ${DOTFILES_PATH}/scripts/is_installed.sh nmap && [[ -f ${DOTFILES_ALIAS_PATH}/.nmap.alias ]] && source "${DOTFILES_ALIAS_PATH}/.nmap.alias"

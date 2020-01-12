@@ -168,9 +168,6 @@ if [[ -z "${SSH_CLIENT}" ]]; then
     # Install Delta
     ${DOTFILES_SCRIPTS_PATH}/install_delta.sh
 
-    # Install Hexyl
-    ${DOTFILES_SCRIPTS_PATH}/install_hexyl.sh
-
     # Install Hyperfine
     ${DOTFILES_SCRIPTS_PATH}/install_hyperfine.sh
 
