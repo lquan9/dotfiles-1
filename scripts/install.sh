@@ -158,7 +158,7 @@ if [[ -z "${SSH_CLIENT}" ]]; then
     sudo apt install -y --no-install-recommends \
         libegl1-mesa-dev snapd cargo make cmake \
         gcc build-essential meld
-    
+
     # Install Alacritty
     ${DOTFILES_SCRIPTS_PATH}/install_alacritty.sh
 
@@ -235,20 +235,8 @@ if [[ -z "${SSH_CLIENT}" ]]; then
     find ${DOTFILES_TERM_PATH} -type f -exec chmod 644 {} \;
     tic ${DOTFILES_TERM_PATH}/xterm-256color-italic.terminfo
 
-    rm -f ${HOME}/.gitconfig
-    find ${DOTFILES_GIT_PATH} -type f -exec chmod 664 {} \;
-    cp ${DOTFILES_GIT_PATH}/.gitconfig ${HOME}/.gitconfig
-    echo "" >> ${HOME}/.gitconfig
-    echo "    excludesfile = ${DOTFILES_GIT_PATH}/.gitignore_global" >> ${HOME}/.gitconfig
-    echo "" >> ${HOME}/.gitconfig
-    echo "[user]" >> ${HOME}/.gitconfig
-    echo 'What is your Git name?'
-    read gitName
-    echo "    name = $gitName" >> ${HOME}/.gitconfig
-    echo 'What is your Git email?'
-    read gitEmail
-    echo "    email = $gitEmail" >> ${HOME}/.gitconfig
-    chmod 664 ${HOME}/.gitconfig
+    # Create Global Git Config
+    ${DOTFILES_SCRIPTS_PATH}/create_gitconfig.sh
 fi
 
 echo 'Done.'
