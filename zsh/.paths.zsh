@@ -2,7 +2,7 @@
 script_name="$(basename "${0}")"
 script_path="$(dirname "${0}")"
 
-local dotfiles_path="${HOME}/.dotfiles"
+dotfiles_path="${HOME}/.dotfiles"
 if [[ -d "${dotfiles_path}" ]]; then
     # Save dotfiles directory to environment variables if directory exists
     export DOTFILES_PATH="${dotfiles_path}"

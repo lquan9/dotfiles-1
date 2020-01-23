@@ -7,7 +7,7 @@ fi
 
 # Save dotfiles directories to environment variable if not already set
 if [[ -z "${DOTFILES_PATH}" ]]; then
-  local paths_file="${HOME}/.dotfiles/zsh/.paths.zsh"
+  paths_file="${HOME}/.dotfiles/zsh/.paths.zsh"
   if [[ -f "${paths_file}" ]]; then
     source "${paths_file}"
   fi
@@ -20,25 +20,25 @@ if [[ -z "${SSH_CLIENT}" ]]; then
   # Check if current shell session is in a tmux process
   if [[ -z "${TMUX}" ]]; then
     # Create a new session if it does not exist
-    local base_session="${USER}"
-    $(tmux has-session -t ${base_session}"-1") || tmux new-session -d -s ${base_session}"-1" \; set-window-option -g aggressive-resize
+    base_session="${USER}"
+    tmux has-session -t "${base_session}""-1" || tmux new-session -d -s "${base_session}""-1" \; set-window-option -g aggressive-resize
 
     # Check if clients are connected to session
-    local client_cnt="$(tmux list-clients | wc -l)"
-    if [[ ${client_cnt} -ge 1 ]]; then
+    client_cnt="$(tmux list-clients | wc -l)"
+    if [[ "${client_cnt}" -ge 1 ]]; then
       # Find unused client id
-      local count="1"
-      while [[ -n "$(tmux list-clients | grep ${base_session}"-"${count})" ]]; do
-        local count="$((count+1))"
+      count="1"
+      while [[ -n "$(tmux list-clients | grep "${base_session}""-""${count}")" ]]; do
+        count="$((count+1))"
       done
-      local session_name=""${base_session}"-"${count}""
+      session_name="${base_session}""-""${count}"
 
       # Attach to current session as new client
-      tmux new-session -d -t ${base_session}"-1" -s ${session_name}
-      tmux -2 attach-session -t ${session_name} \; set-option destroy-unattached \; set-window-option -g aggressive-resize \; new-window; exit
+      tmux new-session -d -t "${base_session}""-1" -s "${session_name}"
+      tmux -2 attach-session -t "${session_name}" \; set-option destroy-unattached \; set-window-option -g aggressive-resize \; new-window; exit
     else
       # Attach to pre-existing session as previous client
-      tmux -2 attach-session -t ${base_session}"-1" \; set-window-option -g aggressive-resize; exit
+      tmux -2 attach-session -t "${base_session}""-1" \; set-window-option -g aggressive-resize; exit
     fi
   fi
 fi
@@ -106,10 +106,10 @@ setopt SHARE_HISTORY
 [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" ]] && [[ -f "${HOME}/.p10k.zsh" ]] && source "${HOME}/.p10k.zsh"
 
 # Bat Configuration
-${DOTFILES_SCRIPTS_PATH}/is_installed.sh bat && [[ -f "${DOTFILES_ZSH_PATH}/.bat.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.bat.zsh"
+"${DOTFILES_SCRIPTS_PATH}"/is_installed.sh bat && [[ -f "${DOTFILES_ZSH_PATH}/.bat.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.bat.zsh"
 
 # FZF Configuration
-${DOTFILES_SCRIPTS_PATH}/is_installed.sh fzf && [[ -f "${DOTFILES_ZSH_PATH}/.fzf.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.fzf.zsh"
+"${DOTFILES_SCRIPTS_PATH}"/is_installed.sh fzf && [[ -f "${DOTFILES_ZSH_PATH}/.fzf.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.fzf.zsh"
 
 # Forgit Configuration
 #[[ -f "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit/forgit.plugin.zsh" ]] && [[ -f "${DOTFILES_ZSH_PATH}/.forgit.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.forgit.zsh"
