@@ -1,11 +1,11 @@
 #!/bin/bash
 # Creates sym-links to dotfiles stored in the repo.
-local script_name="$(basename "${0}")"
-local script_path="$(dirname "${0}")"
+script_name="$(basename "${0}")"
+script_path="$(dirname "${0}")"
 
 # Save dotfiles directories to environment variable if not already set
 if [[ -z "${DOTFILES_PATH}" ]]; then
-    local paths_file="${HOME}/.dotfiles/zsh/.paths.zsh"
+    paths_file="${HOME}/.dotfiles/zsh/.paths.zsh"
     if [[ -f "${paths_file}" ]]; then
         source "${paths_file}"
     else
@@ -24,6 +24,15 @@ if [[ -n "${DOTFILES_ZSH_PATH}" ]]; then
     echo "Linked: ${HOME}/.zshrc -> ${DOTFILES_ZSH_PATH}/.zshrc"
 else
     echo "Skipped ${HOME}/.zshrc"
+fi
+
+if [[ -n "${DOTFILES_ZSH_PATH}" ]]; then
+    chmod 644 ${DOTFILES_ZSH_PATH}/.p10k.zsh
+    rm -f ${HOME}/.p10k.zsh
+    ln -s ${DOTFILES_ZSH_PATH}/.p10k.zsh ${HOME}/.p10k.zsh
+    echo "Linked: ${HOME}/.p10k.zsh -> ${DOTFILES_ZSH_PATH}/.p10k.zsh"
+else
+    echo "Skipped ${HOME}/.p10k.zsh"
 fi
 
 if [[ -n "${DOTFILES_TMUX_PATH}" ]]; then

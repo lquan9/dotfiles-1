@@ -103,7 +103,7 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # Powerlevel10k Configuration
-[[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" ]] && [[ -f "${DOTFILES_ZSH_PATH}/.p10k.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.p10k.zsh"
+[[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" ]] && [[ -f "${HOME}/.p10k.zsh" ]] && source "${HOME}/.p10k.zsh"
 
 # Bat Configuration
 ${DOTFILES_SCRIPTS_PATH}/is_installed.sh bat && [[ -f "${DOTFILES_ZSH_PATH}/.bat.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.bat.zsh"

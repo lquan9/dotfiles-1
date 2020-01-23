@@ -20,8 +20,8 @@
 # @todo Improve Printed Text and Prompts
 # @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
 
-local script_name="$(basename "${0}")"
-local script_path="$(dirname "${0}")"
+script_name="$(basename "${0}")"
+script_path="$(dirname "${0}")"
 
 DOTFILES_PATH="${HOME}/.dotfiles"
 
@@ -193,7 +193,7 @@ if [[ -z "${SSH_CLIENT}" ]]; then
     # @body Poentially skip the Nerd-Fonts installation entirely if the user does have access to the encrypted fonts.
     echo -e '=> Do you have the key for the locked fonts? [Y/N] '
     read fontConfirm
-    local fontConfirm="$(echo $fontConfirm | tr '[:lower:]' '[:upper:]')"
+    fontConfirm="$(echo $fontConfirm | tr '[:lower:]' '[:upper:]')"
     if [[ $fontConfirm == 'YES' || $fontConfirm == 'Y' ]]; then
 
         sudo apt install -y --no-install-recommends \
@@ -204,7 +204,7 @@ if [[ -z "${SSH_CLIENT}" ]]; then
 
         echo -e '=> Decrypt locked fonts with ${HOME}/.git-crypt/dotfiles.key? [Y/N] '
         read decryptConfirm
-        local decryptConfirm="$(echo $decryptConfirm | tr '[:lower:]' '[:upper:]')"
+        decryptConfirm="$(echo $decryptConfirm | tr '[:lower:]' '[:upper:]')"
         if [[ $decryptConfirm == 'YES' || $decryptConfirm == 'Y' ]]; then
 
             if [[ -f "${HOME}/.git-crypt/dotfiles.key" ]]; then
