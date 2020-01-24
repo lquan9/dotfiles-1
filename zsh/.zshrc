@@ -46,8 +46,8 @@ fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block, everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+if [[ -r "${XDG_CACHE_HOME:-${HOME}/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-${HOME}/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # Path to your oh-my-zsh installation.
@@ -106,10 +106,10 @@ setopt SHARE_HISTORY
 [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" ]] && [[ -f "${HOME}/.p10k.zsh" ]] && source "${HOME}/.p10k.zsh"
 
 # Bat Configuration
-"${DOTFILES_SCRIPTS_PATH}"/is_installed.sh bat && [[ -f "${DOTFILES_ZSH_PATH}/.bat.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.bat.zsh"
+"${DOTFILES_SCRIPTS_PATH}/is_installed.sh" bat && [[ -f "${DOTFILES_ZSH_PATH}/.bat.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.bat.zsh"
 
 # FZF Configuration
-"${DOTFILES_SCRIPTS_PATH}"/is_installed.sh fzf && [[ -f "${DOTFILES_ZSH_PATH}/.fzf.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.fzf.zsh"
+"${DOTFILES_SCRIPTS_PATH}/is_installed.sh" fzf && [[ -f "${DOTFILES_ZSH_PATH}/.fzf.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.fzf.zsh"
 
 # Forgit Configuration
 #[[ -f "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit/forgit.plugin.zsh" ]] && [[ -f "${DOTFILES_ZSH_PATH}/.forgit.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.forgit.zsh"
@@ -129,7 +129,7 @@ ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
 # @todo Fix Project-Configs Algorithm
 # @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
 # Project Aliases
-for f in ${HOME}/.config/project-configs/.*; do 
+for f in "${HOME}/.config/project-configs/".*; do 
   source "${f}"
 done
 

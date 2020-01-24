@@ -1,7 +1,7 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == *${HOME}/.fzf/bin* ]]; then
-  export PATH="$PATH:${HOME}/.fzf/bin"
+if [[ ! "${PATH}" == *"${HOME}/.fzf/bin"* ]]; then
+  export PATH="${PATH}:${HOME}/.fzf/bin"
 fi
 
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'

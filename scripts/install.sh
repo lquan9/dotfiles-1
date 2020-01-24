@@ -20,9 +20,6 @@
 # @todo Improve Printed Text and Prompts
 # @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
 
-# @todo Pre-Existing Git Repo Logic
-# @body Check if all git repos already exist. If so, perform a pull instead of attempting to clone.
-
 script_name="$(basename "${0}")"
 script_path="$(dirname "${0}")"
 
@@ -93,30 +90,96 @@ sudo pip3 install setuptools --upgrade
 sudo pip3 install thefuck --upgrade
 
 # Install Fd
-"${DOTFILES_SCRIPTS_PATH}"/install_fd.sh
+"${DOTFILES_SCRIPTS_PATH}/is_installed.sh" fd || "${DOTFILES_SCRIPTS_PATH}/install_fd.sh"
 
 # Install Tmux Plugin Manager
-mkdir -p "${HOME}"/.tmux/plugins/tpm
-git clone https://github.com/tmux-plugins/tpm "${HOME}"/.tmux/plugins/tpm
+if [[ -d "${HOME}/.tmux/plugins/tpm" ]]; then
+    echo '=> Updating Tmux Plugin Manager repo'
+    git -C "${HOME}/.tmux/plugins/tpm" pull
+else
+    echo '=> Cloning Tmux Plugin Manager repo'
+    mkdir -p "${HOME}/.tmux/plugins/tpm"
+    git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+fi
+
 
 # Install Fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}"/.fzf
-"${HOME}"/.fzf/install --all
+if [[ -d "${HOME}/.fzf" ]]; then
+    echo '=> Updating fzf repo'
+    git -C "${HOME}/.fzf" pull
+else
+    echo '=> Cloning fzf repo'
+    git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}/.fzf"
+fi
+"${HOME}/.fzf/install" --bin
 
 echo '=> Installing system shell'
 # Install Oh-My-Zsh Framework
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+if [[ -d "${HOME}/.oh-my-zsh" ]]; then
+    echo '=> Updating Oh-My-Zsh repo'
+    git -C "${HOME}/.oh-my-zsh" pull
+else
+    echo '=> Installing Oh-My-Zsh'
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+fi
 
 # Install Oh-My-Zsh Theme
-git clone https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/themes/powerlevel10k
+if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" ]]; then
+    echo '=> Updating Powerlevel10k repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" pull
+else
+    echo '=> Cloning Powerlevel10k repo'
+    git clone https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k"
+fi
 
 # Install Oh-My-Zsh Plugins
-git clone https://github.com/Tarrasch/zsh-bd.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/bd
-git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/fast-syntax-highlighting
-git clone https://github.com/wfxr/forgit.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/forgit
-git clone https://github.com/andrewferrier/fzf-z.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/fzf-z
-git clone https://github.com/zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-completions.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"/plugins/zsh-completions
+if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd" ]]; then
+    echo '=> Updating bd repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd" pull
+else
+    echo '=> Cloning bd repo'
+    git clone https://github.com/Tarrasch/zsh-bd.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd"
+fi
+
+if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" ]]; then
+    echo '=> Updating fast-syntax-highlighting repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" pull
+else
+    echo '=> Cloning fast-syntax-highlighting repo'
+    git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting"
+fi
+
+if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit" ]]; then
+    echo '=> Updating forgit repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit" pull
+else
+    echo '=> Cloning forgit repo'
+    git clone https://github.com/wfxr/forgit.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit"
+fi
+
+if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z" ]]; then
+    echo '=> Updating fzf-z repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z" pull
+else
+    echo '=> Cloning fzf-z repo'
+    git clone https://github.com/andrewferrier/fzf-z.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z"
+fi
+
+if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]]; then
+    echo '=> Updating zsh-autosuggestions repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" pull
+else
+    echo '=> Cloning zsh-autosuggestions repo'
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+fi
+
+if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions" ]]; then
+    echo '=> Updating zsh-completions repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions" pull
+else
+    echo '=> Cloning zsh-completions repo'
+    git clone https://github.com/zsh-users/zsh-completions.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions"
+fi
 
 echo '=> Installing system application configurations'
 find "${DOTFILES_ALIAS_PATH}" -type f -exec chmod 664 {} \;
@@ -125,24 +188,24 @@ find "${DOTFILES_TMUX_PATH}" -type f -exec chmod 644 {} \;
 find "${DOTFILES_VIM_PATH}" -type f -exec chmod 644 {} \;
 find "${DOTFILES_ZSH_PATH}" -type f -exec chmod 644 {} \;
 
-rm -f "${HOME}"/.bash_history
-rm -f "${HOME}"/.bash_logout
-rm -f "${HOME}"/.bashrc
-rm -f "${HOME}"/.zshrc
-rm -f "${HOME}"/.zshrc.pre-oh-my-zsh
-ln -s "${DOTFILES_ZSH_PATH}"/.zshrc "${HOME}"/.zshrc
+rm -f "${HOME}/.bash_history"
+rm -f "${HOME}/.bash_logout"
+rm -f "${HOME}/.bashrc"
+rm -f "${HOME}/.zshrc"
+rm -f "${HOME}/.zshrc.pre-oh-my-zsh"
+ln -s "${DOTFILES_ZSH_PATH}/.zshrc" "${HOME}/.zshrc"
 
-rm -f "${HOME}"/.tmux.conf
-ln -s "${DOTFILES_TMUX_PATH}"/.tmux.conf "${HOME}"/.tmux.conf
+rm -f "${HOME}/.tmux.conf"
+ln -s "${DOTFILES_TMUX_PATH}/.tmux.conf" "${HOME}/.tmux.conf"
 
-rm -f "${HOME}"/.vimrc
-ln -s "${DOTFILES_VIM_PATH}"/.vimrc "${HOME}"/.vimrc
+rm -f "${HOME}/.vimrc"
+ln -s "${DOTFILES_VIM_PATH}/.vimrc" "${HOME}/.vimrc"
 
-rm -f "${HOME}"/.fzf.bash
-rm -f "${HOME}"/.fzf.zsh
+rm -f "${HOME}/.fzf.bash"
+rm -f "${HOME}/.fzf.zsh"
 
-mkdir -p "${HOME}"/.config/project-configs
-touch "${HOME}"/.config/project-configs/.default
+mkdir -p "${HOME}/.config/project-configs"
+touch "${HOME}/.config/project-configs/.default"
 
 echo 'Done.'
 
@@ -160,20 +223,19 @@ if [[ -z "${SSH_CLIENT}" ]]; then
         gcc build-essential meld
 
     # Install Alacritty
-    "${DOTFILES_SCRIPTS_PATH}"/install_alacritty.sh
+    "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" alacritty || "${DOTFILES_SCRIPTS_PATH}/install_alacritty.sh"
 
     # Install Chrome
-    "${DOTFILES_SCRIPTS_PATH}"/install_chrome.sh
+    "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" google-chrome || "${DOTFILES_SCRIPTS_PATH}/install_chrome.sh"
 
     # Install Delta
-    "${DOTFILES_SCRIPTS_PATH}"/install_delta.sh
+    "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" delta || "${DOTFILES_SCRIPTS_PATH}/install_delta.sh"
 
-    # Install Hyperfine
-    "${DOTFILES_SCRIPTS_PATH}"/install_hyperfine.sh
-
+    # @todo Improve Cargo Package Updating
+    # @body Find a way to only update cargo packages if outdated, rather than full reinstall.
     # Install Cargo applications
-    cargo install exa
-    cargo install tealdeer
+    cargo install --force exa
+    cargo install --force tealdeer
 
     # Update tldr Cache
     tldr --update
@@ -193,10 +255,10 @@ if [[ -z "${SSH_CLIENT}" ]]; then
     echo '=> Installing desktop fonts'
 
     # Install FiraCode
-    "${DOTFILES_SCRIPTS_PATH}"/install_firacode.sh
+    "${DOTFILES_SCRIPTS_PATH}/install_firacode.sh"
 
     # Install FiraMono
-    "${DOTFILES_SCRIPTS_PATH}"/install_firamono.sh
+    "${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
 
     # @todo Move Encrypted Fonts Logic
     # @body Move the encrypted fonts installation logic to a separate script.
@@ -208,8 +270,8 @@ if [[ -z "${SSH_CLIENT}" ]]; then
         sudo apt install -y --no-install-recommends \
             git-crypt
 
-        mkdir -p "${HOME}"/.git-crypt
-        chmod 700 "${HOME}"/.git-crypt
+        mkdir -p "${HOME}/.git-crypt"
+        chmod 700 "${HOME}/.git-crypt"
 
         echo -e '=> Decrypt locked fonts with ${HOME}/.git-crypt/dotfiles.key? [Y/N] '
         read decryptConfirm
@@ -219,10 +281,10 @@ if [[ -z "${SSH_CLIENT}" ]]; then
             if [[ -f "${HOME}/.git-crypt/dotfiles.key" ]]; then
 
                 echo "=> Decrypting with key"
-                git-crypt unlock "${HOME}"/.git-crypt/dotfiles.key
+                $(cd "${DOTFILES_PATH}"; git-crypt unlock "${HOME}/.git-crypt/dotfiles.key")
 
-                tar -xvf "${DOTFILES_FONTS_PATH}"/DankMono.tar -C "${HOME}"/.local/share/fonts
-                tar -xvf "${DOTFILES_FONTS_PATH}"/OperatorMono.tar -C "${HOME}"/.local/share/fonts
+                tar -xvf "${DOTFILES_FONTS_PATH}/DankMono.tar" -C "${HOME}/.local/share/fonts"
+                tar -xvf "${DOTFILES_FONTS_PATH}/OperatorMono.tar" -C "${HOME}/.local/share/fonts"
 
                 sudo fc-cache -f -v
             else
@@ -232,21 +294,21 @@ if [[ -z "${SSH_CLIENT}" ]]; then
     fi
 
     echo '=> Installing desktop configurations'
-    rm -f "${HOME}"/.config/alacritty/alacritty.yml
-    mkdir -p "${HOME}"/.config/alacritty
+    rm -f "${HOME}/.config/alacritty/alacritty.yml"
+    mkdir -p "${HOME}/.config/alacritty"
     find "${DOTFILES_ALACRITTY_PATH}" -type f -exec chmod 644 {} \;
 
-    if [[ -d "${HOME}"/.local/share/fonts/OperatorMono ]]; then
-        ln -s "${DOTFILES_ALACRITTY_PATH}"/alacritty-operatormono.yml "${HOME}"/.config/alacritty/alacritty.yml
+    if [[ -d "${HOME}/.local/share/fonts/OperatorMono" ]]; then
+        ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml" "${HOME}/.config/alacritty/alacritty.yml"
     else
-        ln -s "${DOTFILES_ALACRITTY_PATH}"/alacritty-firamono.yml "${HOME}"/.config/alacritty/alacritty.yml
+        ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml" "${HOME}/.config/alacritty/alacritty.yml"
     fi
 
     find "${DOTFILES_TERM_PATH}" -type f -exec chmod 644 {} \;
-    tic "${DOTFILES_TERM_PATH}"/xterm-256color-italic.terminfo
+    tic "${DOTFILES_TERM_PATH}/xterm-256color-italic.terminfo"
 
     # Create Global Git Config
-    "${DOTFILES_SCRIPTS_PATH}"/create_gitconfig.sh
+    "${DOTFILES_SCRIPTS_PATH}/create_gitconfig.sh"
 fi
 
 echo 'Done.'
@@ -281,7 +343,7 @@ sudo apt autoremove --purge -y
 # @body Fix the logic to delete the install script if not executed from dotfiles path.
 #if [[ "${script_path}" != "${DOTFILES_SCRIPTS_PATH}" ]]; then
 #    echo '=> Deleting temporary install script'
-#    rm -f "${script_path}"/"${script_name}"
+#    rm -f "${script_path}/${script_name}"
 #fi
 
 echo '=> Changing shell'
