@@ -1,11 +1,9 @@
 # Configure dotfiles path environment variables
 script_name="$(basename "${0}")"
-script_path="$(dirname "${0}")"
 
-dotfiles_path="${HOME}/.dotfiles"
-if [[ -d "${dotfiles_path}" ]]; then
+if [[ -d "${HOME}/.dotfiles" ]]; then
     # Save dotfiles directory to environment variables if directory exists
-    export DOTFILES_PATH="${dotfiles_path}"
+    export DOTFILES_PATH="${HOME}/.dotfiles"
 
     # Save dotfiles sub-directories to environment variables if directory exists
     [[ -d "${DOTFILES_PATH}/alacritty" ]] && export DOTFILES_ALACRITTY_PATH="${DOTFILES_PATH}/alacritty"
@@ -19,6 +17,6 @@ if [[ -d "${dotfiles_path}" ]]; then
     [[ -d "${DOTFILES_PATH}/zsh" ]] && export DOTFILES_ZSH_PATH="${DOTFILES_PATH}/zsh"
 else
     echo "Aborting ${script_name}"
-    echo "    Directory ${dotfiles_path} Does Not Exist!"
+    echo "    Directory ${HOME}/.dotfiles Does Not Exist!"
     exit 1
 fi

@@ -2,68 +2,179 @@
 # Creates sym-links to dotfiles stored in the repo.
 script_name="$(basename "${0}")"
 
+argument_flag="false"
+headless_mode="disabled"
+desktop_mode="disabled"
+
+# Process arguments
+for argument in "${@}"
+do
+  argument_flag="true"
+  if [[ "${argument}" == "-?" || "${argument}" == "--help" ]]; then
+    echo "Usage:"
+    echo "  ${script_name} [options]"
+    echo "  -?, --help      show list of command-line options"
+    echo ""
+    echo "OPTIONS"
+    echo "  -h, --headless  force enable headless mode"
+    echo "  -d, --desktop   force enable desktop mode"
+    exit 0
+  elif [[ "${argument}" == "-h" || "${argument}" == "--headless" ]]; then
+    headless_mode="enabled"
+  elif [[ "${argument}" == "-d" || "${argument}" == "--desktop" ]]; then
+    desktop_mode="enabled"
+  else
+    echo "Aborting ${script_name}"
+    echo "  Invalid Argument!"
+    echo ""
+    echo "Usage:"
+    echo "  ${script_name} [options]"
+    echo "  -?, --help      show list of command-line options"
+    exit 1
+  fi
+done
+
+
+
 # Save dotfiles directories to environment variable if not already set
 if [[ -z "${DOTFILES_PATH}" ]]; then
-    paths_file="${HOME}/.dotfiles/zsh/.paths.zsh"
-    if [[ -f "${paths_file}" ]]; then
-        source "${paths_file}"
+  if [[ -f "${HOME}/.dotfiles/zsh/.paths.zsh" ]]; then
+    source "${HOME}/.dotfiles/zsh/.paths.zsh"
+  else
+    echo "Aborting ${HOME}/.dotfiles/zsh/.paths.zsh"
+    echo "  File ${HOME}/.dotfiles/zsh/.paths.zsh Does Not Exist!"
+    exit 1
+  fi
+fi
+
+
+
+# Determine system type if no arguments given
+if [[ "${argument_flag}" == "false" ]]; then
+  if [[ -f "${DOTFILES_SCRIPTS_PATH}/is_desktop.sh" ]]; then
+    "${DOTFILES_SCRIPTS_PATH}/is_desktop.sh" > /dev/null \
+      && desktop_mode="enabled" \
+      || headless_mode="enabled"
+  else
+    echo "Aborting ${script_name}"
+    echo "  File ${DOTFILES_SCRIPTS_PATH}/is_desktop.sh Does Not Exist!"
+    exit 1
+  fi
+fi
+
+
+
+# Begin creating links
+# Headless applications links
+if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
+  echo '=> Linking Headless Applications'
+
+  if [[ -f "${DOTFILES_ZSH_PATH}/.zshrc" ]]; then
+    if [[ "$(readlink -f "${HOME}/.zshrc")" == "${DOTFILES_ZSH_PATH}/.zshrc" ]]; then
+      echo "Skipped: ${HOME}/.zshrc"
     else
-        echo "Aborting ${script_name}"
-        echo "    File ${paths_file} Does Not Exist!"
-        exit 1
+      if [[ -f "${HOME}/.zshrc" ]]; then
+        rm -f "${HOME}/.zshrc"
+      fi
+      ln -s "${DOTFILES_ZSH_PATH}/.zshrc" "${HOME}/.zshrc"
+      echo "Linked: ${HOME}/.zshrc -> ${DOTFILES_ZSH_PATH}/.zshrc"
     fi
+  else
+    echo "Aborting ${script_name}"
+    echo "  File ${DOTFILES_ZSH_PATH}/.zshrc Does Not Exist!"
+    exit 1
+  fi
+
+  if [[ -f "${DOTFILES_ZSH_PATH}/.p10k.zsh" ]]; then
+    if [[ "$(readlink -f "${HOME}/.p10k.zsh")" == "${DOTFILES_ZSH_PATH}/.p10k.zsh" ]]; then
+      echo "Skipped: ${HOME}/.p10k.zsh"
+    else
+      if [[ -f "${HOME}/.p10k.zsh" ]]; then
+        rm -f "${HOME}/.p10k.zsh"
+      fi
+      ln -s "${DOTFILES_ZSH_PATH}/.p10k.zsh" "${HOME}/.p10k.zsh"
+      echo "Linked: ${HOME}/.p10k.zsh -> ${DOTFILES_ZSH_PATH}/.p10k.zsh"
+    fi
+  else
+    echo "Aborting ${script_name}"
+    echo "  File ${DOTFILES_ZSH_PATH}/.p10k.zsh Does Not Exist!"
+    exit 1
+  fi
+
+  if [[ -f "${DOTFILES_TMUX_PATH}/.tmux.conf" ]]; then
+    if [[ "$(readlink -f "${HOME}/.tmux.conf")" == "${DOTFILES_TMUX_PATH}/.tmux.conf" ]]; then
+      echo "Skipped: ${HOME}/.tmux.conf"
+    else
+      if [[ -f "${HOME}/.tmux.conf" ]]; then
+        rm -f "${HOME}/.tmux.conf"
+      fi
+      ln -s "${DOTFILES_TMUX_PATH}/.tmux.conf" "${HOME}/.tmux.conf"
+      echo "Linked: ${HOME}/.tmux.conf -> ${DOTFILES_TMUX_PATH}/.tmux.conf"
+    fi
+  else
+    echo "Aborting ${script_name}"
+    echo "  File ${DOTFILES_TMUX_PATH}/.tmux.conf Does Not Exist!"
+    exit 1
+  fi
+
+  if [[ -f "${DOTFILES_VIM_PATH}/.vimrc" ]]; then
+    if [[ "$(readlink -f "${HOME}/.vimrc")" == "${DOTFILES_VIM_PATH}/.vimrc" ]]; then
+      echo "Skipped: ${HOME}/.vimrc"
+    else
+      if [[ -f "${HOME}/.vimrc" ]]; then
+        rm -f "${HOME}/.vimrc"
+      fi
+      ln -s "${DOTFILES_VIM_PATH}/.vimrc" "${HOME}/.vimrc"
+      echo "Linked: ${HOME}/.vimrc -> ${DOTFILES_VIM_PATH}/.vimrc"
+    fi
+  else
+    echo "Aborting ${script_name}"
+    echo "  File ${DOTFILES_VIM_PATH}/.vimrc Does Not Exist!"
+    exit 1
+  fi
+
+  echo 'Done.'
 fi
 
+# Desktop applications links
+if [[ "${desktop_mode}" == "enabled" ]]; then
+  echo "=> Linking Desktop Applications"
 
-
-if [[ -n "${DOTFILES_ZSH_PATH}" ]]; then
-    chmod 644 "${DOTFILES_ZSH_PATH}/.zshrc"
-    rm -f "${HOME}/.zshrc"
-    ln -s "${DOTFILES_ZSH_PATH}/.zshrc" "${HOME}/.zshrc"
-    echo "Linked: ${HOME}/.zshrc -> ${DOTFILES_ZSH_PATH}/.zshrc"
-else
-    echo "Skipped ${HOME}/.zshrc"
-fi
-
-if [[ -n "${DOTFILES_ZSH_PATH}" ]]; then
-    chmod 644 "${DOTFILES_ZSH_PATH}/.p10k.zsh"
-    rm -f "${HOME}/.p10k.zsh"
-    ln -s "${DOTFILES_ZSH_PATH}/.p10k.zsh" "${HOME}/.p10k.zsh"
-    echo "Linked: ${HOME}/.p10k.zsh -> ${DOTFILES_ZSH_PATH}/.p10k.zsh"
-else
-    echo "Skipped ${HOME}/.p10k.zsh"
-fi
-
-if [[ -n "${DOTFILES_TMUX_PATH}" ]]; then
-    chmod 644 "${DOTFILES_TMUX_PATH}/.tmux.conf"
-    rm -f "${HOME}/.tmux.conf"
-    ln -s "${DOTFILES_TMUX_PATH}/.tmux.conf" "${HOME}/.tmux.conf"
-    echo "Linked: ${HOME}/.tmux.conf -> ${DOTFILES_TMUX_PATH}/.tmux.conf"
-else
-    echo "Skipped ${HOME}/.tmux.conf"
-fi
-
-if [[ -n "${DOTFILES_VIM_PATH}" ]]; then
-    chmod 644 "${DOTFILES_VIM_PATH}/.vimrc"
-    rm -f "${HOME}/.vimrc"
-    ln -s "${DOTFILES_VIM_PATH}/.vimrc" "${HOME}/.vimrc"
-    echo "Linked: ${HOME}/.vimrc -> ${DOTFILES_VIM_PATH}/.vimrc"
-else
-    echo "Skipped ${HOME}/.vimrc"
-fi
-
-if [[ -n "${DOTFILES_ALACRITTY_PATH}" ]]; then
-    chmod 644 "${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml"
-    chmod 644 "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml"
-    mkdir -p "${HOME}/.config/alacritty"
-    rm -f "${HOME}/.config/alacritty/alacritty.yml"
-    if [[ -d "${HOME}/.local/share/fonts/OperatorMono" ]]; then
+  if [[ -d "${HOME}/.local/share/fonts/OperatorMono" ]]; then
+    if [[ -f "${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml" ]]; then
+      if [[ "$(readlink -f "${HOME}/.config/alacritty/alacritty.yml")" == "${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml" ]]; then
+        echo "Skipped: ${HOME}/.config/alacritty/alacritty.yml"
+      else
+        if [[ -f "${HOME}/.config/alacritty/alacritty.yml" ]]; then
+          rm -f "${HOME}/.config/alacritty/alacritty.yml"
+        fi
         ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml" "${HOME}/.config/alacritty/alacritty.yml"
         echo "Linked: ${HOME}/.config/alacritty/alacritty.yml -> ${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml"
+      fi
     else
+      echo "Aborting ${script_name}"
+      echo "  File ${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml Does Not Exist!"
+      exit 1
+    fi
+  else
+    if [[ -f "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml" ]]; then
+      if [[ "$(readlink -f "${HOME}/.config/alacritty/alacritty.yml")" == "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml" ]]; then
+        echo "Skipped: ${HOME}/.config/alacritty/alacritty.yml"
+      else
+        if [[ -f "${HOME}/.config/alacritty/alacritty.yml" ]]; then
+          rm -f "${HOME}/.config/alacritty/alacritty.yml"
+        fi
         ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml" "${HOME}/.config/alacritty/alacritty.yml"
         echo "Linked: ${HOME}/.config/alacritty/alacritty.yml -> ${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml"
+      fi
+    else
+      echo "Aborting ${script_name}"
+      echo "  File ${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml Does Not Exist!"
+      exit 1
     fi
-else
-    echo "Skipped ${HOME}/.config/alacritty/alacritty.yml"
+  fi
+
+  echo 'Done.'
 fi
+
+exit 0

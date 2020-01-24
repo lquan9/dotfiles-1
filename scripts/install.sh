@@ -14,19 +14,50 @@
 #   $ ./install.sh
 #
 
-# @todo Create Launch Arguments
-# @body Add launch arguments to override default execution of the install script.
-
 # @todo Improve Printed Text and Prompts
 # @body Clean up printed text with better separation of stages and description of what is happening. Better define what the prompts are actually asking.
 
 script_name="$(basename "${0}")"
 script_path="$(dirname "${0}")"
 
-DOTFILES_PATH="${HOME}/.dotfiles"
+argument_flag="false"
+headless_mode="disabled"
+desktop_mode="disabled"
+
+# Process arguments
+for argument in "${@}"
+do
+  argument_flag="true"
+  if [[ "${argument}" == "-?" || "${argument}" == "--help" ]]; then
+    echo "Usage:"
+    echo "  ${script_name} [options]"
+    echo "  -?, --help      show list of command-line options"
+    echo ""
+    echo "OPTIONS"
+    echo "  -h, --headless  force enable headless mode"
+    echo "  -d, --desktop   force enable desktop mode"
+    exit 0
+  elif [[ "${argument}" == "-h" || "${argument}" == "--headless" ]]; then
+    headless_mode="enabled"
+  elif [[ "${argument}" == "-d" || "${argument}" == "--desktop" ]]; then
+    desktop_mode="enabled"
+  else
+    echo "Aborting ${script_name}"
+    echo "  Invalid Argument!"
+    echo ""
+    echo "Usage:"
+    echo "  ${script_name} [options]"
+    echo "  -?, --help      show list of command-line options"
+    exit 1
+  fi
+done
+
+
+
+
 
 echo '------------------------------------------------------------------------'
-echo '   Prepare dotfiles repo'
+echo '   Preparing dotfiles repo'
 echo '------------------------------------------------------------------------'
 
 # @todo Single Sudo Prompt
@@ -35,11 +66,52 @@ echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
 if [[ -d "${DOTFILES_PATH}" ]]; then
-    echo '=> Updating dotfiles repo'
-    git -C "${DOTFILES_PATH}" pull
+  echo '=> Updating dotfiles repo'
+  git -C "${DOTFILES_PATH}" pull
 else
-    echo '=> Cloning dotfiles repo'
-    git clone https://github.com/AndrewDaws/dotfiles.git "${DOTFILES_PATH}"
+  echo '=> Cloning dotfiles repo'
+  if ! git clone https://github.com/AndrewDaws/dotfiles.git "${DOTFILES_PATH}"; then
+    echo "Aborting ${script_name}"
+    echo "  Command git clone https://github.com/AndrewDaws/dotfiles.git ${DOTFILES_PATH} Failed!"
+    exit 1
+  fi
+fi
+
+# Save dotfiles directories to environment variable if not already set
+if [[ -z "${DOTFILES_PATH}" ]]; then
+  if [[ -f "${HOME}/.dotfiles/zsh/.paths.zsh" ]]; then
+    source "${HOME}/.dotfiles/zsh/.paths.zsh"
+  else
+    echo "Aborting ${script_name}"
+    echo "  File ${HOME}/.dotfiles/zsh/.paths.zsh Does Not Exist!"
+    exit 1
+  fi
+fi
+
+# Set file permissions
+if [[ -f "${DOTFILES_SCRIPTS_PATH}/set_permissions.sh" ]]; then
+  if ! "${DOTFILES_SCRIPTS_PATH}/set_permissions.sh"; then
+    echo "Aborting ${script_name}"
+    echo "  Script ${DOTFILES_SCRIPTS_PATH}/set_permissions.sh Failed!"
+    exit 1
+  fi
+else
+  echo "Aborting ${script_name}"
+  echo "  File ${DOTFILES_SCRIPTS_PATH}/set_permissions.sh Does Not Exist!"
+  exit 1
+fi
+
+# Determine system type if no arguments given
+if [[ "${argument_flag}" == "false" ]]; then
+  if [[ -f "${DOTFILES_SCRIPTS_PATH}/is_desktop.sh" ]]; then
+    "${DOTFILES_SCRIPTS_PATH}/is_desktop.sh" > /dev/null \
+      && desktop_mode="enabled" \
+      || headless_mode="enabled"
+  else
+    echo "Aborting ${script_name}"
+    echo "  File ${DOTFILES_SCRIPTS_PATH}/is_desktop.sh Does Not Exist!"
+    exit 1
+  fi
 fi
 
 echo 'Done.'
@@ -51,12 +123,6 @@ echo 'Done.'
 echo '------------------------------------------------------------------------'
 echo '   Initial configuration'
 echo '------------------------------------------------------------------------'
-
-# Save dotfiles directories to environment variable if not already set
-paths_file="${HOME}/.dotfiles/zsh/.paths.zsh"
-if [[ -f "${paths_file}" ]]; then
-    source "${paths_file}"
-fi
 
 echo '=> Update repository information'
 sudo apt update -qq
@@ -73,242 +139,225 @@ echo 'Done.'
 
 
 
-echo '------------------------------------------------------------------------'
-echo '   Configuring system applications'
-echo '------------------------------------------------------------------------'
+if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
+  echo '------------------------------------------------------------------------'
+  echo '   Configuring headless applications'
+  echo '------------------------------------------------------------------------'
 
-#echo '=> Adding repositories'
+  #echo '=> Adding repositories'
 
-echo '=> Installing system applications'
-sudo apt install -y --no-install-recommends \
+  echo '=> Installing headless applications'
+  sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux xclip \
     ack openssh-server cron httpie iputils-ping file \
     python3-dev python3-pip python3-setuptools thefuck
 
-# Install Pip Applications
-sudo pip3 install setuptools --upgrade
-sudo pip3 install thefuck --upgrade
+  # Install Pip Applications
+  sudo pip3 install setuptools --upgrade
+  sudo pip3 install thefuck --upgrade
 
-# Install Fd
-"${DOTFILES_SCRIPTS_PATH}/is_installed.sh" fd || "${DOTFILES_SCRIPTS_PATH}/install_fd.sh"
+  # Install Fd
+  "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" fd || "${DOTFILES_SCRIPTS_PATH}/install_fd.sh"
 
-# Install Tmux Plugin Manager
-if [[ -d "${HOME}/.tmux/plugins/tpm" ]]; then
+  # Install Tmux Plugin Manager
+  if [[ -d "${HOME}/.tmux/plugins/tpm" ]]; then
     echo '=> Updating Tmux Plugin Manager repo'
     git -C "${HOME}/.tmux/plugins/tpm" pull
-else
+  else
     echo '=> Cloning Tmux Plugin Manager repo'
     mkdir -p "${HOME}/.tmux/plugins/tpm"
     git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
-fi
+  fi
 
 
-# Install Fzf
-if [[ -d "${HOME}/.fzf" ]]; then
+  # Install Fzf
+  if [[ -d "${HOME}/.fzf" ]]; then
     echo '=> Updating fzf repo'
     git -C "${HOME}/.fzf" pull
-else
+  else
     echo '=> Cloning fzf repo'
     git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}/.fzf"
-fi
-"${HOME}/.fzf/install" --bin
+  fi
+  "${HOME}/.fzf/install" --bin
 
-echo '=> Installing system shell'
-# Install Oh-My-Zsh Framework
-if [[ -d "${HOME}/.oh-my-zsh" ]]; then
+  echo '=> Installing headless shell'
+  # Install Oh-My-Zsh Framework
+  if [[ -d "${HOME}/.oh-my-zsh" ]]; then
     echo '=> Updating Oh-My-Zsh repo'
     git -C "${HOME}/.oh-my-zsh" pull
-else
+  else
     echo '=> Installing Oh-My-Zsh'
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-fi
+  fi
 
-# Install Oh-My-Zsh Theme
-if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" ]]; then
+  # Install Oh-My-Zsh Theme
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" ]]; then
     echo '=> Updating Powerlevel10k repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" pull
-else
+  else
     echo '=> Cloning Powerlevel10k repo'
     git clone https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k"
-fi
+  fi
 
-# Install Oh-My-Zsh Plugins
-if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd" ]]; then
+  # Install Oh-My-Zsh Plugins
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd" ]]; then
     echo '=> Updating bd repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd" pull
-else
+  else
     echo '=> Cloning bd repo'
     git clone https://github.com/Tarrasch/zsh-bd.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd"
-fi
+  fi
 
-if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" ]]; then
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" ]]; then
     echo '=> Updating fast-syntax-highlighting repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" pull
-else
+  else
     echo '=> Cloning fast-syntax-highlighting repo'
     git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting"
-fi
+  fi
 
-if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit" ]]; then
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit" ]]; then
     echo '=> Updating forgit repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit" pull
-else
+  else
     echo '=> Cloning forgit repo'
     git clone https://github.com/wfxr/forgit.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit"
-fi
+  fi
 
-if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z" ]]; then
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z" ]]; then
     echo '=> Updating fzf-z repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z" pull
-else
+  else
     echo '=> Cloning fzf-z repo'
     git clone https://github.com/andrewferrier/fzf-z.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z"
-fi
+  fi
 
-if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]]; then
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]]; then
     echo '=> Updating zsh-autosuggestions repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" pull
-else
+  else
     echo '=> Cloning zsh-autosuggestions repo'
     git clone https://github.com/zsh-users/zsh-autosuggestions.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-fi
+  fi
 
-if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions" ]]; then
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions" ]]; then
     echo '=> Updating zsh-completions repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions" pull
-else
+  else
     echo '=> Cloning zsh-completions repo'
     git clone https://github.com/zsh-users/zsh-completions.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions"
+  fi
+
+  echo '=> Installing headless application configurations'
+  rm -f "${HOME}/.bash_history"
+  rm -f "${HOME}/.bash_logout"
+  rm -f "${HOME}/.bashrc"
+  rm -f "${HOME}/.zshrc.pre-oh-my-zsh"
+
+  # Create links
+  if [[ -f "${DOTFILES_SCRIPTS_PATH}/create_links.sh" ]]; then
+    if ! "${DOTFILES_SCRIPTS_PATH}/create_links.sh" --headless; then
+      echo "Aborting ${script_name}"
+      echo "  Script ${DOTFILES_SCRIPTS_PATH}/create_links.sh Failed!"
+      exit 1
+    fi
+  else
+    echo "Aborting ${script_name}"
+    echo "  File ${DOTFILES_SCRIPTS_PATH}/create_links.sh Does Not Exist!"
+    exit 1
+  fi
+
+  mkdir -p "${HOME}/.config/project-configs"
+  touch "${HOME}/.config/project-configs/.default"
+
+  echo 'Done.'
 fi
 
-echo '=> Installing system application configurations'
-find "${DOTFILES_ALIAS_PATH}" -type f -exec chmod 664 {} \;
-find "${DOTFILES_SCRIPTS_PATH}" -type f -exec chmod 755 {} \;
-find "${DOTFILES_TMUX_PATH}" -type f -exec chmod 644 {} \;
-find "${DOTFILES_VIM_PATH}" -type f -exec chmod 644 {} \;
-find "${DOTFILES_ZSH_PATH}" -type f -exec chmod 644 {} \;
-
-rm -f "${HOME}/.bash_history"
-rm -f "${HOME}/.bash_logout"
-rm -f "${HOME}/.bashrc"
-rm -f "${HOME}/.zshrc"
-rm -f "${HOME}/.zshrc.pre-oh-my-zsh"
-ln -s "${DOTFILES_ZSH_PATH}/.zshrc" "${HOME}/.zshrc"
-
-rm -f "${HOME}/.tmux.conf"
-ln -s "${DOTFILES_TMUX_PATH}/.tmux.conf" "${HOME}/.tmux.conf"
-
-rm -f "${HOME}/.vimrc"
-ln -s "${DOTFILES_VIM_PATH}/.vimrc" "${HOME}/.vimrc"
-
-rm -f "${HOME}/.fzf.bash"
-rm -f "${HOME}/.fzf.zsh"
-
-mkdir -p "${HOME}/.config/project-configs"
-touch "${HOME}/.config/project-configs/.default"
-
-echo 'Done.'
 
 
 
-if [[ -z "${SSH_CLIENT}" ]]; then
 
-    echo '------------------------------------------------------------------------'
-    echo '   Configuring desktop applications'
-    echo '------------------------------------------------------------------------'
+if [[ "${desktop_mode}" == "enabled" ]]; then
+  echo '------------------------------------------------------------------------'
+  echo '   Configuring desktop applications'
+  echo '------------------------------------------------------------------------'
 
-    echo '=> Installing desktop applications'
-    sudo apt install -y --no-install-recommends \
-        libegl1-mesa-dev snapd cargo make cmake \
-        gcc build-essential meld
+  echo '=> Installing desktop applications'
+  sudo apt install -y --no-install-recommends \
+    libegl1-mesa-dev snapd cargo make cmake \
+    gcc build-essential meld
 
-    # Install Alacritty
-    "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" alacritty || "${DOTFILES_SCRIPTS_PATH}/install_alacritty.sh"
+  # Install Alacritty
+  "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" alacritty || "${DOTFILES_SCRIPTS_PATH}/install_alacritty.sh"
 
-    # Install Chrome
-    "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" google-chrome || "${DOTFILES_SCRIPTS_PATH}/install_chrome.sh"
+  # Install Chrome
+  "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" google-chrome || "${DOTFILES_SCRIPTS_PATH}/install_chrome.sh"
 
-    # Install Delta
-    "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" delta || "${DOTFILES_SCRIPTS_PATH}/install_delta.sh"
+  # Install Delta
+  "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" delta || "${DOTFILES_SCRIPTS_PATH}/install_delta.sh"
 
-    # @todo Improve Cargo Package Updating
-    # @body Find a way to only update cargo packages if outdated, rather than full reinstall.
-    # Install Cargo applications
-    cargo install --force exa
-    cargo install --force tealdeer
+  # @todo Improve Cargo Package Updating
+  # @body Find a way to only update cargo packages if outdated, rather than full reinstall.
+  # Install Cargo applications
+  cargo install exa
+  cargo install tealdeer
 
-    # Update tldr Cache
-    tldr --update
+  # Update tldr Cache
+  tldr --update
 
-    # @todo File Manager Installation
-    # @body Determine and automate a file manager (like Double Commander) installation.
+  # @todo File Manager Installation
+  # @body Determine and automate a file manager (like Double Commander) installation.
 
-    # @todo Hub Installation
-    # @body Determine a non-brew method to install Hub.
+  # @todo Hub Installation
+  # @body Determine a non-brew method to install Hub.
 
-    # @todo VS Code Installation
-    # @body Automate the VS Code installation.
+  # @todo VS Code Installation
+  # @body Automate the VS Code installation.
 
-    # @todo VS Code Config and Extensions
-    # @body Export VS Code settings and installation of extensions.
+  # @todo VS Code Config and Extensions
+  # @body Export VS Code settings and installation of extensions.
 
-    echo '=> Installing desktop fonts'
+  echo '=> Installing desktop fonts'
 
-    # Install FiraCode
-    "${DOTFILES_SCRIPTS_PATH}/install_firacode.sh"
+  # Install FiraCode
+  if ! find "${HOME}/.local/share/fonts/NerdFonts/Fura Code"* > /dev/null; then
+      "${DOTFILES_SCRIPTS_PATH}/install_firacode.sh"
+  else
+      echo "Skipped: ${DOTFILES_SCRIPTS_PATH}/install_firacode.sh"
+  fi
 
-    # Install FiraMono
-    "${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
+  # Install FiraMono
+  if ! find "${HOME}/.local/share/fonts/NerdFonts/Fura Mono"* > /dev/null; then
+      "${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
+  else
+      echo "Skipped: ${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
+  fi
 
-    # @todo Move Encrypted Fonts Logic
-    # @body Move the encrypted fonts installation logic to a separate script.
-    echo -e '=> Do you have the key for the locked fonts? [Y/N] '
-    read fontConfirm
-    fontConfirm="$(echo "${fontConfirm}" | tr '[:lower:]' '[:upper:]')"
-    if [[ "${fontConfirm}" == 'YES' || "${fontConfirm}" == 'Y' ]]; then
+  echo '=> Installing desktop configurations'
 
-        sudo apt install -y --no-install-recommends \
-            git-crypt
-
-        mkdir -p "${HOME}/.git-crypt"
-        chmod 700 "${HOME}/.git-crypt"
-
-        echo -e '=> Decrypt locked fonts with ${HOME}/.git-crypt/dotfiles.key? [Y/N] '
-        read decryptConfirm
-        decryptConfirm="$(echo "${decryptConfirm}" | tr '[:lower:]' '[:upper:]')"
-        if [[ "${decryptConfirm}" == 'YES' || "${decryptConfirm}" == 'Y' ]]; then
-
-            if [[ -f "${HOME}/.git-crypt/dotfiles.key" ]]; then
-
-                echo "=> Decrypting with key"
-                $(cd "${DOTFILES_PATH}"; git-crypt unlock "${HOME}/.git-crypt/dotfiles.key")
-
-                tar -xvf "${DOTFILES_FONTS_PATH}/DankMono.tar" -C "${HOME}/.local/share/fonts"
-                tar -xvf "${DOTFILES_FONTS_PATH}/OperatorMono.tar" -C "${HOME}/.local/share/fonts"
-
-                sudo fc-cache -f -v
-            else
-                echo "=> Key does not exist, skipping"
-            fi
-        fi
+  # Create links
+  if [[ -f "${DOTFILES_SCRIPTS_PATH}/create_links.sh" ]]; then
+    if ! "${DOTFILES_SCRIPTS_PATH}/create_links.sh" --desktop; then
+      echo "Aborting ${script_name}"
+      echo "  Script ${DOTFILES_SCRIPTS_PATH}/create_links.sh Failed!"
+      exit 1
     fi
-
-    echo '=> Installing desktop configurations'
-    rm -f "${HOME}/.config/alacritty/alacritty.yml"
-    mkdir -p "${HOME}/.config/alacritty"
-    find "${DOTFILES_ALACRITTY_PATH}" -type f -exec chmod 644 {} \;
-
-    if [[ -d "${HOME}/.local/share/fonts/OperatorMono" ]]; then
-        ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml" "${HOME}/.config/alacritty/alacritty.yml"
-    else
-        ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml" "${HOME}/.config/alacritty/alacritty.yml"
-    fi
-
-    find "${DOTFILES_TERM_PATH}" -type f -exec chmod 644 {} \;
+  else
+    echo "Aborting ${script_name}"
+    echo "  File ${DOTFILES_SCRIPTS_PATH}/create_links.sh Does Not Exist!"
+    exit 1
+  fi
+  
+  # Install term environment
+  if [[ -f "${HOME}/.terminfo/x/xterm-256color-italic" ]]; then
+    echo "Skipped: ${DOTFILES_TERM_PATH}/xterm-256color-italic.terminfo"
+  else
     tic "${DOTFILES_TERM_PATH}/xterm-256color-italic.terminfo"
+    echo "Installed ${DOTFILES_TERM_PATH}/xterm-256color-italic.terminfo"
+  fi
 
-    # Create Global Git Config
-    "${DOTFILES_SCRIPTS_PATH}/create_gitconfig.sh"
+  # Create Global Git Config
+  "${DOTFILES_SCRIPTS_PATH}/create_gitconfig.sh"
 fi
 
 echo 'Done.'
@@ -342,8 +391,8 @@ sudo apt autoremove --purge -y
 # @todo Fix Self-Deletion
 # @body Fix the logic to delete the install script if not executed from dotfiles path.
 #if [[ "${script_path}" != "${DOTFILES_SCRIPTS_PATH}" ]]; then
-#    echo '=> Deleting temporary install script'
-#    rm -f "${script_path}/${script_name}"
+#  echo '=> Deleting temporary install script'
+#  rm -f "${script_path}/${script_name}"
 #fi
 
 echo '=> Changing shell'
@@ -351,3 +400,5 @@ sudo usermod -s "$(which zsh)" "${USER}"
 env zsh -l
 
 echo 'Done.'
+
+exit 0
