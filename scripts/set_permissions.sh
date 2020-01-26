@@ -7,6 +7,7 @@ alacritty_mode="disabled"
 alias_mode="disabled"
 fonts_mode="disabled"
 git_mode="disabled"
+projects_mode="disabled"
 scripts_mode="disabled"
 term_mode="disabled"
 tmux_mode="disabled"
@@ -27,6 +28,7 @@ do
     echo "  -a, --alias        force enable alias mode"
     echo "      --fonts        force enable fonts mode"
     echo "  -g, --git          force git alias mode"
+    echo "  -p, --projects     force enable projects mode"
     echo "  -s, --scripts      force enable scripts mode"
     echo "      --term         force enable term mode"
     echo "  -t, --tmux         force enable tmux mode"
@@ -41,6 +43,8 @@ do
     fonts_mode="enabled"
   elif [[ "${argument}" == "-g" || "${argument}" == "--git" ]]; then
     git_mode="enabled"
+  elif [[ "${argument}" == "-p" || "${argument}" == "--projects" ]]; then
+    projects_mode="enabled"
   elif [[ "${argument}" == "-s" || "${argument}" == "--scripts" ]]; then
     scripts_mode="enabled"
   elif [[ "${argument}" == "--term" ]]; then
@@ -124,6 +128,18 @@ if [[ "${argument_flag}" == "false" || "${git_mode}" == "enabled" ]]; then
   else
     echo "Aborting ${script_name}"
     echo "  Directory ${DOTFILES_GIT_PATH} Does Not Exist!"
+    exit 1
+  fi
+fi
+
+# Projects
+if [[ "${argument_flag}" == "false" || "${projects_mode}" == "enabled" ]]; then
+  if [[ -d "${DOTFILES_PROJECTS_PATH}" ]]; then
+    find "${DOTFILES_PROJECTS_PATH}" -type f -exec chmod 644 {} \;
+    echo "Modifed: ${DOTFILES_PROJECTS_PATH} = 644"
+  else
+    echo "Aborting ${script_name}"
+    echo "  Directory ${DOTFILES_PROJECTS_PATH} Does Not Exist!"
     exit 1
   fi
 fi

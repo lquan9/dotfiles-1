@@ -200,14 +200,6 @@ if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
   fi
 
   # Install Oh-My-Zsh Plugins
-  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd" ]]; then
-    echo '=> Updating bd repo'
-    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd" pull
-  else
-    echo '=> Cloning bd repo'
-    git clone https://github.com/Tarrasch/zsh-bd.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/bd"
-  fi
-
   if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" ]]; then
     echo '=> Updating fast-syntax-highlighting repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" pull

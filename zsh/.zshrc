@@ -7,9 +7,8 @@ fi
 
 # Save dotfiles directories to environment variable if not already set
 if [[ -z "${DOTFILES_PATH}" ]]; then
-  paths_file="${HOME}/.dotfiles/zsh/.paths.zsh"
-  if [[ -f "${paths_file}" ]]; then
-    source "${paths_file}"
+  if [[ -f "${HOME}/.dotfiles/zsh/.paths.zsh" ]]; then
+    source "${HOME}/.dotfiles/zsh/.paths.zsh"
   fi
 fi
 
@@ -61,7 +60,6 @@ HIST_STAMPS="yyyy-mm-dd"
 
 plugins=(
   autoupdate
-  bd
   colored-man-pages
   command-not-found
   extract
@@ -126,12 +124,13 @@ ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
 # User and Application Aliases
 [[ -f "${DOTFILES_ALIAS_PATH}/.alias" ]] && source "${DOTFILES_ALIAS_PATH}/.alias"
 
-# @todo Fix Project-Configs Algorithm
-# @body Fix the algorithm so it allows for an empty project-configs folder, and creates it if it does not exist. Potentially eliminate the project-configs folder entirely by dynamically loading unloading per-project configs from the project's directory.
-# Project Aliases
-for f in "${HOME}/.config/project-configs/".*; do 
-  source "${f}"
-done
+# Project Configurations
+if [[ -f "${DOTFILES_PROJECTS_PATH}/.projects" ]]; then
+  source "${DOTFILES_PROJECTS_PATH}/.projects"
+else
+  "${DOTFILES_SCRIPTS_PATH}/create_projects.sh"
+  source "${DOTFILES_PROJECTS_PATH}/.projects"
+fi
 
 # @todo Create Local Override Directory
 # @body Add a gitignore'd folder to contain local logins, aliases, and configurations that override those included in this dotfiles repo.
