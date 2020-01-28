@@ -169,7 +169,6 @@ if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
     git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
   fi
 
-
   # Install Fzf
   if [[ -d "${HOME}/.fzf" ]]; then
     echo '=> Updating fzf repo'
@@ -216,6 +215,14 @@ if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
     git clone https://github.com/wfxr/forgit.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit"
   fi
 
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/autoupdate" ]]; then
+    echo '=> Updating autoupdate repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/autoupdate" pull
+  else
+    echo '=> Cloning autoupdate repo'
+    git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/autoupdate"
+  fi
+
   if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z" ]]; then
     echo '=> Updating fzf-z repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z" pull
@@ -259,9 +266,6 @@ if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
     exit 1
   fi
 
-  mkdir -p "${HOME}/.config/project-configs"
-  touch "${HOME}/.config/project-configs/.default"
-
   echo 'Done.'
 fi
 
@@ -276,11 +280,15 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
 
   echo '=> Installing desktop applications'
   sudo apt install -y --no-install-recommends \
-    libegl1-mesa-dev snapd cargo make cmake \
-    gcc build-essential meld
+    libegl1-mesa-dev snapd make cmake \
+    gcc build-essential meld pkg-config \
+    libssl-dev
 
   # Install Alacritty
   "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" alacritty || "${DOTFILES_SCRIPTS_PATH}/install_alacritty.sh"
+
+  # Install Bat
+  "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" bat || "${DOTFILES_SCRIPTS_PATH}/install_bat.sh"
 
   # Install Chrome
   "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" google-chrome || "${DOTFILES_SCRIPTS_PATH}/install_chrome.sh"
@@ -288,11 +296,29 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
   # Install Delta
   "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" delta || "${DOTFILES_SCRIPTS_PATH}/install_delta.sh"
 
+  # Install Rustup
+  if ! "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" rustup; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  else
+    rustup update
+  fi
+
   # @todo Improve Cargo Package Updating
   # @body Find a way to only update cargo packages if outdated, rather than full reinstall.
-  # Install Cargo applications
-  cargo install exa
-  cargo install tealdeer
+  # Install Cargo Applications
+  # Install Exa
+  if ! "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" exa; then
+    cargo install exa
+  else
+    echo "Skipped: exa"
+  fi
+
+  # Install tldr
+  if ! "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" tldr; then
+    cargo install tealdeer
+  else
+    echo "Skipped: tldr"
+  fi
 
   # Update tldr Cache
   tldr --update
@@ -313,16 +339,16 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
 
   # Install FiraCode
   if ! find "${HOME}/.local/share/fonts/NerdFonts/Fura Code"* > /dev/null; then
-      "${DOTFILES_SCRIPTS_PATH}/install_firacode.sh"
+    "${DOTFILES_SCRIPTS_PATH}/install_firacode.sh"
   else
-      echo "Skipped: ${DOTFILES_SCRIPTS_PATH}/install_firacode.sh"
+    echo "Skipped: ${DOTFILES_SCRIPTS_PATH}/install_firacode.sh"
   fi
 
   # Install FiraMono
   if ! find "${HOME}/.local/share/fonts/NerdFonts/Fura Mono"* > /dev/null; then
-      "${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
+    "${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
   else
-      echo "Skipped: ${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
+    echo "Skipped: ${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
   fi
 
   echo '=> Installing desktop configurations'

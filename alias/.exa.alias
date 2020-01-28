@@ -1,7 +1,7 @@
 # exa aliases
 
 # set default flags
-alias exa="exa --color=always --color-scale --git --time-style=long-iso -F"
+alias exa="exa --color=always --color-scale --git --time-style=long-iso -F --icons"
 
 e() {
   if [[ -n "${1}" ]]; then

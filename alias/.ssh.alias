@@ -2,71 +2,77 @@
 alias ssh='TERM=xterm-256color ssh'
 
 ssh_gen() {
+  if [[ -n "${2}" ]]; then
+    echo ''
+    echo '########################################'
+    echo Creating ssh key ${2}
+    echo '########################################'
+    ssh-keygen -t ed25519 -N '' -f ${HOME}/.ssh/${2}-${1}
 
-    if [[ -n "${2}" ]]; then
-        if [[ -n "${1}" ]]; then
-            ssh-keygen
-        else
-            ssh-keygen -t ed25519 -N '' -f ${HOME}/.ssh/${1}
-        fi
-    else
-        echo ''
-        echo '########################################'
-        echo Creating ssh key ${2}
-        echo '########################################'
-        ssh-keygen -t ed25519 -N '' -f ${HOME}/.ssh/${2}-${1}
-
-        ssh_copy ${1} ${2}
-
-        echo -e '=> Generate an SSH config? [Y/N] '
-        read configConfirm
-        local configConfirm="$(echo "${configConfirm}" | tr '[:lower:]' '[:upper:]')"
-        if [[ "${configConfirm}" == 'YES' || "${configConfirm}" == 'Y' ]]; then
-            ssh_config ${1} ${2}
-        fi
+    echo -e '=> Copy public key to ${2}? [Y/N] '
+    read copyConfirm
+    local copyConfirm="$(echo "${copyConfirm}" | tr '[:lower:]' '[:upper:]')"
+    if [[ "${copyConfirm}" == 'YES' || "${copyConfirm}" == 'Y' ]]; then
+      ssh_copy ${1} ${2}
     fi
+
+    echo -e '=> Generate an SSH config? [Y/N] '
+    read configConfirm
+    local configConfirm="$(echo "${configConfirm}" | tr '[:lower:]' '[:upper:]')"
+    if [[ "${configConfirm}" == 'YES' || "${configConfirm}" == 'Y' ]]; then
+      ssh_config ${1} ${2}
+    fi
+  else
+    if [[ -n "${1}" ]]; then
+      ssh-keygen -t ed25519 -N '' -f ${HOME}/.ssh/${1}
+    else
+      ssh-keygen
+    fi
+  fi
 }
 
 ssh_copy() {
-    if [[ -n "${2}" ]]; then
-        ssh-copy-id
-    else
-        echo ''
-        echo '########################################'
-        echo Copying ssh key ${1}@${2}
-        echo '########################################'
-        ssh-copy-id -f -i ${HOME}/.ssh/${2}-${1} ${1}@${2}
-    fi
+  if [[ -n "${2}" ]]; then
+    echo ''
+    echo '########################################'
+    echo Copying ssh key ${1}@${2}
+    echo '########################################'
+    ssh-copy-id -f -i ${HOME}/.ssh/${2}-${1} ${1}@${2}
+  else
+    ssh-copy-id
+  fi
 }
 
 ssh_config() {
-    if [[ -n "${2}" ]]; then
-        echo 'Incorrect input parameters!'
-    else
-        echo -e '=> What is the alias you would like to configure? '
-        read configAlias
-        if [[ -n "${configAlias}" ]]; then
-            echo ''
-            echo '########################################'
-            echo Creating ssh config ${1}@${2}
-            echo '########################################'
+  if [[ -n "${2}" ]]; then
+    echo -e '=> What is the alias you would like to configure? '
+    read configAlias
+    if [[ -n "${configAlias}" ]]; then
+      echo ''
+      echo '########################################'
+      echo Creating ssh config ${1}@${2}
+      echo '########################################'
 
-            touch ${HOME}/.ssh/config
-            echo '' >> ${HOME}/.ssh/config
-            echo Host $configAlias >> ${HOME}/.ssh/config
-            echo '    'HostName ${2} >> ${HOME}/.ssh/config
-            echo '    'User ${1} >> ${HOME}/.ssh/config
-            echo '    'IdentitiesOnly yes >> ${HOME}/.ssh/config
-            echo '    'IdentityFile ${HOME}/.ssh/${2}-${1} >> ${HOME}/.ssh/config
-        fi
+      touch "${HOME}/.ssh/config"
+      {
+        echo ''
+        echo Host $configAlias
+        echo '  'HostName ${2}
+        echo '  'User ${1}
+        echo '  'IdentitiesOnly yes
+        echo '  'IdentityFile ${HOME}/.ssh/${2}-${1}
+      } >> "${HOME}/.ssh/config"
     fi
+  else
+    echo 'Incorrect input parameters!'
+  fi
 }
 
 ssh_perm() {
-    chmod 600 $(find ${HOME}/.ssh -type f)
-    chmod 700 ${HOME}/.ssh
-    chmod 644 ${HOME}/.ssh/authorized_keys
-    chmod 644 ${HOME}/.ssh/known_hosts
-    chmod 644 ${HOME}/.ssh/config
-    chmod 644 ${HOME}/.ssh/*.pub
+  chmod 600 "$(find "${HOME}/.ssh" -type f)"
+  chmod 700 "${HOME}/.ssh"
+  chmod 644 "${HOME}/.ssh/authorized_keys"
+  chmod 644 "${HOME}/.ssh/known_hosts"
+  chmod 644 "${HOME}/.ssh/config"
+  chmod 644 "${HOME}/.ssh/"*.pub
 }

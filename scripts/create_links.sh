@@ -147,6 +147,9 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
       else
         if [[ -f "${HOME}/.config/alacritty/alacritty.yml" ]]; then
           rm -f "${HOME}/.config/alacritty/alacritty.yml"
+        elif [[ ! -d "${HOME}/.config/alacritty" ]]; then
+          mkdir -p "${HOME}/.config/alacritty"
+          chmod 700 "${HOME}/.config/alacritty"
         fi
         ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml" "${HOME}/.config/alacritty/alacritty.yml"
         echo "Linked: ${HOME}/.config/alacritty/alacritty.yml -> ${DOTFILES_ALACRITTY_PATH}/alacritty-operatormono.yml"
@@ -163,6 +166,9 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
       else
         if [[ -f "${HOME}/.config/alacritty/alacritty.yml" ]]; then
           rm -f "${HOME}/.config/alacritty/alacritty.yml"
+        elif [[ ! -d "${HOME}/.config/alacritty" ]]; then
+          mkdir -p "${HOME}/.config/alacritty"
+          chmod 700 "${HOME}/.config/alacritty"
         fi
         ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml" "${HOME}/.config/alacritty/alacritty.yml"
         echo "Linked: ${HOME}/.config/alacritty/alacritty.yml -> ${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml"
