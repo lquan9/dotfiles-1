@@ -65,14 +65,14 @@ echo '------------------------------------------------------------------------'
 echo '=> Installing git'
 sudo apt install -y --no-install-recommends git
 
-if [[ -d "${DOTFILES_PATH}" ]]; then
+if [[ -d "${HOME}/.dotfiles" ]]; then
   echo '=> Updating dotfiles repo'
-  git -C "${DOTFILES_PATH}" pull
+  git -C "${HOME}/.dotfiles" pull
 else
   echo '=> Cloning dotfiles repo'
-  if ! git clone https://github.com/AndrewDaws/dotfiles.git "${DOTFILES_PATH}"; then
+  if ! git clone https://github.com/AndrewDaws/dotfiles.git "${HOME}/.dotfiles"; then
     echo "Aborting ${script_name}"
-    echo "  Command git clone https://github.com/AndrewDaws/dotfiles.git ${DOTFILES_PATH} Failed!"
+    echo "  Command git clone https://github.com/AndrewDaws/dotfiles.git ${HOME}/.dotfiles Failed!"
     exit 1
   fi
 fi
@@ -129,6 +129,18 @@ sudo apt update -qq
 
 echo '=> Perform system upgrade'
 sudo apt dist-upgrade -y
+
+echo '=> Installing dependencies'
+sudo apt install -f
+
+echo '=> Cleaning packages'
+sudo apt clean
+
+echo '=> Autocleaning packages'
+sudo apt autoclean
+
+echo '=> Autoremoving & purging packages'
+sudo apt autoremove --purge -y
 
 echo '=> Installing repository tool'
 sudo apt install -y --no-install-recommends software-properties-common
