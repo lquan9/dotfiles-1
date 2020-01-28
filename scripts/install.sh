@@ -298,7 +298,8 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
 
   # Install Rustup
   if ! "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" rustup; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source "${HOME}/.cargo/env"
   else
     rustup update
   fi
