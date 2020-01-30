@@ -66,6 +66,7 @@ plugins=(
   fast-syntax-highlighting
   forgit
   fzf
+  fzf-tab
   fzf-z
   git-auto-fetch
   history-substring-search
@@ -112,6 +113,9 @@ setopt SHARE_HISTORY
 # Forgit Configuration
 #[[ -f "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit/forgit.plugin.zsh" ]] && [[ -f "${DOTFILES_ZSH_PATH}/.forgit.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.forgit.zsh"
 
+# Git Auto-Fetch Configuration
+GIT_AUTO_FETCH_INTERVAL=1200
+
 # History Substring Search Configuration
 # enable arrow keys up and down to go through matching command history
 bindkey '^[[A' history-substring-search-up
@@ -120,6 +124,7 @@ bindkey '^[[B' history-substring-search-down
 # Zsh Autosuggest Configuration
 # extend suggestions beyond just previous command history
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 # User and Application Aliases
 [[ -f "${DOTFILES_ALIAS_PATH}/.alias" ]] && source "${DOTFILES_ALIAS_PATH}/.alias"
