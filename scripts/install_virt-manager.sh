@@ -7,10 +7,16 @@ echo '=> Installing Virt-Manager'
 if egrep -c '(vmx|svm)' /proc/cpuinfo > /dev/null; then
   echo 'Installing Dependencies'
   sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+
   echo 'Configuring KVM'
   sudo adduser "${USER}" libvirt
+
   echo 'Installing Virt-Manager'
   sudo apt-get install virt-manager
+
+  echo 'Installing Optional libguestfs Software'
+  sudo apt-get install libguestfs-tools
+
   if egrep -c ' lm ' /proc/cpuinfo > /dev/null; then
     if [[ "$(uname -m)" != "x86_64" ]]; then
       echo 'Warning: May be limited to 2GB RAM per VM due to 32-bit kernel on 64-bit capable system'
