@@ -6,7 +6,7 @@ echo '=> Installing Virt-Manager'
 # @body Create a distro and version specific KVM installation as per: https://help.ubuntu.com/community/KVM/Installation
 if egrep -c '(vmx|svm)' /proc/cpuinfo > /dev/null; then
   echo 'Installing Dependencies'
-  sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+  sudo apt-get install ebtables dnsmasq gir1.2-spiceclientgtk-3.0 qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
 
   echo 'Configuring KVM'
   sudo adduser "${USER}" libvirt
