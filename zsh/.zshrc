@@ -53,6 +53,7 @@ fi
 export ZSH="${HOME}/.oh-my-zsh"
 
 # Prompt theme
+ZLE_RPROMPT_INDENT=0
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Command history timestamp format
