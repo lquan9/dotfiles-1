@@ -70,14 +70,13 @@ plugins=(
   fzf-tab
   fzf-z
   git-auto-fetch
-  history-substring-search
-  nmap
   per-directory-history
   safe-paste
   thefuck
   vscode
   z
   zsh-completions
+  zsh-history-substring-search
   zsh-autosuggestions
 )
 source "$ZSH/oh-my-zsh.sh"
@@ -118,6 +117,11 @@ setopt SHARE_HISTORY
 GIT_AUTO_FETCH_INTERVAL=1200
 
 # History Substring Search Configuration
+# set global variables
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=8,fg=black'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=black,fg=red'
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE='true'
+HISTORY_SUBSTRING_SEARCH_FUZZY='true'
 # enable arrow keys up and down to go through matching command history
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
