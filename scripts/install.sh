@@ -251,6 +251,14 @@ if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
     git clone https://github.com/andrewferrier/fzf-z.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/fzf-z"
   fi
 
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/per-directory-history" ]]; then
+    echo '=> Updating per-directory-history repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/per-directory-history" pull
+  else
+    echo '=> Cloning per-directory-history repo'
+    git clone https://github.com/jimhester/per-directory-history.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/per-directory-history"
+  fi
+
   if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]]; then
     echo '=> Updating zsh-autosuggestions repo'
     git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" pull
@@ -265,6 +273,14 @@ if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
   else
     echo '=> Cloning zsh-completions repo'
     git clone https://github.com/zsh-users/zsh-completions.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-completions"
+  fi
+
+  if [[ -d "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-history-substring-search" ]]; then
+    echo '=> Updating zsh-history-substring-search repo'
+    git -C "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-history-substring-search" pull
+  else
+    echo '=> Cloning zsh-history-substring-search repo'
+    git clone https://github.com/zsh-users/zsh-history-substring-search.git "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-history-substring-search"
   fi
 
   echo '=> Installing headless application configurations'
