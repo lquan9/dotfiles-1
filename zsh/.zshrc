@@ -53,7 +53,7 @@ fi
 export ZSH="${HOME}/.oh-my-zsh"
 
 # Prompt theme
-ZLE_RPROMPT_INDENT=0
+ZLE_RPROMPT_INDENT="0"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Command history timestamp format
@@ -62,7 +62,6 @@ HIST_STAMPS="yyyy-mm-dd"
 plugins=(
   autoupdate
   colored-man-pages
-  command-not-found
   extract
   fast-syntax-highlighting
   forgit
@@ -73,7 +72,6 @@ plugins=(
   per-directory-history
   safe-paste
   thefuck
-  vscode
   z
   zsh-completions
   zsh-history-substring-search
@@ -114,14 +112,14 @@ setopt SHARE_HISTORY
 #[[ -f "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/forgit/forgit.plugin.zsh" ]] && [[ -f "${DOTFILES_ZSH_PATH}/.forgit.zsh" ]] && source "${DOTFILES_ZSH_PATH}/.forgit.zsh"
 
 # Git Auto-Fetch Configuration
-GIT_AUTO_FETCH_INTERVAL=1200
+GIT_AUTO_FETCH_INTERVAL="1200"
 
 # History Substring Search Configuration
 # set global variables
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=8,fg=black'
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=black,fg=red'
-HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE='true'
-HISTORY_SUBSTRING_SEARCH_FUZZY='true'
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE="true"
+HISTORY_SUBSTRING_SEARCH_FUZZY="true"
 # enable arrow keys up and down to go through matching command history
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -129,7 +127,7 @@ bindkey '^[[B' history-substring-search-down
 # Zsh Autosuggest Configuration
 # extend suggestions beyond just previous command history
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
-ZSH_AUTOSUGGEST_USE_ASYNC=true
+ZSH_AUTOSUGGEST_USE_ASYNC="true"
 
 # User and Application Aliases
 [[ -f "${DOTFILES_ALIAS_PATH}/.alias" ]] && source "${DOTFILES_ALIAS_PATH}/.alias"
