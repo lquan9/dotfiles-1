@@ -37,9 +37,11 @@ done
 
 rm -f "${HOME}/.gitconfig"
 find "${DOTFILES_GIT_PATH}" -type f -exec chmod 664 {} \;
-cp "${DOTFILES_GIT_PATH}/.gitconfig" "${HOME}/.gitconfig"
 {
+  echo "[include]";
+  echo "  path = ${DOTFILES_GIT_PATH}/.gitconfig_global";
   echo "";
+  echo "[core]";
   echo "  excludesfile = ${DOTFILES_GIT_PATH}/.gitignore_global";
   echo "  attributesfile = ${DOTFILES_GIT_PATH}/.gitattributes_global";
   echo "";

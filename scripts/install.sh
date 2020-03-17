@@ -412,7 +412,13 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
   fi
 
   # Create Global Git Config
-  "${DOTFILES_SCRIPTS_PATH}/create_gitconfig.sh"
+  # Temporary measure until gitconfig logic is fixed.
+  if [[ -f "${HOME}/.gitconfig" ]]; then
+    echo "Skipped: ${DOTFILES_SCRIPTS_PATH}/create_gitconfig.sh"
+  else
+    "${DOTFILES_SCRIPTS_PATH}/create_gitconfig.sh"
+  fi
+
 fi
 
 echo 'Done.'
