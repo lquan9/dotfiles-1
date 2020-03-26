@@ -73,6 +73,7 @@ plugins=(
   safe-paste
   thefuck
   z
+  zsh-autopair
   zsh-completions
   zsh-history-substring-search
   zsh-autosuggestions
