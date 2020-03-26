@@ -67,13 +67,12 @@ plugins=(
   forgit
   fzf
   fzf-tab
-  fzf-z
   git-auto-fetch
   per-directory-history
   safe-paste
   thefuck
-  z
   zsh-autopair
+  zsh-z
   zsh-completions
   zsh-history-substring-search
   zsh-autosuggestions
