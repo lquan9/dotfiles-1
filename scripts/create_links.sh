@@ -160,8 +160,8 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
       exit 1
     fi
   else
-    if [[ -f "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml" ]]; then
-      if [[ "$(readlink -f "${HOME}/.config/alacritty/alacritty.yml")" == "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml" ]]; then
+    if [[ -f "${DOTFILES_ALACRITTY_PATH}/alacritty-firacode.yml" ]]; then
+      if [[ "$(readlink -f "${HOME}/.config/alacritty/alacritty.yml")" == "${DOTFILES_ALACRITTY_PATH}/alacritty-firacode.yml" ]]; then
         echo "Skipped: ${HOME}/.config/alacritty/alacritty.yml"
       else
         if [[ -f "${HOME}/.config/alacritty/alacritty.yml" ]]; then
@@ -170,12 +170,12 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
           mkdir -p "${HOME}/.config/alacritty"
           chmod 700 "${HOME}/.config/alacritty"
         fi
-        ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml" "${HOME}/.config/alacritty/alacritty.yml"
-        echo "Linked: ${HOME}/.config/alacritty/alacritty.yml -> ${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml"
+        ln -s "${DOTFILES_ALACRITTY_PATH}/alacritty-firacode.yml" "${HOME}/.config/alacritty/alacritty.yml"
+        echo "Linked: ${HOME}/.config/alacritty/alacritty.yml -> ${DOTFILES_ALACRITTY_PATH}/alacritty-firacode.yml"
       fi
     else
       echo "Aborting ${script_name}"
-      echo "  File ${DOTFILES_ALACRITTY_PATH}/alacritty-firamono.yml Does Not Exist!"
+      echo "  File ${DOTFILES_ALACRITTY_PATH}/alacritty-firacode.yml Does Not Exist!"
       exit 1
     fi
   fi

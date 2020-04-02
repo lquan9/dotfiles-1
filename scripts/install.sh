@@ -397,13 +397,6 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
     echo "Skipped: ${DOTFILES_SCRIPTS_PATH}/install_firacode.sh"
   fi
 
-  # Install FiraMono
-  if ! find "${HOME}/.local/share/fonts/NerdFonts/Fura Mono"* > /dev/null; then
-    "${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
-  else
-    echo "Skipped: ${DOTFILES_SCRIPTS_PATH}/install_firamono.sh"
-  fi
-
   echo '=> Installing desktop configurations'
 
   # Create links
