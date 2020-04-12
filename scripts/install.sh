@@ -161,7 +161,7 @@ if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
   echo '=> Installing headless applications'
   sudo apt install -y --no-install-recommends \
     vim zsh htop man curl sed nano gawk nmap tmux xclip \
-    ack openssh-server cron httpie iputils-ping file \
+    ack openssh-server cron httpie iputils-ping file tree \
     python3-dev python3-pip python3-setuptools thefuck
 
   # Install Pip Applications
