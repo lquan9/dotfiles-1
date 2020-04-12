@@ -170,7 +170,9 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
-# Colors (Eighties Dark, sourced from terminal.sexy)
+# Colors
+# Base16 Eighties 256 - alacritty color config
+# Chris Kempson (http://chriskempson.com)
 colors:
   # Default colors
   primary:
@@ -190,8 +192,8 @@ colors:
   # Colors which should be used to draw the terminal cursor. If these are unset,
   # the cursor color will be the inverse of the cell color.
   #cursor:
-  #  text: '#000000'
-  #  cursor: '#ffffff'
+  #  text: '#2d2d2d'
+  #  cursor: '#d3d0c8'
 
   # Selection colors
   #
@@ -246,7 +248,13 @@ colors:
   # Example:
   #   `- { index: 16, color: '#ff00ff' }`
   #
-  #indexed_colors: []
+  indexed_colors:
+    - { index: 16, color: '0xf99157' }
+    - { index: 17, color: '0xd27b53' }
+    - { index: 18, color: '0x393939' }
+    - { index: 19, color: '0x515151' }
+    - { index: 20, color: '0xa09f93' }
+    - { index: 21, color: '0xe8e6df' }
 
 # Visual Bell
 #
