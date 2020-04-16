@@ -74,8 +74,11 @@ ssh_perm() {
     echo "Created: ${HOME}/.ssh"
   fi
 
-  find "${HOME}/.ssh" -type d -print0 | xargs -0 chmod 700
-  find "${HOME}/.ssh" -type f -print0 | xargs -0 chmod 600
+  find "${HOME}/.ssh" -type d -exec chmod 700 {} \;
+  find "${HOME}/.ssh" -type d -exec echo "Modified: {} = 700" \;
+
+  find "${HOME}/.ssh" -type f -exec chmod 600 {} \;
+  find "${HOME}/.ssh" -type f -exec echo "Modified: {} = 600" \;
 
   if [[ -f "${HOME}/.ssh/authorized_keys" ]]; then
     chmod 644 "${HOME}/.ssh/authorized_keys"
@@ -93,7 +96,7 @@ ssh_perm() {
   fi
 
   if find "${HOME}/.ssh/"*.pub > /dev/null; then
-    chmod 644 "${HOME}/.ssh/"*.pub
-    echo "Modifed: ${HOME}/.ssh/*.pub = 644"
+    find "${HOME}/.ssh/"*.pub -type f -exec chmod 644 {} \;
+    find "${HOME}/.ssh/"*.pub -type f -exec echo "Modified: {} = 644" \;
   fi
 }
