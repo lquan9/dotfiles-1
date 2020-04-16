@@ -69,10 +69,31 @@ ssh_config() {
 }
 
 ssh_perm() {
-  chmod 600 "$(find "${HOME}/.ssh" -type f)"
-  chmod 700 "${HOME}/.ssh"
-  chmod 644 "${HOME}/.ssh/authorized_keys"
-  chmod 644 "${HOME}/.ssh/known_hosts"
-  chmod 644 "${HOME}/.ssh/config"
-  chmod 644 "${HOME}/.ssh/"*.pub
+  if [[ ! -d "${HOME}/.ssh" ]]; then
+    mkdir -p "${HOME}/.ssh"
+    echo "Created: ${HOME}/.ssh"
+  fi
+
+  find "${HOME}/.ssh" -type d -print0 | xargs -0 chmod 700
+  find "${HOME}/.ssh" -type f -print0 | xargs -0 chmod 600
+
+  if [[ -f "${HOME}/.ssh/authorized_keys" ]]; then
+    chmod 644 "${HOME}/.ssh/authorized_keys"
+    echo "Modifed: ${HOME}/.ssh/authorized_keys = 644"
+  fi
+
+  if [[ -f "${HOME}/.ssh/known_hosts" ]]; then
+    chmod 644 "${HOME}/.ssh/known_hosts"
+    echo "Modifed: ${HOME}/.ssh/known_hosts = 644"
+  fi
+
+  if [[ -f "${HOME}/.ssh/config" ]]; then
+    chmod 644 "${HOME}/.ssh/config"
+    echo "Modifed: ${HOME}/.ssh/config = 644"
+  fi
+
+  if find "${HOME}/.ssh/"*.pub > /dev/null; then
+    chmod 644 "${HOME}/.ssh/"*.pub
+    echo "Modifed: ${HOME}/.ssh/*.pub = 644"
+  fi
 }
