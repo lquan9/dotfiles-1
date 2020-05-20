@@ -332,7 +332,7 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
 
   echo '=> Installing desktop applications'
   sudo apt install -y --no-install-recommends \
-    libegl1-mesa-dev snapd make cmake \
+    firefox libegl1-mesa-dev snapd make cmake \
     gcc build-essential meld pkg-config \
     libssl-dev
 
@@ -341,9 +341,6 @@ if [[ "${desktop_mode}" == "enabled" ]]; then
 
   # Install Bat
   "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" bat || "${DOTFILES_SCRIPTS_PATH}/install_bat.sh"
-
-  # Install Chrome
-  "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" google-chrome || "${DOTFILES_SCRIPTS_PATH}/install_chrome.sh"
 
   # Install Delta
   "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" delta || "${DOTFILES_SCRIPTS_PATH}/install_delta.sh"
