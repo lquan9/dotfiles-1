@@ -165,8 +165,8 @@ if [[ "${argument_flag}" == "false" || "${headless_mode}" == "enabled" ]]; then
     python3-dev python3-pip python3-setuptools thefuck
 
   # Install Pip Applications
-  sudo pip3 install setuptools --upgrade
-  sudo pip3 install thefuck --upgrade
+  pip3 install setuptools --upgrade
+  pip3 install thefuck --upgrade
 
   # Install Fd
   "${DOTFILES_SCRIPTS_PATH}/is_installed.sh" fd || "${DOTFILES_SCRIPTS_PATH}/install_fd.sh"
